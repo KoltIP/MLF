@@ -4,10 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
-
+  </PropertyGroup>	
+	
   <ItemGroup>
-    <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="2.1.1" />
     <PackageReference Include="FluentValidation" Version="11.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.7" />
@@ -15,15 +15,21 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
     <PackageReference Include="MudBlazor" Version="6.0.12" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
-  </ItemGroup>
-
+  </ItemGroup>	
+	
   <ItemGroup>
-    <Folder Include="Pages\Auth\" />
-    <Folder Include="Pages\Breed\" />
-    <Folder Include="Pages\Color\" />
     <Folder Include="Pages\Advertisement\" />
+    <Folder Include="Pages\Breed\Models\" />
+    <Folder Include="Pages\Breed\Services\" />
+    <Folder Include="Pages\Color\Models\" />
+    <Folder Include="Pages\Color\Services\" />
     <Folder Include="Pages\Pet\Models\" />
     <Folder Include="Pages\Pet\Services\" />
+    <Folder Include="Pages\Profile\Models\" />
+    <Folder Include="Pages\Profile\Services\" />
+    <Folder Include="Pages\Type\Models\" />
+    <Folder Include="Pages\Type\Services\" />
   </ItemGroup>
+
 
 </Project>

@@ -1,5 +1,4 @@
-﻿
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
 @inject IConfigurationService configuration
 
@@ -8,7 +7,7 @@
 <MudSnackbarProvider/>
 
 <MudLayout>
-    <MudAppBar Elevation="1">
+    <MudAppBar Elevation="1" Style="@($"background:{Colors.Green.Lighten2};")">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
         <MudIconButton Icon="@(_darkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" @onclick="@DarkModeSwitch" Color="Color.Inherit" Edge="Edge.End" />

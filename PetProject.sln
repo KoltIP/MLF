@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.Identity", "Syst
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{30D1FE99-0409-46BA-B563-8BB6385AA921}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetProject.Web", "Systems\Web\PetProject.Web\PetProject.Web.csproj", "{384E6B64-D064-479C-9FE0-343E33DEB3BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.Web", "Systems\Web\PetProject.Web\PetProject.Web.csproj", "{384E6B64-D064-479C-9FE0-343E33DEB3BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PetProject.Db.Entities;
 using PetProject.Db.Entities.User;
 
 namespace PetProject.Db.Context.Context
 {
-    public class MainDbContext : DbContext
+    public class MainDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Color> Colors { get; set; }
@@ -31,6 +33,12 @@ namespace PetProject.Db.Context.Context
             modelBuilder.Entity<User>().Property(x => x.Name).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(x => x.Surname).HasMaxLength(50);
             modelBuilder.Entity<User>().HasIndex(x => x.NickName).IsUnique();
+            modelBuilder.Entity<IdentityRole<Guid>>().ToTable("user_roles");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("user_tokens");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("user_role_owners");
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("user_role_claims");
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("user_logins");
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("user_claims");
 
             //Pet
             modelBuilder.Entity<Pet>().ToTable("pets");

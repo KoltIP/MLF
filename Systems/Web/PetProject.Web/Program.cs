@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using PetProject.Web;
+using PetProject.Web.Pages.Auth.Services;
 using PetProject.Web.Providers;
 using PetProject.Web.Services;
 
@@ -17,7 +18,7 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IConfigurationService, ConfigurationService>();
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
-
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddMudServices();
 
