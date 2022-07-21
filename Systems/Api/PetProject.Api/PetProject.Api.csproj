@@ -35,6 +35,7 @@
     <ProjectReference Include="..\..\..\Services\PetProject.PetServices\PetProject.PetServices.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.Settings\PetProject.Settings.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.TypeServices\PetProject.TypeServices.csproj" />
+    <ProjectReference Include="..\..\..\Services\PetProject.UserAccountService\PetProject.UserAccountService.csproj" />
     <ProjectReference Include="..\..\..\Shared\PetProject.Shared.Common\PetProject.Shared.Common.csproj" />
   </ItemGroup>
 

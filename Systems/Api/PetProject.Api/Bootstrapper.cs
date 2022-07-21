@@ -5,6 +5,7 @@ using PetProject.ColorServices;
 using PetProject.BreedServices;
 using PetProject.TypeServices;
 using PetProject.AdvertisementServices;
+using PetProject.UserAccountService;
 
 namespace PetProject.Api
 {
@@ -12,13 +13,13 @@ namespace PetProject.Api
     {
         public static IServiceCollection AddAppServices(this IServiceCollection services)
         {
+            services.AddSettings();
             services.AddPetService();
             services.AddColorService();
             services.AddBreedService();
             services.AddTypeService();
-            services.AddTypeService();
             services.AddAdvertisementService();
-            services.AddSettings();
+            services.AddUserAccountService();            
             return services;
         }
         
