@@ -128,7 +128,6 @@ namespace PetProject.UserAccountService
             var tokenSecurity = jsonToken as JwtSecurityToken;
 
             var id = tokenSecurity.Claims.First(claim => claim.Type == "sub").Value;
-
             var user = await userManager.FindByIdAsync(id);
             if (user == null)
                 throw new ProcessException("User was not found");
