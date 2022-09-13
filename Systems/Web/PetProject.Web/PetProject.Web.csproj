@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>	
 	
   <ItemGroup>
@@ -25,8 +26,6 @@
     <Folder Include="Pages\Color\Services\" />
     <Folder Include="Pages\Pet\Models\" />
     <Folder Include="Pages\Pet\Services\" />
-    <Folder Include="Pages\Profile\Models\" />
-    <Folder Include="Pages\Profile\Services\" />
     <Folder Include="Pages\Type\Models\" />
     <Folder Include="Pages\Type\Services\" />
   </ItemGroup>
