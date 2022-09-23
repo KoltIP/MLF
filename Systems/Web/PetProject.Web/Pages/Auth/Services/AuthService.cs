@@ -1,8 +1,11 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
-using PetProject.Web.Pages.Auth.Models;
+using PetProject.Web.Pages.Auth.Models.ForgotPassword;
+using PetProject.Web.Pages.Auth.Models.Login;
+using PetProject.Web.Pages.Auth.Models.Registration;
 using PetProject.Web.Providers;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 
 namespace PetProject.Web.Pages.Auth.Services
@@ -68,5 +71,68 @@ namespace PetProject.Web.Pages.Auth.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = null;
         }
+
+        public async Task<RegistrationErrorResponse> Registration(RegistrationModel registrationModel)
+        {
+
+            string url = $"{Settings.ApiRoot}/v1/accounts";
+
+            var body = JsonSerializer.Serialize(registrationModel);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(url, request);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+
+            var result = new RegistrationErrorResponse();
+            result.Successful = response.IsSuccessStatusCode;
+            if (!response.IsSuccessStatusCode)
+            {
+                result = JsonSerializer.Deserialize<RegistrationErrorResponse>(content);
+                return result;
+            }
+            return result;
+        }
+
+        public async Task<bool> InspectEmail(string email)
+        {
+            string url = $"{Settings.ApiRoot}/v1/accounts/inspect/{email}";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var result = JsonSerializer.Deserialize<bool>(content);
+
+            return result;
+        }
+
+        public async Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordModel model)
+        {
+            string url = $"{Settings.ApiRoot}/v1/accounts/forgot/password";
+
+            var body = JsonSerializer.Serialize(model);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, request);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = new ForgotPasswordResponse();
+            result.Successful = response.IsSuccessStatusCode;
+            if (!response.IsSuccessStatusCode)
+            {
+                result = JsonSerializer.Deserialize<ForgotPasswordResponse>(content);
+                return result;
+            }
+            return result;
+
+        }
+
+        
     }
 }

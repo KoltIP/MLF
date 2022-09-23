@@ -2,7 +2,7 @@
 @layout SimpleLayout
 
 @using System.ComponentModel.DataAnnotations
-@using PetProject.Web.Pages.Auth.Models
+@using PetProject.Web.Pages.Auth.Models.Login
 @using PetProject.Web.Pages.Auth.Services
 
 @inject IAuthService AuthService
@@ -42,6 +42,7 @@
                     <MudCheckBox For="@(() => model.RememberMe)" @bind-Checked="model.RememberMe" Label="Remember me?" Color="Color.Primary" Class="ml-n1 my-3"  Style="@($"color:{Colors.Green.Lighten2};")">
                     </MudCheckBox>
                     <MudLink Href="/forgot-password" Style="@($"color:{Colors.Green.Lighten2};")">Forgot password?</MudLink>
+                    <MudLink Href="/registration">Registration</MudLink>
                 </div>
 
                 <MudButton Variant="Variant.Filled"

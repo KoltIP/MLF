@@ -16,7 +16,6 @@ namespace PetProject.UserAccountService.Models
         public string Patronymic { get; set; } = string.Empty;
         public string Nickname { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        //public string? Phone { get; set; }
     }
 
     public class UserModelProfile : Profile
@@ -27,10 +26,9 @@ namespace PetProject.UserAccountService.Models
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.Name))
                 .ForMember(d => d.Surname, o => o.MapFrom(s => s.Surname))
-                .ForMember(d => d.Patronymic, o => o.MapFrom(s => s.Patronymic))                
+                .ForMember(d => d.Patronymic, o => o.MapFrom(s => s.Patronymic))
                 .ForMember(d => d.Nickname, o => o.MapFrom(s => s.NickName))                
                 .ForMember(d => d.Email, o => o.MapFrom(s => s.Email));
-            //.ForMember(d => d.Phone, o => o.MapFrom(s => s.PhoneNumber))
         }
     }
 }

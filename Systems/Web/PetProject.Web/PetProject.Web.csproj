@@ -5,7 +5,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>	
+    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pages\Advertisement\**" />
+    <Content Remove="Pages\Advertisement\**" />
+    <EmbeddedResource Remove="Pages\Advertisement\**" />
+    <None Remove="Pages\Advertisement\**" />
+  </ItemGroup>	
 	
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="2.1.1" />
@@ -19,7 +27,6 @@
   </ItemGroup>	
 	
   <ItemGroup>
-    <Folder Include="Pages\Advertisement\" />
     <Folder Include="Pages\Breed\Models\" />
     <Folder Include="Pages\Breed\Services\" />
     <Folder Include="Pages\Color\Models\" />
@@ -30,5 +37,10 @@
     <Folder Include="Pages\Type\Services\" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Update="nginx.conf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

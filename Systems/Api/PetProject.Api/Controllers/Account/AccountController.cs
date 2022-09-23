@@ -51,7 +51,7 @@ namespace PetProject.Api.Controllers.Account
             return await userAccountService.InspectEmail(email);
         }
 
-        [HttpGet("find/profile/{token}")]
+        [HttpGet("find/{token}")]
         public async Task<UserAccountResponse> GetUser([FromRoute] string token)
         {
             var user = await userAccountService.GetUser(token);
