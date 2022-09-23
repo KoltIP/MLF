@@ -1,0 +1,74 @@
+version: '3.4'
+
+services:
+
+  petproject_redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - shared-petproject-net
+
+  petproject_rabbitmq:
+    ports:
+      - "25672:5672"
+      - "25673:5673"
+      - "35672:15672" 
+    networks:
+      - shared-petproject-net
+    volumes:      
+      - rabbitmq-data:/var/lib/rabbitmq/
+
+
+  petproject_postgres:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456789
+      - POSTGRES_DB=postgres
+    networks:
+      - shared-petproject-net
+    ports:
+      - "25432:5432"
+    volumes:
+      - postgresvolume:/var/lib/postgresql/data
+
+  petproject_api:
+    ports:
+      - "20000:80"
+    networks:
+      - shared-petproject-net
+    env_file:
+      - env.api
+  
+  petproject_identity:
+    ports:
+      - "20001:80"
+    networks:
+      - shared-petproject-net
+    env_file:
+      - env.identity
+
+  petproject_web:
+    ports:
+      - "20002:80"
+    networks:
+      - shared-petproject-net
+  
+  petproject_worker:
+    ports:
+      - "20003:80"
+    networks:
+      - shared-petproject-net
+    env_file:
+      - env.worker
+
+volumes:
+  postgresvolume:
+  rabbitmq-data:
+
+networks:
+  shared-petproject-net:
+    name: PetProject
+    driver: bridge
+
+

@@ -1,0 +1,51 @@
+version: '3.4'
+
+services:
+  petproject_redis:
+    image: redis
+
+  petproject_postgres:
+    image: postgres
+
+  petproject_rabbitmq:
+    image: rabbitmq:3-management
+
+  petproject_api:
+    image: ${DOCKER_REGISTRY-}petprojectapi
+    build:
+      context: .
+      dockerfile: Systems/Api/PetProject.Api/Dockerfile
+    depends_on:
+      - petproject_redis 
+      - petproject_rabbitmq 
+      - petproject_postgres
+
+  petproject_identity:
+    image: ${DOCKER_REGISTRY-}petprojectidentity
+    build:
+      context: .
+      dockerfile: Systems/Identity/PetProject.Identity/Dockerfile
+    depends_on:
+      - petproject_redis
+      - petproject_rabbitmq 
+      - petproject_postgres
+
+  petproject_web:
+    image: ${DOCKER_REGISTRY-}petprojectweb
+    build:
+      context: .
+      dockerfile: Systems/Web/PetProject.Web/Dockerfile
+    depends_on:
+      - petproject_redis
+      - petproject_rabbitmq 
+      - petproject_postgres     
+  
+  petproject_worker:
+    image: ${DOCKER_REGISTRY-}petprojectworker
+    build:
+      context: .
+      dockerfile: Systems/Worker/PetProject.Worker/Dockerfile
+    depends_on:
+      - petproject_postgres
+      - petproject_rabbitmq 
+      - petproject_redis 

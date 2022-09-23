@@ -18,19 +18,19 @@
             <MudText Typo="Typo.h5" GutterBottom="true" Align="Align.Center">Your data</MudText>
             <MudGrid>
                 <MudItem xs="12">
-                    <MudTextField T="string"  Label="Email" />@email
+                    <MudTextField T="string"  Label="Email"  Text="@profileModel.Email"/>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Name" />@name
+                    <MudTextField T="string" Label="Name"  Text="@profileModel.Name"/>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Surname" />@surname
+                    <MudTextField T="string" Label="Surname"  Text="@profileModel.Surname"/>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Patronymic" />@patronymic
+                    <MudTextField T="string" Label="Patronymic"  Text="@profileModel.Patronymic"/>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Nickname" />@nickname
+                    <MudTextField T="string" Label="Nickname"  Text="@profileModel.NickName"/>
                 </MudItem>
                @* <MudItem xs="12">
                     <MudTextField T="string" Label="Mobile number" />@mobileNumber
@@ -41,6 +41,12 @@
                 <MudItem xs="12" Class="d-flex justify-center">
                     <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Tertiary" Size="Size.Large" Class="mt-8">Change</MudButton>
                 </MudItem>
+                <MudIconButton Icon="@Icons.Material.Filled.DeleteForever" 
+                        Variant="Variant.Outlined" 
+                        Color="Color.Primary" 
+                        Size="Size.Medium" 
+                        OnClick="@((e) => DeleteProfile())"/> 
+
             </MudGrid>
         </MudItem>
     </MudGrid>
@@ -51,11 +57,11 @@
 
     private ProfileModel profileModel = new ProfileModel();
 
-    private string email;
-    private string name;
-    private string surname;
-    private string patronymic;
-    private string nickname;
+    //private string email;
+    //private string name;
+    //private string surname;
+    //private string patronymic;
+    //private string nickname;
     //private string mobileNumber;
     //private string age;
 
@@ -65,11 +71,11 @@
         try
         {
             profileModel = await profileService.GetProfile();
-            email = profileModel.Email;
-            name = profileModel.Name;
-            surname = profileModel.Surname;
-            patronymic = profileModel.Patronymic;
-            nickname = profileModel.NickName;
+            //email = profileModel.Email;
+            //name = profileModel.Name;
+            //surname = profileModel.Surname;
+            //patronymic = profileModel.Patronymic;
+            //nickname = profileModel.NickName;
             //mobileNumber = profileModel.MobilePhone;
             //age = profileModel.Age;
 
@@ -77,6 +83,12 @@
         catch(Exception ex)
         {
             throw new Exception(ex.Message);
-        }
+        }        
+    }
+
+    private async Task DeleteProfile()
+    {
+        await profileService.DeleteProfile();
+        
     }
 }

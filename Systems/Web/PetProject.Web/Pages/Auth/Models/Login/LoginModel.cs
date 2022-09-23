@@ -1,4 +1,4 @@
-﻿namespace PetProject.Web.Pages.Auth.Models
+﻿namespace PetProject.Web.Pages.Auth.Models.Login
 {
     public class LoginModel
     {

@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using PetProject.Db.Entities.User;
+using PetProject.RabbitMqService;
+using PetProject.RabbitMqService.Models;
 using PetProject.Shared.Common.Exceptions;
 using PetProject.Shared.Common.Validator;
 using PetProject.UserAccountService.Models;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetProject.UserAccountService
 {
@@ -17,13 +14,13 @@ namespace PetProject.UserAccountService
     {
         private readonly IMapper mapper;
         private readonly UserManager<User> userManager;
-        //private readonly IRabbitMqTask rabbitMqTask;
+        private readonly IRabbitMqTask rabbitMqTask;
         private readonly IModelValidator<RegistrationUserModel> registrationUserModelValidator;
-        public UserAccountService(IMapper mapper, UserManager<User> userManager, /*IRabbitMqTask rabbitMqTask,*/ IModelValidator<RegistrationUserModel> registrationUserModelValidator)
+        public UserAccountService(IMapper mapper, UserManager<User> userManager, IRabbitMqTask rabbitMqTask, IModelValidator<RegistrationUserModel> registrationUserModelValidator)
         {
             this.mapper = mapper;
             this.userManager = userManager;
-            //this.rabbitMqTask = rabbitMqTask;
+            this.rabbitMqTask = rabbitMqTask;
             this.registrationUserModelValidator = registrationUserModelValidator;
         }
 
@@ -41,11 +38,11 @@ namespace PetProject.UserAccountService
             {
                 Status = UserStatus.Active,
                 UserName = model.Email,
+                Email = model.Email,
                 NickName = model.Nickname,
                 Name = model.Name,
-                Surname = model.Surname,
+                Surname=model.Surname,
                 Patronymic = model.Patronymic,
-                Email = model.Email,
                 EmailConfirmed = false, 
                 PhoneNumber = null,
                 PhoneNumberConfirmed = false
@@ -64,13 +61,13 @@ namespace PetProject.UserAccountService
             var url = $"http://localhost:20000/api/v1/accounts/confirm/email?email={user.Email}&code={code}";
 
             // Send email to user
-            // !!! Обратите внимание, что мы не отправляем письмо, а создаем задание на его отправку. Дальше уже все сделается само другими сервисами.
-            //await rabbitMqTask.SendEmail(new EmailModel()
-            //{
-            //    Email = model.Email,
-            //    Subject = "ProgrammingLanguages",
-            //    Message = $"Your account will be create successful if you move on <a href ='{url}'>Link</a>"
-            //});
+            //!!!Обратите внимание, что мы не отправляем письмо, а создаем задание на его отправку. Дальше уже все сделается само другими сервисами.
+            await rabbitMqTask.SendEmail(new EmailModel()
+            {
+                Email = model.Email,
+                Subject = "PetProject",
+                Message = $"Your account will be create successful if you move on <a href ='{url}'>Link</a>"
+            });
 
 
             // Returning the created user
@@ -209,12 +206,12 @@ namespace PetProject.UserAccountService
             var codeB = System.Text.Encoding.UTF8.GetBytes(code);
             code = Convert.ToBase64String(codeB);
             var url = $"http://localhost:20000/api/v1/accounts/confirm/email?email={user.Email}&code={code}";
-            //await rabbitMqTask.SendEmail(new EmailModel()
-            //{
-            //    Email = email,
-            //    Subject = "ProgrammingLanguages",
-            //    Message = $"Your account will be create successful if you move on <a href ='{url}'>Link</a>"
-            //});
+            await rabbitMqTask.SendEmail(new EmailModel()
+            {
+                Email = email,
+                Subject = "PetProject",
+                Message = $"Your account will be create successful if you move on <a href ='{url}'>Link</a>"
+            });
         }
 
         public async Task ChangePassword(string token, PasswordModel model)
@@ -247,12 +244,12 @@ namespace PetProject.UserAccountService
 
             var url = $"http://localhost:20000/api/v1/accounts/confirm/reset/password?email={user.Email}&code={code}&password={model.Password}";
 
-            //await rabbitMqTask.SendEmail(new EmailModel()
-            //{
-            //    Email = model.Email,
-            //    Subject = "ProgrammingLanguages",
-            //    Message = $"Confirm password reset by following this <a href='{url}'>link</a>"
-            //});
+            await rabbitMqTask.SendEmail(new EmailModel()
+            {
+                Email = model.Email,
+                Subject = "PetProject",
+                Message = $"Confirm password reset by following this <a href='{url}'>link</a>"
+            });
         }
 
         public async Task ConfirmForgotPassword(string email, string code, string password)

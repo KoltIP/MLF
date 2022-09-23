@@ -1,10 +1,10 @@
 ﻿using Blazored.LocalStorage;
 using PetProject.Web.Pages.Profile.Models;
-using System.Text;
 using System.Text.Json;
 
 namespace PetProject.Web.Pages.Profile.Services
 {
+
     public class ProfileService : IProfileService
     {
         private readonly HttpClient _httpClient;
@@ -16,12 +16,11 @@ namespace PetProject.Web.Pages.Profile.Services
             this.localStorage = localStorage;
         }
 
-
         public async Task<ProfileModel> GetProfile()
         {
             var token = await localStorage.GetItemAsync<string>("authToken");
 
-            string url = $"{Settings.ApiRoot}/v1/accounts/find/profile/{token}";
+            string url = $"{Settings.ApiRoot}/v1/accounts/find/{token}";
 
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -35,69 +34,16 @@ namespace PetProject.Web.Pages.Profile.Services
             result = JsonSerializer.Deserialize<ProfileModel>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new ProfileModel();
 
             return result;
-
         }
 
-        //public async Task<ErrorResponseModel> ChangeName(NameModel model)
-        //{
-        //    var token = await localStorage.GetItemAsync<string>("authToken");
+        public async Task DeleteProfile()
+        {
+            var token = await localStorage.GetItemAsync<string>("authToken");
 
-        //    string url = $"{Settings.ApiRoot}/v1/accounts/change/name/{token}/{model.Name}";
+            string url = $"{Settings.ApiRoot}/v1/accounts/delete/{token}";
 
-        //    var response = await _httpClient.GetAsync(url);
-        //    var content = await response.Content.ReadAsStringAsync();
-
-        //    var result = new ErrorResponse();
-        //    if (!response.IsSuccessStatusCode)
-        //    {
-        //        result = JsonSerializer.Deserialize<ErrorResponse>(content);
-        //        return result;
-        //    }
-
-        //    return result;
-        //}
-
-        //public async Task<ErrorResponse> ChangeEmail(EmailModel model)
-        //{
-        //    var token = await localStorage.GetItemAsync<string>("authToken");
-
-        //    string url = $"{Settings.ApiRoot}/v1/accounts/change/email/{token}/{model.Email}";
-
-        //    var response = await _httpClient.GetAsync(url);
-
-        //    var content = await response.Content.ReadAsStringAsync();
-
-        //    var result = new ErrorResponse();
-        //    if (!response.IsSuccessStatusCode)
-        //    {
-        //        result = JsonSerializer.Deserialize<ErrorResponse>(content);
-        //        return result;
-        //    }
-        //    return result;
-
-        //}
-
-        //public async Task<ErrorResponseModel> ChangePassword(ChangePasswordModel model)
-        //{
-        //    var token = await localStorage.GetItemAsync<string>("authToken");
-
-        //    string url = $"{Settings.ApiRoot}/v1/accounts/change/password/{token}";
-
-        //    var body = JsonSerializer.Serialize(model);
-        //    var request = new StringContent(body, Encoding.UTF8, "application/json");
-        //    var response = await _httpClient.PostAsync(url, request);
-
-        //    var content = await response.Content.ReadAsStringAsync();
-
-        //    var result = new ErrorResponseModel();
-        //    if (!response.IsSuccessStatusCode)
-        //    {
-        //        result = JsonSerializer.Deserialize<ErrorResponseModel>(content);
-        //        return result;
-        //    }
-        //    return result;
-
-        //}
-
+            var response = await _httpClient.DeleteAsync(url);
+            var content = await response.Content.ReadAsStringAsync();            
+        }
     }
 }

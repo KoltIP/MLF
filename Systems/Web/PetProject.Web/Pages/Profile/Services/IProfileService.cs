@@ -5,5 +5,6 @@ namespace PetProject.Web.Pages.Profile.Services
     public interface IProfileService
     {
         Task<ProfileModel> GetProfile();
+        Task DeleteProfile();
     }
 }

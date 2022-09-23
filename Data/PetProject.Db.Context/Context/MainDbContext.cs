@@ -27,8 +27,8 @@ namespace PetProject.Db.Context.Context
             //User
             modelBuilder.Entity<User>().ToTable("users");
             modelBuilder.Entity<User>().Property(x => x.NickName).IsRequired();
-            modelBuilder.Entity<User>().Property(x => x.Name).IsRequired();
-            modelBuilder.Entity<User>().Property(x => x.Surname).IsRequired();
+            //modelBuilder.Entity<User>().Property(x => x.Name).IsRequired();
+            //modelBuilder.Entity<User>().Property(x => x.Surname).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.NickName).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(x => x.Name).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(x => x.Surname).HasMaxLength(50);

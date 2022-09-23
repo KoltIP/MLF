@@ -4,6 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<DocumentationFile>api.xml</DocumentationFile>
+	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,11 +36,25 @@
     <ProjectReference Include="..\..\..\Services\PetProject.AdvertisementServices\PetProject.AdvertisementServices.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.BreedServices\PetProject.BreedServices.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.ColorServices\PetProject.ColorServices.csproj" />
+    <ProjectReference Include="..\..\..\Services\PetProject.EmailService\PetProject.EmailService.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.PetServices\PetProject.PetServices.csproj" />
+    <ProjectReference Include="..\..\..\Services\PetProject.RabbitMqService\PetProject.RabbitMqService.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.Settings\PetProject.Settings.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.TypeServices\PetProject.TypeServices.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.UserAccountService\PetProject.UserAccountService.csproj" />
     <ProjectReference Include="..\..\..\Shared\PetProject.Shared.Common\PetProject.Shared.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.design.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Development.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

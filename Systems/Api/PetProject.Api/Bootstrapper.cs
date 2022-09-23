@@ -6,6 +6,8 @@ using PetProject.BreedServices;
 using PetProject.TypeServices;
 using PetProject.AdvertisementServices;
 using PetProject.UserAccountService;
+using PetProject.EmailService;
+using PetProject.RabbitMqService;
 
 namespace PetProject.Api
 {
@@ -19,7 +21,9 @@ namespace PetProject.Api
             services.AddBreedService();
             services.AddTypeService();
             services.AddAdvertisementService();
-            services.AddUserAccountService();            
+            services.AddUserAccountService();
+            services.AddEmailSender();
+            services.AddRabbitMq();
             return services;
         }
         
