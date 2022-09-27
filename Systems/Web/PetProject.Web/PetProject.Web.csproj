@@ -6,14 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Pages\Advertisement\**" />
-    <Content Remove="Pages\Advertisement\**" />
-    <EmbeddedResource Remove="Pages\Advertisement\**" />
-    <None Remove="Pages\Advertisement\**" />
-  </ItemGroup>	
+  </PropertyGroup>	
 	
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="2.1.1" />
@@ -35,6 +28,10 @@
     <Folder Include="Pages\Pet\Services\" />
     <Folder Include="Pages\Type\Models\" />
     <Folder Include="Pages\Type\Services\" />
+  </ItemGroup>	
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\PetProject.Shared.Common\PetProject.Shared.Common.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

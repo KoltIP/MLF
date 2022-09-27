@@ -13,7 +13,6 @@ namespace PetProject.AdvertisementServices.Models
         public int Id { get; set; }
         public Guid UserId { get; set; }
         public float Price { get; set; }
-        //public Importance Importance { get; set; }
         public int PetId { get; set; }
     }
 
