@@ -14,6 +14,7 @@ namespace PetProject.AdvertisementServices.Models
         public Guid UserId { get; set; }
         public float Price { get; set; }
         public int PetId { get; set; }
+
     }
 
     public class AdvertisementModelProfile : Profile

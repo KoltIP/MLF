@@ -1,5 +1,6 @@
-﻿using PetProject.Shared.Common.Response;
+﻿
 using PetProject.Web.Pages.Advertisement.Models;
+using PetProject.Web.Shared.Models;
 using System.Text;
 using System.Text.Json;
 
@@ -14,7 +15,7 @@ namespace PetProject.Web.Pages.Advertisement.Services
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<AdvertisementList>> GetAdvertisements(int offset = 0, int limit = 10)
+        public async Task<IEnumerable<AdvertisementListItems>> GetAdvertisements(int offset = 0, int limit = 10)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement?offset={offset}&limit={limit}";
 
@@ -26,12 +27,12 @@ namespace PetProject.Web.Pages.Advertisement.Services
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementList>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementList>();
+            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementListItems>();
 
             return data;
         }
 
-        public async Task<AdvertisementList> GetAdvertisement(int advertisementId)
+        public async Task<AdvertisementListItems> GetAdvertisement(int advertisementId)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";
 
@@ -43,7 +44,7 @@ namespace PetProject.Web.Pages.Advertisement.Services
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<AdvertisementList>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new AdvertisementList();
+            var data = JsonSerializer.Deserialize<AdvertisementListItems>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new AdvertisementListItems();
 
             return data;
         }

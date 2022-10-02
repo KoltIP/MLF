@@ -1,6 +1,6 @@
 ﻿namespace PetProject.Web.Pages.Advertisement.Models
 {
-    public class AdvertisementList
+    public class AdvertisementListItems
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
