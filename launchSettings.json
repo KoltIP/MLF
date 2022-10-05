@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "petproject_api": "StartWithoutDebugging",
+        "petproject_identity": "StartWithoutDebugging",
+        "petproject_postgres": "DoNotStart",
+        "petproject_rabbitmq": "DoNotStart",
+        "petproject_redis": "DoNotStart",
+        "petproject_web": "DoNotStart",
+        "petproject_worker": "DoNotStart"
+      }
+    }
+  }
+}

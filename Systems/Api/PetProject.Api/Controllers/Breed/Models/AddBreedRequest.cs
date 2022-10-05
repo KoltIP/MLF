@@ -7,6 +7,7 @@ namespace PetProject.Api.Controllers.Breed.Models
     public class AddBreedRequest
     {
         public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 
     public class AddBreedRequestValidator : AbstractValidator<AddBreedRequest>

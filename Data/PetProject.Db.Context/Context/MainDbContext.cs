@@ -10,7 +10,7 @@ namespace PetProject.Db.Context.Context
     {
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Color> Colors { get; set; }
-        public DbSet<PetType> PetTypies { get; set; }        
+        public DbSet<PetType> PetTypies { get; set; }
         public DbSet<Breed> Breeds { get; set; }
         public DbSet<Advertisement> Advertisements { get; set; }
 
@@ -27,8 +27,6 @@ namespace PetProject.Db.Context.Context
             //User
             modelBuilder.Entity<User>().ToTable("users");
             modelBuilder.Entity<User>().Property(x => x.NickName).IsRequired();
-            //modelBuilder.Entity<User>().Property(x => x.Name).IsRequired();
-            //modelBuilder.Entity<User>().Property(x => x.Surname).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.NickName).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(x => x.Name).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(x => x.Surname).HasMaxLength(50);
@@ -58,10 +56,12 @@ namespace PetProject.Db.Context.Context
             //Color
             modelBuilder.Entity<Color>().ToTable("colors");
             modelBuilder.Entity<Color>().Property(x => x.Name).IsRequired();
+            modelBuilder.Entity<Color>().Property(x => x.Description).HasMaxLength(500);
 
             //Breed
             modelBuilder.Entity<Breed>().ToTable("breeds");
             modelBuilder.Entity<Breed>().Property(x => x.Name).IsRequired();
+            modelBuilder.Entity<Breed>().Property(x => x.Description).HasMaxLength(500);
 
             ////Advertisement - Pet
             modelBuilder.Entity<Advertisement>().HasOne(x => x.Pet).WithMany(x => x.Advertisements).HasForeignKey(x => x.PetId).OnDelete(DeleteBehavior.Restrict);
@@ -72,7 +72,7 @@ namespace PetProject.Db.Context.Context
             //Pet - PetType
             modelBuilder.Entity<Pet>().HasOne(x => x.Type).WithMany(x => x.Pets).HasForeignKey(x => x.PetTypeId).OnDelete(DeleteBehavior.Restrict);
             //PetType - Breed
-            modelBuilder.Entity<PetType>().HasOne(x => x.Breed).WithMany(x => x.PetTypies).HasForeignKey(x => x.BreedId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Pet>().HasOne(x => x.Breed).WithMany(x => x.Pets).HasForeignKey(x => x.BreedId).OnDelete(DeleteBehavior.Restrict);
 
         }
     }

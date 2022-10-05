@@ -29,16 +29,20 @@
         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>Id</MudTh>
+        <MudTh>Number</MudTh>
         <MudTh>Name</MudTh>
-        <MudTh>Category</MudTh>
         <MudTh>Description</MudTh>
-        <MudTh></MudTh>
+        <MudTh>Type</MudTh>
+        <MudTh>Breed</MudTh>
+        <MudTh>Color</MudTh>        
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Id">@context.Id</MudTd>
-        <MudTd DataLabel="PetId">@context.PetId</MudTd>
-        <MudTd DataLabel="UserId">@context.UserId</MudTd>
+        <MudTd DataLabel="Number">@context.Id</MudTd>        
+        <MudTd DataLabel="Name">@context.PetName</MudTd>        
+        <MudTd DataLabel="Description">@context.PetDescription</MudTd>        
+        <MudTd DataLabel="Type">@context.PetType</MudTd>
+        <MudTd DataLabel="Breed">@context.PetBreed</MudTd>
+        <MudTd DataLabel="Color">@context.PetColor</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditAdvertisement(context.Id))" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteAdvertisement(context.Id))" />
@@ -94,61 +98,61 @@
 
     private async Task AddAdvertisement()
     {
-        //var parameters = new DialogParameters {};
-        //var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var parameters = new DialogParameters {};
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
 
-        //var dialog = DialogService.Show<AdvertisementDialog>("Add advertisement", parameters, options);
-        //var result = await dialog.Result;
+        var dialog = DialogService.Show<AdvertisementDialog>("Add advertisement", parameters, options);
+        var result = await dialog.Result;
 
-        //if (!result.Cancelled)
-        //{
-        //    var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
-        //    if (addResult.ErrorCode != null)
-        //        Snackbar.Add(addResult.Message, Severity.Error);
-        //    else
-        //        await ReloadData();
-        //}
+        if (!result.Cancelled)
+        {
+            var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
+            if (addResult.ErrorCode != null)
+                Snackbar.Add(addResult.Message, Severity.Error);
+            else
+                await ReloadData();
+        }
     }
 
     private async Task EditAdvertisement(int advertisementId)
     {
-        //var parameters = new DialogParameters();
-        //parameters.Add("AdvertisementId", advertisementId);
+        var parameters = new DialogParameters();
+        parameters.Add("AdvertisementId", advertisementId);
 
-        //var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
-        //var dialog = DialogService.Show<AdvertisementDialog>("Edit advertisement", parameters, options);
-        //var result = await dialog.Result;
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<AdvertisementDialog>("Edit advertisement", parameters, options);
+        var result = await dialog.Result;
 
-        //if (!result.Cancelled)
-        //{
-        //    var editResult = await advertisementService.EditAdvertisement(advertisementId, ((AdvertisementDialog)dialog.Dialog).model);
-        //    if (editResult.ErrorCode != null)
-        //        Snackbar.Add(editResult.Message, Severity.Error);
-        //    else
-        //        await ReloadData();
-        //}
+        if (!result.Cancelled)
+        {
+            var editResult = await advertisementService.EditAdvertisement(advertisementId, ((AdvertisementDialog)dialog.Dialog).model);
+            if (editResult.ErrorCode != null)
+                Snackbar.Add(editResult.Message, Severity.Error);
+            else
+                await ReloadData();
+        }
     }
 
     private async Task DeleteAdvertisement(int advertisementId)
     {
-        //var parameters = new DialogParameters();
-        //parameters.Add("ContentText", "Do you really want to delete this advertisement? This process cannot be undone.");
-        //parameters.Add("ButtonText", "Delete");
-        //parameters.Add("Color", Color.Error);
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this advertisement? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
 
-        //var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
-        //var dialog = DialogService.Show<ConfirmationDialog>("Delete advertisement", parameters, options);
-        //var result = await dialog.Result;
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete advertisement", parameters, options);
+        var result = await dialog.Result;
 
-        //if (!result.Cancelled)
-        //{
-        //    var deleteResult = await advertisementService.DeleteAdvertisement(advertisementId);
-        //   if (deleteResult.ErrorCode != null)
-        //        Snackbar.Add(deleteResult.Message, Severity.Error);
-        //    else
-        //        await ReloadData();
-        //}
+        if (!result.Cancelled)
+        {
+            var deleteResult = await advertisementService.DeleteAdvertisement(advertisementId);
+           if (deleteResult.ErrorCode != null)
+                Snackbar.Add(deleteResult.Message, Severity.Error);
+            else
+                await ReloadData();
+        }
     }
 
     //private async Task OpenComment(int advertisementId)

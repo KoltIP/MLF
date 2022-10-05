@@ -13,8 +13,10 @@ namespace PetProject.Db.Entities
         public string Description { get; set; }
         public int ColorId { get; set; }
         public int PetTypeId { get; set; }
+        public int BreedId { get; set; }
         public virtual PetType Type { get; set; }
         public virtual Color Color { get; set; }
+        public virtual Breed Breed { get; set; }
         public ICollection<Advertisement> Advertisements { get; set; }
     }
 }

@@ -7,8 +7,10 @@ namespace PetProject.Api.Controllers.Pet.Models
     public class EditPetRequest
     {
         public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public int ColorId { get; set; }
-        public int TypeId { get; set; }        
+        public int TypeId { get; set; }
+        public int BreedId { get; set; }
     }
 
     public class EditPetRequestValidator : AbstractValidator<EditPetRequest>

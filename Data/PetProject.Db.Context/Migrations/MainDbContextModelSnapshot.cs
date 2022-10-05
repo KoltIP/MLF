@@ -17,7 +17,7 @@ namespace PetProject.Db.Context.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -192,6 +192,11 @@ namespace PetProject.Db.Context.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -214,6 +219,11 @@ namespace PetProject.Db.Context.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -238,6 +248,9 @@ namespace PetProject.Db.Context.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BreedId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ColorId")
                         .HasColumnType("integer");
 
@@ -259,6 +272,8 @@ namespace PetProject.Db.Context.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BreedId");
+
                     b.HasIndex("ColorId");
 
                     b.HasIndex("PetTypeId");
@@ -277,9 +292,6 @@ namespace PetProject.Db.Context.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BreedId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -293,8 +305,6 @@ namespace PetProject.Db.Context.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BreedId");
 
                     b.HasIndex("Uid")
                         .IsUnique();
@@ -319,6 +329,7 @@ namespace PetProject.Db.Context.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
@@ -469,6 +480,12 @@ namespace PetProject.Db.Context.Migrations
 
             modelBuilder.Entity("PetProject.Db.Entities.Pet", b =>
                 {
+                    b.HasOne("PetProject.Db.Entities.Breed", "Breed")
+                        .WithMany("Pets")
+                        .HasForeignKey("BreedId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("PetProject.Db.Entities.Color", "Color")
                         .WithMany("Pets")
                         .HasForeignKey("ColorId")
@@ -481,25 +498,16 @@ namespace PetProject.Db.Context.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Breed");
+
                     b.Navigation("Color");
 
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("PetProject.Db.Entities.PetType", b =>
-                {
-                    b.HasOne("PetProject.Db.Entities.Breed", "Breed")
-                        .WithMany("PetTypies")
-                        .HasForeignKey("BreedId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Breed");
-                });
-
             modelBuilder.Entity("PetProject.Db.Entities.Breed", b =>
                 {
-                    b.Navigation("PetTypies");
+                    b.Navigation("Pets");
                 });
 
             modelBuilder.Entity("PetProject.Db.Entities.Color", b =>

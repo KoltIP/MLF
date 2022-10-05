@@ -18,15 +18,17 @@ namespace PetProject.Db.Context.Setup
 
             var breed1 = new Entities.Breed()
             {
+                Id = 1,
                 Name = "Не указано",
-                Id = 1
+                Description = "Не указано"
             };
             context.Breeds.Add(breed1);
 
             var color1 = new Entities.Color()
             {
                 Id = 1,
-                Name = "Не указано"
+                Name = "Не указано",
+                Description = "Не указано"
             };
             context.Colors.Add(color1);
 
@@ -35,10 +37,39 @@ namespace PetProject.Db.Context.Setup
             {
                 Id = 1,
                 Name = "Не указано",
-                Description = "Не указано",
-                BreedId = 1
+                Description = "Не указано"
             };
             context.PetTypies.Add(petType1);
+
+            var pet1 = new Entities.Pet()
+            {
+                Id = 1,
+                Name = "Не указано",
+                Description = "Не указано",
+                ColorId = color1.Id,
+                Color = color1,
+                BreedId = breed1.Id,
+                Breed = breed1,
+                PetTypeId = petType1.Id,
+                Type = petType1,
+            };
+            context.Pets.Add(pet1);
+
+            //var user1 = new Entities.User.User()
+            //{
+            //    Id = Guid.NewGuid(),
+            //    NickName = "Не указано",
+            //    Email = "notFond@gmail.com",
+            //    Name = "Не указано",
+            //    Surname = "Не указано",
+            //    Patronymic = "Не указано",
+            //    Age = 99,
+            //    Specialization = "Не указано",
+            //    EmailConfirmed = false,
+            //    NormalizedEmail = "notFond@gmail.com".ToUpper(),
+            //    PasswordHash = "123456789",
+            //};
+            //context.Users.Add(user1);
 
             context.SaveChanges();
         }

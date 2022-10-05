@@ -11,7 +11,8 @@ namespace PetProject.ColorServices.Models
 {
     public class EditColorModel
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 
     public class EditColorResponseValidator : AbstractValidator<EditColorModel>

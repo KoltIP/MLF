@@ -14,6 +14,9 @@ namespace PetProject.AdvertisementServices.Models
         public Guid UserId { get; set; }
         public float Price { get; set; }
         public int PetId { get; set; }
+        public string PetColor { get; set; }
+        public string PetBreed { get; set; }
+        public string PetType { get; set; }
     }
 
     public class AddAdvertisementResponseValidator : AbstractValidator<AddAdvertisementModel>
