@@ -6,6 +6,7 @@ namespace PetProject.Api.Controllers.Color.Models
     public class ColorResponse
     {
         public int Id { get; set; }
+        public string Description { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
     }
 

@@ -10,6 +10,7 @@ namespace PetProject.Db.Entities
     public class Color : BaseEntity
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         public ICollection<Pet> Pets { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace PetProject.Db.Entities
     public class Breed : BaseEntity
     {
         public string Name { get; set; }
-        public ICollection<PetType> PetTypies { get; set; }
+        public string Description { get; set; }
+        public ICollection<Pet> Pets { get; set; }
     }
 }

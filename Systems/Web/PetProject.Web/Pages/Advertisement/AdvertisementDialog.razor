@@ -1,0 +1,76 @@
+﻿@using PetProject.Web.Pages.Advertisement.Models
+@using PetProject.Web.Pages.Advertisement.Services
+
+@inherits MudComponentBase
+
+@inject IAdvertisementService advertisementService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Title" @bind-Value="model.PetName"
+                                  For="@(() => model.PetName)"
+                                  Required="true"
+                                  RequiredError="Title is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>                
+                <MudItem xs="12" >
+                    <MudTextField Label="Description"
+                                  Lines="5"
+                                  For="@(() => model.PetDescription)"
+                                  @bind-Value="model.PetDescription"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+
+    AdvertisementModelValidator modelValidator = new AdvertisementModelValidator();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? AdvertisementId { get; set; } = default;
+
+    [Parameter]
+    public AdvertisementModel model { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {        
+
+        isNew = AdvertisementId == null;
+        if (!isNew)
+        {
+            var advertisement = await advertisementService.GetAdvertisement(AdvertisementId ?? 0);
+
+            model.Id = advertisement.Id;
+            model.PetName = advertisement.PetName;
+            model.PetDescription = advertisement.PetDescription;
+        }
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

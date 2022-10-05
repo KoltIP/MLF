@@ -12,6 +12,7 @@ namespace PetProject.BreedServices.Models
     public class EditBreedModel
     {
         public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 
     public class EditBreedResponseValidator : AbstractValidator<EditBreedModel>

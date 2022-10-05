@@ -18,7 +18,9 @@ namespace PetProject.PetServices.Models
         public string Color { get; set; } = string.Empty;
         public int TypeId { get; set; }
         public string Type { get; set; } = string.Empty;
-       
+        public int BreedId { get; set; }
+        public string Breed { get; set; } = string.Empty;
+
     }
 
     public class PetModelProfile : Profile

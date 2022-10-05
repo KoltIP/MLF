@@ -36,6 +36,9 @@ namespace PetProject.AdvertisementServices
             var advertisements = context.Advertisements.AsQueryable();
 
             advertisements = advertisements
+                        .Include(x => x.Pet.Color)
+                        .Include(x => x.Pet.Breed)
+                        .Include(x => x.Pet.Type)
                         .Skip(Math.Max(offset, 0))
                         .Take(Math.Max(0, Math.Min(limit, 1000)));
 
@@ -48,7 +51,11 @@ namespace PetProject.AdvertisementServices
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
-            var advertisement = context.Advertisements.FirstOrDefault(x => x.Id.Equals(id));
+            var advertisement = context.Advertisements                
+                .Include(x=>x.Pet.Color)
+                .Include(x=>x.Pet.Breed)
+                .Include(x => x.Pet.Type)
+                .FirstOrDefault(x => x.Id.Equals(id));
 
             var data = mapper.Map<AdvertisementModel>(advertisement);
             return data;
