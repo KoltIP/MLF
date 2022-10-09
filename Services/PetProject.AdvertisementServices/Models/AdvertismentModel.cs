@@ -19,6 +19,10 @@ namespace PetProject.AdvertisementServices.Models
         public string PetColor { get; set; } = string.Empty;
         public string PetBreed { get; set; } = string.Empty;
         public string PetType { get; set; } = string.Empty;
+        //public Importance Importance { get; set; }
+        //public DateTime Age { get; set; }
+        //public DateTime CreatedDate { get; set; } 
+
 
     }
 
@@ -30,12 +34,11 @@ namespace PetProject.AdvertisementServices.Models
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
-                .ForMember(dest => dest.PetName, opt => opt.MapFrom(src => src.Pet.Name))
-                .ForMember(dest => dest.PetDescription, opt => opt.MapFrom(src => src.Pet.Description))
-                .ForMember(dest => dest.PetId, opt => opt.MapFrom(src => src.PetId))
-                .ForMember(dest => dest.PetColor, opt => opt.MapFrom(src => src.Pet.Color.Name))
-                .ForMember(dest => dest.PetBreed, opt => opt.MapFrom(src => src.Pet.Breed.Name))
-                .ForMember(dest => dest.PetType, opt => opt.MapFrom(src => src.Pet.Type.Name));
+                .ForMember(dest => dest.PetName, opt => opt.MapFrom(src => src.PetName))
+                .ForMember(dest => dest.PetDescription, opt => opt.MapFrom(src => src.PetDescription))
+                .ForMember(dest => dest.PetColor, opt => opt.MapFrom(src => src.Color.Name))
+                .ForMember(dest => dest.PetBreed, opt => opt.MapFrom(src => src.Breed.Name))
+                .ForMember(dest => dest.PetType, opt => opt.MapFrom(src => src.Type.Name));
         }
     }
 }

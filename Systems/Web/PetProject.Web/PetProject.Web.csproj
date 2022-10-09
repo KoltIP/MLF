@@ -20,17 +20,6 @@
     <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
     <PackageReference Include="Serilog.Expressions" Version="3.3.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
-  </ItemGroup>	
-	
-  <ItemGroup>
-    <Folder Include="Pages\Breed\Models\" />
-    <Folder Include="Pages\Breed\Services\" />
-    <Folder Include="Pages\Color\Models\" />
-    <Folder Include="Pages\Color\Services\" />
-    <Folder Include="Pages\Pet\Models\" />
-    <Folder Include="Pages\Pet\Services\" />
-    <Folder Include="Pages\Type\Models\" />
-    <Folder Include="Pages\Type\Services\" />
   </ItemGroup>
 
 	<ItemGroup>

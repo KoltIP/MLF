@@ -23,6 +23,35 @@
                                   For="@(() => model.PetDescription)"
                                   @bind-Value="model.PetDescription"></MudTextField>
                 </MudItem>
+                
+                
+                <MudItem xs="12" >
+                    <MudTextField Label="Breed"
+                                  Lines="5"
+                                  For="@(() => model.PetBreed)"
+                                  @bind-Value="model.PetBreed"></MudTextField>
+                </MudItem>
+
+
+                <MudItem xs="12" >
+                    <MudTextField Label="Color"
+                                  Lines="5"
+                                  For="@(() => model.PetColor)"
+                                  @bind-Value="model.PetColor"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" >
+                    <MudTextField Label="Type"
+                                  Lines="5"
+                                  For="@(() => model.PetType)"
+                                  @bind-Value="model.PetType"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" >
+                    <MudTextField Label="Award"
+                                  Lines="5"
+                                  For="@(() => model.Price)"
+                                  @bind-Value="model.Price"></MudTextField>
+                </MudItem>
+
             </MudGrid>
         </MudForm>
     </DialogContent>
@@ -59,6 +88,10 @@
             model.Id = advertisement.Id;
             model.PetName = advertisement.PetName;
             model.PetDescription = advertisement.PetDescription;
+            model.PetBreed = advertisement.PetBreed;
+            model.PetColor = advertisement.PetColor;
+            model.PetType = advertisement.PetType;
+            model.Price = advertisement.Price;
         }
         form.ResetValidation();
     }

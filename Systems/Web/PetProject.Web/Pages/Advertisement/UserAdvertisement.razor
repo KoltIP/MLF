@@ -1,4 +1,4 @@
-﻿@page "/advertisement"
+﻿@page "/userAdvertisement"
 @layout MainLayout
 
 @attribute [Authorize]
@@ -13,7 +13,7 @@
 @using PetProject.Web.Components
 
 
-<MudText Typo="Typo.h4" Class="ma-8">Advertisement</MudText>
+<MudText Typo="Typo.h4" Class="ma-8">Your Advertisement</MudText>
 
 <MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementListItems,bool>(FilterFuncSimple)">
     <ColGroup>
@@ -34,8 +34,7 @@
         <MudTh>Description</MudTh>
         <MudTh>Type</MudTh>
         <MudTh>Breed</MudTh>
-        <MudTh>Color</MudTh>
-        <MudTh>Award</MudTh>
+        <MudTh>Color</MudTh>        
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Number">@context.Id</MudTd>        
@@ -44,7 +43,6 @@
         <MudTd DataLabel="Type">@context.PetType</MudTd>
         <MudTd DataLabel="Breed">@context.PetBreed</MudTd>
         <MudTd DataLabel="Color">@context.PetColor</MudTd>
-        <MudTd DataLabel="Award">@context.Price</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditAdvertisement(context.Id))" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteAdvertisement(context.Id))" />

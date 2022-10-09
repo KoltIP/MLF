@@ -24,6 +24,40 @@ namespace PetProject.Db.Context.Setup
             };
             context.Breeds.Add(breed1);
 
+            var breed2 = new Entities.Breed()
+            {
+                Id = 2,
+                Name = "Вест-Айленд Вайт Терьер",
+                Description = "Коротколапая ирландская порода собак исключительно белого цвета"
+            };
+            context.Breeds.Add(breed2);
+
+            var breed3 = new Entities.Breed()
+            {
+                Id = 3,
+                Name = "ЧихуаХуа",
+                Description = "Мелкая мексиканская порода почти собак"
+            };
+            context.Breeds.Add(breed3);
+
+            var breed4 = new Entities.Breed()
+            {
+                Id = 4,
+                Name = "Немецка овчарка",
+                Description = "Крупная и опасная собака"
+            };
+            context.Breeds.Add(breed4);
+
+            var breed5 = new Entities.Breed()
+            {
+                Id = 5,
+                Name = "Сиамский",
+                Description = "Опасный и агрессивный"
+            };
+            context.Breeds.Add(breed5);
+
+            context.SaveChanges();
+
             var color1 = new Entities.Color()
             {
                 Id = 1,
@@ -32,6 +66,39 @@ namespace PetProject.Db.Context.Setup
             };
             context.Colors.Add(color1);
 
+            var color2 = new Entities.Color()
+            {
+                Id = 2,
+                Name = "Чёрный",
+                Description = "Тёмный цвет"
+            };
+            context.Colors.Add(color2);
+
+            var color3 = new Entities.Color()
+            {
+                Id = 3,
+                Name = "Серый",
+                Description = "Тёмный цвет"
+            };
+            context.Colors.Add(color3);
+
+            var color4 = new Entities.Color()
+            {
+                Id = 4,
+                Name = "Белый",
+                Description = "Белый цвет"
+            };
+            context.Colors.Add(color4);
+
+            var color5 = new Entities.Color()
+            {
+                Id = 5,
+                Name = "Рыжий",
+                Description = "Оранжевый цвет"
+            };
+            context.Colors.Add(color5);
+
+            context.SaveChanges();
 
             var petType1 = new Entities.PetType()
             {
@@ -41,36 +108,38 @@ namespace PetProject.Db.Context.Setup
             };
             context.PetTypies.Add(petType1);
 
-            var pet1 = new Entities.Pet()
+            var petType2 = new Entities.PetType()
             {
-                Id = 1,
-                Name = "Не указано",
-                Description = "Не указано",
-                ColorId = color1.Id,
-                Color = color1,
-                BreedId = breed1.Id,
-                Breed = breed1,
-                PetTypeId = petType1.Id,
-                Type = petType1,
+                Id = 2,
+                Name = "Собака",
+                Description = "Всю жизнь бегает за кошкой"
             };
-            context.Pets.Add(pet1);
+            context.PetTypies.Add(petType2);
 
-            //var user1 = new Entities.User.User()
-            //{
-            //    Id = Guid.NewGuid(),
-            //    NickName = "Не указано",
-            //    Email = "notFond@gmail.com",
-            //    Name = "Не указано",
-            //    Surname = "Не указано",
-            //    Patronymic = "Не указано",
-            //    Age = 99,
-            //    Specialization = "Не указано",
-            //    EmailConfirmed = false,
-            //    NormalizedEmail = "notFond@gmail.com".ToUpper(),
-            //    PasswordHash = "123456789",
-            //};
-            //context.Users.Add(user1);
+            var petType3 = new Entities.PetType()
+            {
+                Id = 3,
+                Name = "Кошка",
+                Description = "9 жизней"
+            };
+            context.PetTypies.Add(petType3);
 
+            var petType4 = new Entities.PetType()
+            {
+                Id = 4,
+                Name = "Попугай",
+                Description = "Бешеный"
+            };
+            context.PetTypies.Add(petType4);
+
+            var petType5 = new Entities.PetType()
+            {
+                Id = 5,
+                Name = "Шиншила",
+                Description = "Глупое создание"
+            };
+            context.PetTypies.Add(petType5);
+                        
             context.SaveChanges();
         }
 
