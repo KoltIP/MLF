@@ -6,11 +6,11 @@
       "serviceActions": {
         "petproject_api": "StartWithoutDebugging",
         "petproject_identity": "StartWithoutDebugging",
-        "petproject_postgres": "DoNotStart",
-        "petproject_rabbitmq": "DoNotStart",
-        "petproject_redis": "DoNotStart",
-        "petproject_web": "DoNotStart",
-        "petproject_worker": "DoNotStart"
+        "petproject_postgres": "StartWithoutDebugging",
+        "petproject_rabbitmq": "StartWithoutDebugging",
+        "petproject_redis": "StartWithoutDebugging",
+        "petproject_web": "StartWithoutDebugging",
+        "petproject_worker": "StartWithoutDebugging"
       }
     }
   }

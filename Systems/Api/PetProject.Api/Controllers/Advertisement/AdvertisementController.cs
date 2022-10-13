@@ -41,16 +41,27 @@ namespace PetProject.Api.Controllers.Advertisement
         }
 
         [HttpPost("")]
-        public async Task<AdvertisementResponse> AddAdvertisement([FromQuery] AddAdvertisementRequest request)
+        public async Task<AdvertisementResponse> AddAdvertisement([FromBody] AddAdvertisementRequest request)
         {
+            Console.WriteLine("||||||||||||||||||||||START CONTROLLER||||||||||||||||||||||||");
             var model = mapper.Map<AddAdvertisementModel>(request);
             var advertisement = await advertisementService.AddAdvertisement(model);
             var response = mapper.Map<AdvertisementResponse>(advertisement);
+            Console.WriteLine("||||||||||||||||||" + response.Id + "||||||||||||||||||||||");
+            Console.WriteLine("||||||||||||||||||" + response.PetName + "||||||||||||||||||||||");
+            Console.WriteLine("||||||||||||||||||" + response.PetDescription + "||||||||||||||||||||||");
+            Console.WriteLine("||||||||||||||||||" + response.PetBreed + "||||||||||||||||||||||");
+            Console.WriteLine("||||||||||||||||||" + response.PetBreedId + "||||||||||||||||||||||");
+            Console.WriteLine("||||||||||||||||||" + response.PetTypeId + "||||||||||||||||||||||");
+            Console.WriteLine("||||||||||||||||||" + response.PetType + "||||||||||||||||||||||");
+            Console.WriteLine("||||||||||||||||||" + response.PetColor + "||||||||||||||||||||||");
+            Console.WriteLine("||||||||||||||||||" + response.PetColorId + "||||||||||||||||||||||");
+            Console.WriteLine("||||||||||||||||||" + response.Price + "||||||||||||||||||||||");
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditAdvertisement([FromRoute] int id, [FromQuery] EditAdvertisementRequest request)
+        public async Task<IActionResult> EditAdvertisement([FromRoute] int id, [FromBody] EditAdvertisementRequest request)
         {
             var model = mapper.Map<EditAdvertisementModel>(request);
 

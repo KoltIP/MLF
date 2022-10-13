@@ -7,8 +7,8 @@ namespace PetProject.Api.Controllers.Advertisement.Models
     public class AddAdvertisementRequest
     {
         public Guid UserId { get; set; }
-        public string PetName { get; set; } = string.Empty;
-        public string PetDescription { get; set; } = string.Empty;
+        public string PetName { get; set; } 
+        public string PetDescription { get; set; } 
         public float Price { get; set; }
         public int PetColorId { get; set; }
         public int PetBreedId { get; set; }
@@ -18,14 +18,24 @@ namespace PetProject.Api.Controllers.Advertisement.Models
         //public DateTime CreatedDate { get; set; }
     }
 
-    public class AddAdvertismentRequestValidator : AbstractValidator<AddAdvertisementRequest>
+    public class addadvertismentrequestvalidator : AbstractValidator<AddAdvertisementRequest>
     {
-        public AddAdvertismentRequestValidator()
-        {
-            RuleFor(x => x.Price)
-                .NotEmpty().WithMessage("Price is required");
+        public addadvertismentrequestvalidator()
+        {          
             RuleFor(x => x.UserId)
-                .NotEmpty().WithMessage("User is required");
+                .NotEmpty().WithMessage("error in api, userID is required");           
+            RuleFor(x => x.PetName)
+                .NotEmpty().WithMessage("error in api, PetName is required");
+            RuleFor(x => x.PetDescription)
+                .NotEmpty().WithMessage("error in api, PetDescription is required");
+            RuleFor(x => x.Price)
+                .NotEmpty().WithMessage("error in api, Price is required");
+            RuleFor(x => x.PetColorId)
+                .NotEmpty().WithMessage("error in api, PetColorId is required");
+            RuleFor(x => x.PetBreedId)
+                .NotEmpty().WithMessage("error in api, PetBreedId is required");
+            RuleFor(x => x.PetTypeId)
+                .NotEmpty().WithMessage("error in api, PetTypeId  is required");
         }
     }
     public class AddAdvertismentRequestProfile : Profile

@@ -1,23 +1,23 @@
-﻿
-using PetProject.Web.Pages.Advertisement.Models;
+﻿using PetProject.Web.Pages.Advertisement.Models.Color;
+using PetProject.Web.Pages.Content.Models.Color;
 using PetProject.Web.Shared.Models;
 using System.Text;
 using System.Text.Json;
 
-namespace PetProject.Web.Pages.Advertisement.Services
+namespace PetProject.Web.Pages.Advertisement.Services.Color
 {
-    public class AdvertisementService : IAdvertisementService
+    public class ColorService
     {
         private readonly HttpClient _httpClient;
 
-        public AdvertisementService(HttpClient httpClient)
+        public ColorService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<AdvertisementListItems>> GetAdvertisements(int offset = 0, int limit = 10)
+        public async Task<IEnumerable<ColorListItems>> GetColors(int offset = 0, int limit = 10)
         {
-            string url = $"{Settings.ApiRoot}/v1/advertisement?offset={offset}&limit={limit}";
+            string url = $"{Settings.ApiRoot}/v1/color?offset={offset}&limit={limit}";
 
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -27,14 +27,14 @@ namespace PetProject.Web.Pages.Advertisement.Services
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementListItems>();
+            var data = JsonSerializer.Deserialize<IEnumerable<ColorListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<ColorListItems>();
 
             return data;
         }
 
-        public async Task<AdvertisementListItems> GetAdvertisement(int advertisementId)
+        public async Task<ColorListItems> GetColor(int ColorId)
         {
-            string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";
+            string url = $"{Settings.ApiRoot}/v1/color/{ColorId}";
 
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -44,14 +44,14 @@ namespace PetProject.Web.Pages.Advertisement.Services
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<AdvertisementListItems>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new AdvertisementListItems();
+            var data = JsonSerializer.Deserialize<ColorListItems>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new ColorListItems();
 
             return data;
         }
 
-        public async Task<ErrorResponse> AddAdvertisement(AdvertisementModel model)
+        public async Task<ErrorResponse> AddColor(ColorModel model)
         {
-            string url = $"{Settings.ApiRoot}/v1/advertisement";
+            string url = $"{Settings.ApiRoot}/v1/color";
 
             var body = JsonSerializer.Serialize(model);
             var request = new StringContent(body, Encoding.UTF8, "application/json");
@@ -70,9 +70,9 @@ namespace PetProject.Web.Pages.Advertisement.Services
 
         }
 
-        public async Task<ErrorResponse> EditAdvertisement(int advertisementId, AdvertisementModel model)
+        public async Task<ErrorResponse> EditColor(int ColorId, ColorModel model)
         {
-            string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";
+            string url = $"{Settings.ApiRoot}/v1/color/{ColorId}";
 
             var body = JsonSerializer.Serialize(model);
             var request = new StringContent(body, Encoding.UTF8, "application/json");
@@ -91,9 +91,9 @@ namespace PetProject.Web.Pages.Advertisement.Services
             return error;
         }
 
-        public async Task<ErrorResponse> DeleteAdvertisement(int advertisementId)
+        public async Task<ErrorResponse> DeleteColor(int ColorId)
         {
-            string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";
+            string url = $"{Settings.ApiRoot}/v1/color/{ColorId}";
 
             var response = await _httpClient.DeleteAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -109,4 +109,3 @@ namespace PetProject.Web.Pages.Advertisement.Services
         }
     }
 }
-
