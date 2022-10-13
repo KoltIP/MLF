@@ -27,8 +27,20 @@ namespace PetProject.AdvertisementServices.Models
     {
         public AddAdvertisementResponseValidator()
         {
+            RuleFor(x => x.UserId)
+                 .NotEmpty().WithMessage("userID is required");
+            RuleFor(x => x.PetName)
+                .NotEmpty().WithMessage("PetName is required");
+            RuleFor(x => x.PetDescription)
+                .NotEmpty().WithMessage("PetDescription is required");
             RuleFor(x => x.Price)
-               .NotEmpty().WithMessage("Price is required.");
+                .NotEmpty().WithMessage("Price is required");
+            RuleFor(x => x.PetColorId)
+                .NotEmpty().WithMessage("PetColorId is required");
+            RuleFor(x => x.PetBreedId)
+                .NotEmpty().WithMessage("PetBreedId is required");
+            RuleFor(x => x.PetTypeId)
+                .NotEmpty().WithMessage("PetTypeId  is required");
         }
     }
 

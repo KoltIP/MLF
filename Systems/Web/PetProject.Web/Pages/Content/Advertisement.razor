@@ -1,4 +1,4 @@
-﻿@page "/userAdvertisement"
+﻿@page "/advertisement"
 @layout MainLayout
 
 @attribute [Authorize]
@@ -9,11 +9,13 @@
 @inject NavigationManager navigationManager
 
 @using PetProject.Web.Pages.Advertisement.Models
+@using PetProject.Web.Pages.Advertisement.Models.Advertisement
 @using PetProject.Web.Pages.Advertisement.Services
 @using PetProject.Web.Components
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
 
 
-<MudText Typo="Typo.h4" Class="ma-8">Your Advertisement</MudText>
+<MudText Typo="Typo.h4" Class="ma-8">Advertisement</MudText>
 
 <MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementListItems,bool>(FilterFuncSimple)">
     <ColGroup>
@@ -29,20 +31,21 @@
         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>Number</MudTh>
+        
         <MudTh>Name</MudTh>
         <MudTh>Description</MudTh>
         <MudTh>Type</MudTh>
         <MudTh>Breed</MudTh>
-        <MudTh>Color</MudTh>        
+        <MudTh>Color</MudTh>
+        <MudTh>Award</MudTh>
     </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Number">@context.Id</MudTd>        
+    <RowTemplate>   
         <MudTd DataLabel="Name">@context.PetName</MudTd>        
         <MudTd DataLabel="Description">@context.PetDescription</MudTd>        
         <MudTd DataLabel="Type">@context.PetType</MudTd>
         <MudTd DataLabel="Breed">@context.PetBreed</MudTd>
         <MudTd DataLabel="Color">@context.PetColor</MudTd>
+        <MudTd DataLabel="Award">@context.Price</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditAdvertisement(context.Id))" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteAdvertisement(context.Id))" />
@@ -90,11 +93,19 @@
             string.IsNullOrWhiteSpace(searchString)
             ||
 
-            AdvertisementListItems.Price.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            AdvertisementListItems.PetColor.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
             ||
-            AdvertisementListItems.Id.ToString().Contains(searchString)
+            AdvertisementListItems.PetBreed.ToString().Contains(searchString)
+            ||
+            AdvertisementListItems.PetType.ToString().Contains(searchString)
         ;
     }
+
+
+
+
+
+
 
     private async Task AddAdvertisement()
     {
@@ -107,12 +118,18 @@
         if (!result.Cancelled)
         {
             var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
-            if (addResult.ErrorCode != null)
+            if (addResult.ErrorCode != 0)
                 Snackbar.Add(addResult.Message, Severity.Error);
             else
                 await ReloadData();
         }
     }
+
+
+
+
+
+
 
     private async Task EditAdvertisement(int advertisementId)
     {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using PetProject.Web;
-using PetProject.Web.Pages.Advertisement.Services;
+using PetProject.Web.Pages.Advertisement.Services.Advertisement;
 using PetProject.Web.Pages.Auth.Services;
 using PetProject.Web.Pages.Profile.Services;
 using PetProject.Web.Providers;

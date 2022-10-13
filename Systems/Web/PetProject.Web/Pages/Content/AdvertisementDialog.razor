@@ -1,0 +1,157 @@
+﻿@using PetProject.Web.Pages.Advertisement.Models.Breed
+@using PetProject.Web.Pages.Advertisement.Models.Color
+@using PetProject.Web.Pages.Advertisement.Models.Type
+@using PetProject.Web.Pages.Content.Models.Breed
+@using PetProject.Web.Pages.Content.Models.Color
+@using PetProject.Web.Pages.Content.Models.Type
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+
+@inherits MudComponentBase
+
+@inject IAdvertisementService advertisementService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Name" @bind-Value="model.PetName"
+                                  For="@(() => model.PetName)"
+                                  Required="true"
+                                  RequiredError="Name is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>
+
+
+                <MudItem xs="12" >
+                    <MudTextField Label="Description"
+                                  Lines="5"
+                                  For="@(() => model.PetDescription)"
+                                  @bind-Value="model.PetDescription"
+                                  Required="true"
+                                  RequiredError="Description is required!"></MudTextField>
+                </MudItem>
+
+
+                <MudItem xs="12" >
+                    <MudTextField Label="Price"
+                                  Lines="5"
+                                  For="@(() => model.Price)"
+                                  @bind-Value="model.Price"
+                                  Required="true"
+                                  RequiredError="Price is required!"></MudTextField>
+                </MudItem>
+
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectType" T="int" Label="Type" @bind-Value="model.PetTypeId" For="@(() => model.PetTypeId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var type in _typies)
+                        {
+                            <MudSelectItem T="int" Value="@type.Id">@type.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectBreed" T="int" Label="Breed" @bind-Value="model.PetBreedId" For="@(() => model.PetBreedId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var breed in _breeds)
+                        {
+                            <MudSelectItem T="int" Value="@breed.Id">@breed.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectColor" T="int" Label="Color" @bind-Value="model.PetColorId" For="@(() => model.PetColorId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var color in _colors)
+                        {
+                            <MudSelectItem T="int" Value="@color.Id">@color.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+
+
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+    MudSelect<int> selectBreed = default!;
+    MudSelect<int> selectType = default!;
+    MudSelect<int> selectColor = default!;
+
+    AdvertisementModelValidator modelValidator = new AdvertisementModelValidator();
+
+    private List<TypeModel> _typies { get; set; } = new List<TypeModel>();
+    private List<BreedModel> _breeds { get; set; } = new List<BreedModel>();
+    private List<ColorModel> _colors { get; set; } = new List<ColorModel>();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? AdvertisementId { get; set; } = default;
+
+    [Parameter]
+    public AdvertisementModel model { get; set; } = new() { PetTypeId = 0, PetBreedId = 0, PetColorId = 0};
+
+    protected override async Task OnInitializedAsync()
+    {
+        var typies = await advertisementService.GetTypeList();
+        _typies.AddRange(typies);
+
+        var breeds = await advertisementService.GetBreedList();
+        _breeds .AddRange(breeds);
+
+        var colors = await advertisementService.GetColorList();
+        _colors.AddRange(colors);
+
+        isNew = AdvertisementId == null;
+        if (!isNew)
+        {
+            var advertisement = await advertisementService.GetAdvertisement(AdvertisementId ?? 0);
+
+            model.PetName = advertisement.PetName;
+            model.PetDescription = advertisement.PetDescription;
+            model.Price = advertisement.Price;
+            model.Id = advertisement.Id;
+            model.PetTypeId = advertisement.PetTypeId;
+            model.PetBreedId = advertisement.PetBreedId;
+            model.PetColorId = advertisement.PetColorId;            
+        }
+
+        await selectType.SelectOption(model.PetTypeId);
+        await selectBreed.SelectOption(model.PetBreedId);
+        await selectColor.SelectOption(model.PetColorId);
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}
