@@ -1,5 +1,4 @@
-﻿using PetProject.PetServices;
-using PetProject.Settings;
+﻿using PetProject.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using PetProject.ColorServices;
 using PetProject.BreedServices;
@@ -16,7 +15,6 @@ namespace PetProject.Api
         public static IServiceCollection AddAppServices(this IServiceCollection services)
         {
             services.AddSettings();
-            services.AddPetService();
             services.AddColorService();
             services.AddBreedService();
             services.AddTypeService();

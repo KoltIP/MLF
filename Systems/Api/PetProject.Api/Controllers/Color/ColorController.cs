@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using PetProject.Api.Controllers.Color.Models;
 using PetProject.ColorServices;
 using PetProject.ColorServices.Models;
-using PetProject.PetServices;
 
 namespace PetProject.Api.Controllers.Color
 {

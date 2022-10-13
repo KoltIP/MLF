@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetProject.Db.Context.Context;
@@ -11,9 +12,10 @@ using PetProject.Db.Context.Context;
 namespace PetProject.Db.Context.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221009050715_DRPPetInDb")]
+    partial class DRPPetInDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,17 +162,17 @@ namespace PetProject.Db.Context.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PetBreedId")
+                    b.Property<int>("BreedId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PetColorId")
+                    b.Property<int>("ColorId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("PetDescription")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PetName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -188,9 +190,9 @@ namespace PetProject.Db.Context.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PetBreedId");
+                    b.HasIndex("BreedId");
 
-                    b.HasIndex("PetColorId");
+                    b.HasIndex("ColorId");
 
                     b.HasIndex("PetTypeId");
 
@@ -437,13 +439,13 @@ namespace PetProject.Db.Context.Migrations
                 {
                     b.HasOne("PetProject.Db.Entities.Breed", "Breed")
                         .WithMany("Advertisements")
-                        .HasForeignKey("PetBreedId")
+                        .HasForeignKey("BreedId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PetProject.Db.Entities.Color", "Color")
                         .WithMany("Advertisements")
-                        .HasForeignKey("PetColorId")
+                        .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

@@ -54,12 +54,16 @@ namespace PetProject.PetServices
             return data;
         }
 
-
         public async Task<PetModel> AddPet(AddPetModel model)
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
             var pet = mapper.Map<Pet>(model);
+
+            pet.Color = (context.Colors.FirstOrDefault(x => x.Id == model.ColorId));
+            pet.Breed = (context.Breeds.FirstOrDefault(x => x.Id == model.BreedId));
+            pet.Type = (context.PetTypies.FirstOrDefault(x => x.Id == model.TypeId));
+
 
             await context.Pets.AddAsync(pet);
 

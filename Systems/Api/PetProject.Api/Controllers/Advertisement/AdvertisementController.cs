@@ -13,7 +13,7 @@ namespace PetProject.Api.Controllers.Advertisement
     {
         private readonly IMapper mapper;
         private readonly ILogger<AdvertisementController> logger;
-        private readonly IAdvertisementService service;
+        private readonly IAdvertisementService advertisementService;
 
         public AdvertisementController(IMapper mapper,
             ILogger<AdvertisementController> logger,
@@ -21,13 +21,13 @@ namespace PetProject.Api.Controllers.Advertisement
         {
             this.mapper = mapper;
             this.logger = logger;
-            this.service = advertisementService;
+            this.advertisementService = advertisementService;
         }
 
         [HttpGet("{id}")]
         public async Task<AdvertisementResponse> GetAdvertisementById([FromRoute] int id)
         {
-            var advertisement = await service.GetAdvertisement(id);
+            var advertisement = await advertisementService.GetAdvertisement(id);
             var response = mapper.Map<AdvertisementResponse>(advertisement);
             return response;
         }
@@ -35,7 +35,7 @@ namespace PetProject.Api.Controllers.Advertisement
         [HttpGet("")]
         public async Task<IEnumerable<AdvertisementResponse>> GetAdvertisements([FromQuery] int offset = 0, [FromQuery] int limit = 10)
         {
-            var advertisements = await service.GetAdvertisements(offset, limit);
+            var advertisements = await advertisementService.GetAdvertisements(offset, limit);
             var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
             return response;
         }
@@ -44,8 +44,8 @@ namespace PetProject.Api.Controllers.Advertisement
         public async Task<AdvertisementResponse> AddAdvertisement([FromQuery] AddAdvertisementRequest request)
         {
             var model = mapper.Map<AddAdvertisementModel>(request);
-            var pet = await service.AddAdvertisement(model);
-            var response = mapper.Map<AdvertisementResponse>(pet);
+            var advertisement = await advertisementService.AddAdvertisement(model);
+            var response = mapper.Map<AdvertisementResponse>(advertisement);
             return response;
         }
 
@@ -54,7 +54,7 @@ namespace PetProject.Api.Controllers.Advertisement
         {
             var model = mapper.Map<EditAdvertisementModel>(request);
 
-            await service.EditAdvertisement(id, model);
+            await advertisementService.EditAdvertisement(id, model);
 
             return Ok();
         }
@@ -62,7 +62,7 @@ namespace PetProject.Api.Controllers.Advertisement
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdvertisement([FromRoute] int id)
         {
-            await service.DeleteAdvertisement(id);
+            await advertisementService.DeleteAdvertisement(id);
 
             return Ok();
         }
