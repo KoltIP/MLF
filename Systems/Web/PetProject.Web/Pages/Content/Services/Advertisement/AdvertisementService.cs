@@ -38,6 +38,33 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             return data;
         }
 
+        public async Task<IEnumerable<AdvertisementListItems>> GetUserAdvertisements(int offset = 0, int limit = 10)
+        {
+            string url = $"{Settings.ApiRoot}/v1/advertisement?offset={offset}&limit={limit}";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementListItems>();
+
+            var token = await _localStorage.GetItemAsync<string>("authToken");
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = jsonToken as JwtSecurityToken;
+            var idUser = tokenS.Claims.First(claim => claim.Type == "sub").Value;
+
+            var userId = Guid.Parse(idUser);
+
+            IEnumerable<AdvertisementListItems> userAdvertisementList = data.Where(data => data.UserId == userId);
+
+            return userAdvertisementList;
+        }
+
         public async Task<AdvertisementListItems> GetAdvertisement(int advertisementId)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";

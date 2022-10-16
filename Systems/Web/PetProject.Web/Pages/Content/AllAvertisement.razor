@@ -1,0 +1,198 @@
+﻿@page "/AllAdvertisement"
+@layout MainLayout
+
+@attribute [Authorize]
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IAdvertisementService advertisementService
+@inject NavigationManager navigationManager
+
+@using PetProject.Web.Pages.Advertisement.Models
+@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using PetProject.Web.Pages.Advertisement.Services
+@using PetProject.Web.Components
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+
+
+<MudText Typo="Typo.h4" Class="ma-8">All Advertisement</MudText>
+
+<MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementListItems,bool>(FilterFuncSimple)">
+    <ColGroup>
+        <col style="width:50px;" />
+        <col />
+        <col />
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddAdvertisement())">Add</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        
+        <MudTh>Name</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Type</MudTh>
+        <MudTh>Breed</MudTh>
+        <MudTh>Color</MudTh>
+        <MudTh>Award</MudTh>
+    </HeaderContent>
+    <RowTemplate>   
+        <MudTd DataLabel="Name">@context.PetName</MudTd>        
+        <MudTd DataLabel="Description">@context.PetDescription</MudTd>        
+        <MudTd DataLabel="Type">@context.PetType</MudTd>
+        <MudTd DataLabel="Breed">@context.PetBreed</MudTd>
+        <MudTd DataLabel="Color">@context.PetColor</MudTd>
+        <MudTd DataLabel="Award">@context.Price</MudTd>        
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {    
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = false;
+
+    private string searchString = "";
+
+    private IEnumerable<AdvertisementListItems> AdvertisementListItems = new List<AdvertisementListItems>();
+    private string invis = "invisible ma-8";
+    private int idAdvertisement;
+    private async Task ReloadData()
+    {
+        AdvertisementListItems = await advertisementService.GetAdvertisements(0, 10000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private bool FilterFuncSimple(AdvertisementListItems AdvertisementListItems) => FilterFunc(AdvertisementListItems, searchString);
+
+    private bool FilterFunc(AdvertisementListItems AdvertisementListItems, string searchString)
+    {
+        return 
+            string.IsNullOrWhiteSpace(searchString)
+            ||
+
+            AdvertisementListItems.PetColor.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            AdvertisementListItems.PetBreed.ToString().Contains(searchString)
+            ||
+            AdvertisementListItems.PetType.ToString().Contains(searchString)
+        ;
+    }
+
+    private async Task AddAdvertisement()
+    {
+        var parameters = new DialogParameters {};
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<AdvertisementDialog>("Add advertisement", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
+            if (addResult.ErrorCode != 0)
+                Snackbar.Add(addResult.Message, Severity.Error);
+            else
+                await ReloadData();
+        }
+    }    
+
+    //private async Task OpenComment(int advertisementId)
+    //{
+    //    invis = "ma-8";
+    //    CommentListItems = await commentService.GetComments(advertisementId);
+    //}
+
+    //private async Task AddComment(int advertisementId)
+    //{
+    //    var parameters = new DialogParameters {};
+    //    parameters.Add("advertisementId", advertisementId);
+    //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+    //    var dialog = DialogService.Show<CommentDialog>("Add comment", parameters, options);
+    //    var result = await dialog.Result;
+
+    //    if (!result.Cancelled)
+    //    {
+    //        await commentService.AddComment(((CommentDialog)dialog.Dialog).model);
+    //        CommentListItems = await commentService.GetComments(advertisementId);
+    //    }
+    //}
+
+
+    //private async Task CloseComment()
+    //{
+    //    invis =  "invisible ma-8";
+    //}
+
+    //private async Task UpdateComment(int commentId, int advertisementId)
+    //{
+    //    var parameters = new DialogParameters();
+    //    parameters.Add("CommentId", commentId);
+    //    parameters.Add("AdvertisementId", advertisementId);
+
+
+    //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+    //    var dialog = DialogService.Show<CommentDialog>("Update comment", parameters, options);
+    //    var result = await dialog.Result;
+
+    //    if (!result.Cancelled)
+    //    {
+    //        var res = await commentService.UpdateComment(commentId,((CommentDialog)dialog.Dialog).model);
+    //        if (res.Message==null)//else
+    //        {
+    //            invis = "ma-8";
+    //            CommentListItems = await commentService.GetComments(advertisementId);
+    //        }
+
+    //    }
+
+    //}
+
+    //private async Task DeleteComment(int commentId, int advertisementId)
+    //{
+    //    var parameters = new DialogParameters();
+    //    parameters.Add("ContentText", "Are you sure, thay you want to delete this comment?");
+    //    parameters.Add("ButtonText", "Delete");
+    //    parameters.Add("Color", Color.Error);
+
+    //    var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+    //    var dialog = DialogService.Show<ConfirmationDialog>("Delete comment", parameters, options);
+    //    var result = await dialog.Result;
+
+    //    if (!result.Cancelled)
+    //    {
+    //        var res = await commentService.DeleteComment(commentId);
+    //        if (res.Message==null)//else
+    //        {
+    //            invis = "ma-8";
+    //            CommentListItems = await commentService.GetComments(advertisementId);
+    //        }
+
+    //    }
+    //}
+
+    //private async Task AddSubscribe(int advertisementId)
+    //{        
+    //    await advertisementService.AddSubscribe(advertisementId);
+    //    Snackbar.Add("You have successfully subscribed");
+    //}
+}

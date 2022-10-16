@@ -1,4 +1,4 @@
-﻿@page "/advertisement"
+﻿@page "/MyAdvertisement"
 @layout MainLayout
 
 @attribute [Authorize]
@@ -15,7 +15,7 @@
 @using PetProject.Web.Pages.Advertisement.Services.Advertisement
 
 
-<MudText Typo="Typo.h4" Class="ma-8">Advertisement</MudText>
+<MudText Typo="Typo.h4" Class="ma-8">My Advertisement</MudText>
 
 <MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementListItems,bool>(FilterFuncSimple)">
     <ColGroup>
@@ -70,7 +70,7 @@
     private int idAdvertisement;
     private async Task ReloadData()
     {
-        AdvertisementListItems = await advertisementService.GetAdvertisements(0, 10000);
+        AdvertisementListItems = await advertisementService.GetUserAdvertisements(0, 10000);
     }
 
     protected override async Task OnInitializedAsync()
@@ -101,12 +101,6 @@
         ;
     }
 
-
-
-
-
-
-
     private async Task AddAdvertisement()
     {
         var parameters = new DialogParameters {};
@@ -124,12 +118,6 @@
                 await ReloadData();
         }
     }
-
-
-
-
-
-
 
     private async Task EditAdvertisement(int advertisementId)
     {
