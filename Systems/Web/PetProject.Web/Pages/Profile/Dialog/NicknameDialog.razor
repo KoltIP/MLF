@@ -2,6 +2,7 @@
 @using PetProject.Web.Pages.Profile.Services
 
 
+
 @inherits MudComponentBase
 
 @inject IProfileService profileService 
@@ -11,10 +12,10 @@
         <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
             <MudGrid>
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Name" @bind-Value="model.Name"
-                                  For="@(() => model.Name)"
+                    <MudTextField Label="Nickname" @bind-Value="model.Nickname"
+                                  For="@(() => model.Nickname)"
                                   Required="true"
-                                  RequiredError="New Name is required!"
+                                  RequiredError="New Nickname is required!"
                                   >
                     </MudTextField>
                 </MudItem>        
@@ -33,20 +34,20 @@
 
     MudForm form = default!;
 
-    NameModelValidator modelValidator = new NameModelValidator();
+    NicknameModelValidator modelValidator = new NicknameModelValidator();
 
     private bool ShowErrors;
     private string? Error; 
 
     [Parameter]
-    public NameModel model { get; set; } = new();
+    public NicknameModel model { get; set; } = new();
 
     async Task Submit()
     {
         await form.Validate();
         if (form.IsValid)
         {
-            var success = await profileService.ChangeName(model);
+            var success = await profileService.ChangeNickname(model);
             if (success.ErrorCode.HasValue)
             {
                 Error = success.Message;

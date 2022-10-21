@@ -1,6 +1,6 @@
 ﻿using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Content.Models.Color;
-using PetProject.Web.Shared.Models;
+using PetProject.Web.Pages.Profile.Models;
 using System.Text;
 using System.Text.Json;
 

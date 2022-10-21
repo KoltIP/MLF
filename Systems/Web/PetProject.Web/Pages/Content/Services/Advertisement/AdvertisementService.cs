@@ -3,7 +3,8 @@ using PetProject.Web.Pages.Advertisement.Models.Advertisement;
 using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
-using PetProject.Web.Shared.Models;
+using PetProject.Web.Pages.Profile.Models;
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json;

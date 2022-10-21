@@ -2,7 +2,7 @@
 using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
-using PetProject.Web.Shared.Models;
+using PetProject.Web.Pages.Profile.Models;
 
 namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 {

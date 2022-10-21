@@ -40,15 +40,15 @@ namespace PetProject.Api.Controllers.Account
         }
 
         [HttpGet("confirm/email")]
-        public async Task ConfirmEmail([FromQuery] string email, [FromQuery] string code)
+        public async Task ConfirmEmail([FromQuery] string nickname, [FromQuery] string code)
         {
-            await userAccountService.ConfirmEmail(email, code);
+            await userAccountService.ConfirmEmail(nickname, code);
         }
 
         [HttpGet("inspect/{email}")]
-        public async Task<bool> InspectEmail([FromRoute] string email)
+        public async Task<bool> InspectEmail([FromRoute] string nickname)
         {
-            return await userAccountService.InspectEmail(email);
+            return await userAccountService.InspectEmail(nickname);
         }
 
         [HttpGet("find/{token}")]
@@ -100,9 +100,9 @@ namespace PetProject.Api.Controllers.Account
         }
 
         [HttpGet("confirm/reset/password")]
-        public async Task ConfirmResetPassword([FromQuery] string email, [FromQuery] string code, [FromQuery] string password)
+        public async Task ConfirmResetPassword([FromQuery] string nickname, [FromQuery] string code, [FromQuery] string password)
         {
-            await userAccountService.ConfirmForgotPassword(email, code, password);
+            await userAccountService.ConfirmForgotPassword(nickname, code, password);
         }
     }
 }
