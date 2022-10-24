@@ -55,6 +55,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.Worker", "System
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.Db.Context", "Data\PetProject.Db.Context\PetProject.Db.Context.csproj", "{06B292CB-99CC-413F-8E98-9A1F3423FAB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetProject.CommentServices", "Services\PetProject.CommentServices\PetProject.CommentServices.csproj", "{86679D3A-1DC4-4E20-987C-5A8BCA51222F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,10 @@ Global
 		{06B292CB-99CC-413F-8E98-9A1F3423FAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06B292CB-99CC-413F-8E98-9A1F3423FAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06B292CB-99CC-413F-8E98-9A1F3423FAB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86679D3A-1DC4-4E20-987C-5A8BCA51222F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86679D3A-1DC4-4E20-987C-5A8BCA51222F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86679D3A-1DC4-4E20-987C-5A8BCA51222F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86679D3A-1DC4-4E20-987C-5A8BCA51222F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -150,6 +156,7 @@ Global
 		{68E69557-EAC6-4863-AC29-D526B2F56711} = {E2E97DEA-D32D-4215-842E-0943A450DC53}
 		{56E48A8B-BF8F-4DB0-848D-E6B76F0CB439} = {68E69557-EAC6-4863-AC29-D526B2F56711}
 		{06B292CB-99CC-413F-8E98-9A1F3423FAB5} = {90542FA9-5F1A-49EB-8865-1B18632069C6}
+		{86679D3A-1DC4-4E20-987C-5A8BCA51222F} = {D6D81A3D-B189-4161-AD4E-7932F759A7CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A53E8CD-2BD0-462B-AA39-F3226ED7E8B1}

@@ -20,6 +20,9 @@ namespace PetProject.Db.Entities
         public virtual PetType Type { get; set; }
         public virtual Color Color { get; set; }
         public virtual Breed Breed { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Subscription> Subscriptions { get; set; }
+
         //public Importance Importance { get; set; }
         //public DateTime Age { get; set; }
         //public DateTime CreatedDate { get; set; } = DateTime.Now.Date;

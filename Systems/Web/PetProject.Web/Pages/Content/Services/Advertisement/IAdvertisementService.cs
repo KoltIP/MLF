@@ -17,5 +17,6 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         Task<IEnumerable<BreedModel>> GetBreedList();
         Task<IEnumerable<ColorModel>> GetColorList();
         Task<IEnumerable<TypeModel>> GetTypeList();
+        Task AddSubscribe(int advertisementId);
     }
 }

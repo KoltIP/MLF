@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PetProject.AdvertisementServices.Models;
 using PetProject.Db.Context.Context;
 using PetProject.Db.Entities;
+using PetProject.Shared.Common.Exceptions;
 using PetProject.Shared.Common.Validator;
 using System;
 using System.Collections.Generic;
@@ -100,5 +101,22 @@ namespace PetProject.AdvertisementServices
 
             context.SaveChanges();
         }
+
+        public async Task AddSubscribe(AddSubscribeModel model)
+        {
+            using var context = await contextFactory.CreateDbContextAsync();
+
+            var find_sub = context.Subscriptions.FirstOrDefaultAsync(x => x.UserId == model.UserId && x.AdvertisementId == model.AdvertisementId);
+            if (find_sub.Result != null)
+            {
+                throw new ProcessException("The subscription has already been issued.");
+            }
+
+            var sub = mapper.Map<Subscription>(model);
+            await context.Subscriptions.AddAsync(sub);
+            context.SaveChanges();
+
+        }
+
     }
 }

@@ -7,12 +7,15 @@
 @inject IDialogService DialogService
 @inject IAdvertisementService advertisementService
 @inject NavigationManager navigationManager
+@inject ICommentService commentService
 
 @using PetProject.Web.Pages.Advertisement.Models
 @using PetProject.Web.Pages.Advertisement.Models.Advertisement
 @using PetProject.Web.Pages.Advertisement.Services
 @using PetProject.Web.Components
 @using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Content.Models.Comment
+@using PetProject.Web.Pages.Content.Services.Comment
 
 
 <MudText Typo="Typo.h4" Class="ma-8">All Advertisement</MudText>
@@ -30,8 +33,7 @@
         <MudSpacer />
         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
     </ToolBarContent>
-    <HeaderContent>
-        
+    <HeaderContent>        
         <MudTh>Name</MudTh>
         <MudTh>Description</MudTh>
         <MudTh>Type</MudTh>
@@ -45,12 +47,52 @@
         <MudTd DataLabel="Type">@context.PetType</MudTd>
         <MudTd DataLabel="Breed">@context.PetBreed</MudTd>
         <MudTd DataLabel="Color">@context.PetColor</MudTd>
-        <MudTd DataLabel="Award">@context.Price</MudTd>        
+        <MudTd DataLabel="Award">@context.Price</MudTd>  
+        <MudTd>
+           <MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => OpenComment(context.Id))" />
+            <MudIconButton Icon="@Icons.Filled.AddComment" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddComment(context.Id))" />
+            <MudIconButton Icon="@Icons.Filled.Subscriptions" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddSubscribe(context.Id))" />
+        </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager />
     </PagerContent>
 </MudTable>
+    <col />
+
+<MudTable Items="@CommentListItems" Class="@invis" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped">
+    <ColGroup>
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Comments</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Filled.Close" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => CloseComment())"/>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<CommentListItem, object>(x=>x.UserName)">Username</MudTableSortLabel></MudTh>
+        <MudTh>Comment</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Username">@context.UserName</MudTd>
+        <MudTd DataLabel="Comment">@context.Content</MudTd>
+        <MudTd>
+            <MudTooltip Text="Edit">
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => UpdateComment(context.Id, context.AdvertisementId))" />
+            </MudTooltip>
+            <MudTooltip Text="Delete">
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteComment(context.Id, context.AdvertisementId))" />
+            </MudTooltip>
+            </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
 
 @code {    
     private bool dense = false;
@@ -60,9 +102,11 @@
 
     private string searchString = "";
 
-    private IEnumerable<AdvertisementListItems> AdvertisementListItems = new List<AdvertisementListItems>();
+    private IEnumerable<AdvertisementListItems> AdvertisementListItems = new List<AdvertisementListItems>();    
+    private IEnumerable<CommentListItem> CommentListItems = new List<CommentListItem>();
     private string invis = "invisible ma-8";
     private int idAdvertisement;
+
     private async Task ReloadData()
     {
         AdvertisementListItems = await advertisementService.GetAdvertisements(0, 10000);
@@ -113,85 +157,85 @@
         }
     }    
 
-    //private async Task OpenComment(int advertisementId)
-    //{
-    //    invis = "ma-8";
-    //    CommentListItems = await commentService.GetComments(advertisementId);
-    //}
+    private async Task OpenComment(int advertisementId)
+    {
+        invis = "ma-8";
+        CommentListItems = await commentService.GetComments(advertisementId);
+    }
 
-    //private async Task AddComment(int advertisementId)
-    //{
-    //    var parameters = new DialogParameters {};
-    //    parameters.Add("advertisementId", advertisementId);
-    //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+    private async Task AddComment(int advertisementId)
+    {
+        var parameters = new DialogParameters {};
+        parameters.Add("advertisementId", advertisementId);
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
 
-    //    var dialog = DialogService.Show<CommentDialog>("Add comment", parameters, options);
-    //    var result = await dialog.Result;
+        var dialog = DialogService.Show<CommentDialog>("Add comment", parameters, options);
+        var result = await dialog.Result;
 
-    //    if (!result.Cancelled)
-    //    {
-    //        await commentService.AddComment(((CommentDialog)dialog.Dialog).model);
-    //        CommentListItems = await commentService.GetComments(advertisementId);
-    //    }
-    //}
-
-
-    //private async Task CloseComment()
-    //{
-    //    invis =  "invisible ma-8";
-    //}
-
-    //private async Task UpdateComment(int commentId, int advertisementId)
-    //{
-    //    var parameters = new DialogParameters();
-    //    parameters.Add("CommentId", commentId);
-    //    parameters.Add("AdvertisementId", advertisementId);
+        if (!result.Cancelled)
+        {
+            await commentService.AddComment(((CommentDialog)dialog.Dialog).model);
+            CommentListItems = await commentService.GetComments(advertisementId);
+        }
+    }
 
 
-    //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
-    //    var dialog = DialogService.Show<CommentDialog>("Update comment", parameters, options);
-    //    var result = await dialog.Result;
+    private async Task CloseComment()
+    {
+        invis =  "invisible ma-8";
+    }
 
-    //    if (!result.Cancelled)
-    //    {
-    //        var res = await commentService.UpdateComment(commentId,((CommentDialog)dialog.Dialog).model);
-    //        if (res.Message==null)//else
-    //        {
-    //            invis = "ma-8";
-    //            CommentListItems = await commentService.GetComments(advertisementId);
-    //        }
+    private async Task UpdateComment(int commentId, int advertisementId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("CommentId", commentId);
+        parameters.Add("AdvertisementId", advertisementId);
 
-    //    }
 
-    //}
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<CommentDialog>("Update comment", parameters, options);
+        var result = await dialog.Result;
 
-    //private async Task DeleteComment(int commentId, int advertisementId)
-    //{
-    //    var parameters = new DialogParameters();
-    //    parameters.Add("ContentText", "Are you sure, thay you want to delete this comment?");
-    //    parameters.Add("ButtonText", "Delete");
-    //    parameters.Add("Color", Color.Error);
+        if (!result.Cancelled)
+        {
+            var res = await commentService.UpdateComment(commentId,((CommentDialog)dialog.Dialog).model);
+            if (res.Message==null)//else
+            {
+                invis = "ma-8";
+                CommentListItems = await commentService.GetComments(advertisementId);
+            }
 
-    //    var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        }
 
-    //    var dialog = DialogService.Show<ConfirmationDialog>("Delete comment", parameters, options);
-    //    var result = await dialog.Result;
+    }
 
-    //    if (!result.Cancelled)
-    //    {
-    //        var res = await commentService.DeleteComment(commentId);
-    //        if (res.Message==null)//else
-    //        {
-    //            invis = "ma-8";
-    //            CommentListItems = await commentService.GetComments(advertisementId);
-    //        }
+    private async Task DeleteComment(int commentId, int advertisementId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Are you sure, thay you want to delete this comment?");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
 
-    //    }
-    //}
+        var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
-    //private async Task AddSubscribe(int advertisementId)
-    //{        
-    //    await advertisementService.AddSubscribe(advertisementId);
-    //    Snackbar.Add("You have successfully subscribed");
-    //}
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete comment", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var res = await commentService.DeleteComment(commentId);
+            if (res.Message==null)//else
+            {
+                invis = "ma-8";
+                CommentListItems = await commentService.GetComments(advertisementId);
+            }
+
+        }
+    }
+
+    private async Task AddSubscribe(int advertisementId)
+    {        
+        await advertisementService.AddSubscribe(advertisementId);
+        Snackbar.Add("You have successfully subscribed");
+    }
 }

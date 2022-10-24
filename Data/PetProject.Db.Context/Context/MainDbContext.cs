@@ -12,6 +12,8 @@ namespace PetProject.Db.Context.Context
         public DbSet<PetType> PetTypies { get; set; }
         public DbSet<Breed> Breeds { get; set; }
         public DbSet<Advertisement> Advertisements { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
@@ -56,6 +58,9 @@ namespace PetProject.Db.Context.Context
             modelBuilder.Entity<Breed>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<Breed>().Property(x => x.Description).HasMaxLength(500);
 
+            modelBuilder.Entity<Comment>().ToTable("comments");
+            modelBuilder.Entity<Comment>().Property(x => x.Content).IsRequired();
+
             ////Advertisement - User
             modelBuilder.Entity<Advertisement>().HasOne(x => x.User).WithMany(x => x.Advertisements).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
             //Pet - Color
@@ -64,6 +69,12 @@ namespace PetProject.Db.Context.Context
             modelBuilder.Entity<Advertisement>().HasOne(x => x.Type).WithMany(x => x.Advertisements).HasForeignKey(x => x.PetTypeId).OnDelete(DeleteBehavior.Restrict);
             //PetType - Breed
             modelBuilder.Entity<Advertisement>().HasOne(x => x.Breed).WithMany(x => x.Advertisements).HasForeignKey(x => x.PetBreedId).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Comment>().HasOne(x => x.User).WithMany(x => x.Comments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Comment>().HasOne(x => x.Advertisement).WithMany(x => x.Comments).HasForeignKey(x => x.AdvertisementId).OnDelete(DeleteBehavior.Restrict);
+            //???
+            modelBuilder.Entity<Subscription>().HasOne(x => x.User).WithMany(x => x.Subscriptions).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Subscription>().HasOne(x => x.Advertisement).WithMany(x => x.Subscriptions).HasForeignKey(x => x.AdvertisementId).OnDelete(DeleteBehavior.Restrict);
 
         }
     }

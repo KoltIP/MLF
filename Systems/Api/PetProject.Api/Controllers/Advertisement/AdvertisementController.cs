@@ -67,5 +67,14 @@ namespace PetProject.Api.Controllers.Advertisement
 
             return Ok();
         }
+
+        [HttpPost("sub/")]
+        public async Task<IActionResult> SubscribeAsync([FromBody] AddSubscribeRequest request)
+        {
+            var model = mapper.Map<AddSubscribeModel>(request);
+            await advertisementService.AddSubscribe(model);
+            return Ok();
+        }
+
     }
 }
