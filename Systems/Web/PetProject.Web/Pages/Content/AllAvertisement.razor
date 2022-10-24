@@ -107,10 +107,9 @@
         if (!result.Cancelled)
         {
             var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
+            await ReloadData();
             if (addResult.ErrorCode != 0)
-                Snackbar.Add(addResult.Message, Severity.Error);
-            else
-                await ReloadData();
+                Snackbar.Add(addResult.Message, Severity.Error);            
         }
     }    
 

@@ -152,6 +152,7 @@ namespace PetProject.UserAccountService
 
             user.Name = name;
             await userManager.UpdateAsync(user);
+            
         }
 
         public async Task ChangeSurname(string token, string surname)
@@ -165,9 +166,8 @@ namespace PetProject.UserAccountService
             var user = await userManager.FindByIdAsync(id);
             if (user == null)
                 throw new ProcessException("User was not found");
-
             user.Surname = surname;
-            await userManager.UpdateAsync(user);
+            await userManager.UpdateAsync(user);            
         }
 
         public async Task ChangePatronymic(string token, string patronymic)
@@ -186,6 +186,22 @@ namespace PetProject.UserAccountService
             await userManager.UpdateAsync(user);
         }
 
+        public async Task ChangeNickname(string token, string nickname)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenSecurity = jsonToken as JwtSecurityToken;
+
+            var id = tokenSecurity.Claims.First(claim => claim.Type == "sub").Value;
+
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+                throw new ProcessException("User was not found");
+
+            user.NickName = nickname;
+            await userManager.UpdateAsync(user);
+
+        }
 
         public async Task ChangeEmail(string token, string email)
         {

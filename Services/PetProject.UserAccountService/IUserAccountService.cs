@@ -17,6 +17,7 @@ namespace PetProject.UserAccountService
         Task ChangeName(string token, string name);
         Task ChangeSurname(string token, string name);
         Task ChangePatronymic(string token, string name);
+        Task ChangeNickname(string token, string nickname);
         Task ChangeEmail(string token, string email);
         Task ChangePassword(string token, PasswordModel password);
         Task ConfirmForgotPassword(string nickname, string code, string password);

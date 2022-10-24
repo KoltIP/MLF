@@ -112,10 +112,9 @@
         if (!result.Cancelled)
         {
             var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
+            await ReloadData();
             if (addResult.ErrorCode != 0)
-                Snackbar.Add(addResult.Message, Severity.Error);
-            else
-                await ReloadData();
+                Snackbar.Add(addResult.Message, Severity.Error);            
         }
     }
 
@@ -131,10 +130,9 @@
         if (!result.Cancelled)
         {
             var editResult = await advertisementService.EditAdvertisement(advertisementId, ((AdvertisementDialog)dialog.Dialog).model);
+            await ReloadData();
             if (editResult.ErrorCode != null)
-                Snackbar.Add(editResult.Message, Severity.Error);
-            else
-                await ReloadData();
+                Snackbar.Add(editResult.Message, Severity.Error);            
         }
     }
 
@@ -152,11 +150,11 @@
 
         if (!result.Cancelled)
         {
-            var deleteResult = await advertisementService.DeleteAdvertisement(advertisementId);
+           var deleteResult = await advertisementService.DeleteAdvertisement(advertisementId);
+           await ReloadData();
            if (deleteResult.ErrorCode != null)
                 Snackbar.Add(deleteResult.Message, Severity.Error);
-            else
-                await ReloadData();
+            
         }
     }
 
