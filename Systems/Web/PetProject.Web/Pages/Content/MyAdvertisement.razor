@@ -13,6 +13,7 @@
 @using PetProject.Web.Pages.Advertisement.Services
 @using PetProject.Web.Components
 @using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Content.Models.Comment
 
 
 <MudText Typo="Typo.h4" Class="ma-8">My Advertisement</MudText>
@@ -49,7 +50,6 @@
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditAdvertisement(context.Id))" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteAdvertisement(context.Id))" />
-
         </MudTd>
     </RowTemplate>
     <PagerContent>
@@ -66,6 +66,7 @@
     private string searchString = "";
 
     private IEnumerable<AdvertisementListItems> AdvertisementListItems = new List<AdvertisementListItems>();
+
     private string invis = "invisible ma-8";
     private int idAdvertisement;
     private async Task ReloadData()

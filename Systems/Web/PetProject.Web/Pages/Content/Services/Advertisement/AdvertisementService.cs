@@ -3,6 +3,7 @@ using PetProject.Web.Pages.Advertisement.Models.Advertisement;
 using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
+using PetProject.Web.Pages.Content.Models.Subscribe;
 using PetProject.Web.Pages.Profile.Models;
 
 using System.IdentityModel.Tokens.Jwt;
@@ -201,6 +202,30 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             var data = JsonSerializer.Deserialize<IEnumerable<TypeModel>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<TypeModel>();
 
             return data;
+        }
+
+        public async Task AddSubscribe(int advertisementId)
+        {
+            var token = await _localStorage.GetItemAsync<string>("authToken");
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = jsonToken as JwtSecurityToken;
+            var idUser = tokenS.Claims.First(claim => claim.Type == "sub").Value;
+
+            SubscribeModel model = new SubscribeModel()
+            {
+                AdvertisementId = advertisementId,
+                UserId = Guid.Parse(idUser)
+            };
+
+            string url = $"{Settings.ApiRoot}/v1/advertisement/sub";
+
+            var body = JsonSerializer.Serialize(model);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, request);
+
+            var content = await response.Content.ReadAsStringAsync();
+
         }
 
 

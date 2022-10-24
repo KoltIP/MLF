@@ -14,5 +14,6 @@ namespace PetProject.AdvertisementServices
         Task<AdvertisementModel> AddAdvertisement(AddAdvertisementModel model);
         Task EditAdvertisement(int id, EditAdvertisementModel model);
         Task DeleteAdvertisement(int id);
+        Task AddSubscribe(AddSubscribeModel model);
     }
 }

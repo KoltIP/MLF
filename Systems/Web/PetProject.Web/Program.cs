@@ -6,6 +6,7 @@ using MudBlazor.Services;
 using PetProject.Web;
 using PetProject.Web.Pages.Advertisement.Services.Advertisement;
 using PetProject.Web.Pages.Auth.Services;
+using PetProject.Web.Pages.Content.Services.Comment;
 using PetProject.Web.Pages.Profile.Services;
 using PetProject.Web.Providers;
 using PetProject.Web.Services;
@@ -23,6 +24,8 @@ builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStatePr
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IAdvertisementService, AdvertisementService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+
 
 builder.Services.AddMudServices();
 

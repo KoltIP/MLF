@@ -85,13 +85,15 @@
                 <MudItem xs="12">
                     <MudTextField T="string" Label="Age" />@age
                 </MudItem>  *@ 
-                <MudItem xs="12" Class="d-flex justify-center">
+                @*<MudItem xs="12" Class="d-flex justify-center">
                     <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Tertiary" Size="Size.Large" Class="mt-8">Change</MudButton>
-                </MudItem>
+                </MudItem>*@
                 <MudIconButton Icon="@Icons.Material.Filled.DeleteForever" 
-                        Variant="Variant.Outlined" 
-                        Color="Color.Primary" 
-                        Size="Size.Medium" 
+                        Variant="Variant.Filled" 
+                        DisableElevation="true"
+                        Color="Color.Tertiary" 
+                        Size="Size.Large" 
+                        Class="mt-8"
                         OnClick="@((e) => DeleteProfile())"/> 
 
             </MudGrid>
