@@ -1,6 +1,6 @@
 ﻿using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Content.Models.Breed;
-using PetProject.Web.Shared.Models;
+using PetProject.Web.Pages.Profile.Models;
 using System.Text;
 using System.Text.Json;
 

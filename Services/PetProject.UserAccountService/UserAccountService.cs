@@ -38,7 +38,7 @@ namespace PetProject.UserAccountService
             {
                 Status = UserStatus.Active,
                 UserName = model.Email,
-                Email = model.Email,
+                Email = model.Email.Trim().Normalize(),
                 NickName = model.Nickname,
                 Name = model.Name,
                 Surname=model.Surname,
@@ -90,12 +90,15 @@ namespace PetProject.UserAccountService
                 throw new ProcessException("Couldn't delete account");
         }
 
-        public async Task ConfirmEmail(string email, string code)
+        public async Task ConfirmEmail(string nickname, string code)
         {
-            var user = await userManager.FindByEmailAsync(email);
-
+            //var user = await userManager.FindByIdAsync();
+            
+            var user = userManager.Users.FirstOrDefault(x => (x.NickName.ToLower().Trim() == nickname));
+            
             if (user == null)
-                throw new ProcessException("The user was not found");
+                throw new ProcessException($"ERROR USER NOT FOUND BY NICKNAME. NICKNAME: {nickname}");
+            //throw new ProcessException("The user was not found");
 
             var codeB = Convert.FromBase64String(code);
             code = System.Text.Encoding.UTF8.GetString(codeB);
@@ -109,11 +112,14 @@ namespace PetProject.UserAccountService
             }
         }
 
-        public async Task<bool> InspectEmail(string email)
+        public async Task<bool> InspectEmail(string nickname)
         {
-            var user = await userManager.FindByEmailAsync(email);
+            
+            var user = userManager.Users.FirstOrDefault(x => (x.NickName.ToLower().Trim() == nickname));
+            
             if (user == null)
-                throw new ProcessException("The user was not found");
+                throw new ProcessException($"ERROR USER NOT FOUND BY NICKNAME. NICKNAME: {nickname}");
+                //throw new ProcessException("The user was not found");
             return user.EmailConfirmed;
 
         }
@@ -146,6 +152,7 @@ namespace PetProject.UserAccountService
 
             user.Name = name;
             await userManager.UpdateAsync(user);
+            
         }
 
         public async Task ChangeSurname(string token, string surname)
@@ -159,9 +166,8 @@ namespace PetProject.UserAccountService
             var user = await userManager.FindByIdAsync(id);
             if (user == null)
                 throw new ProcessException("User was not found");
-
             user.Surname = surname;
-            await userManager.UpdateAsync(user);
+            await userManager.UpdateAsync(user);            
         }
 
         public async Task ChangePatronymic(string token, string patronymic)
@@ -180,6 +186,22 @@ namespace PetProject.UserAccountService
             await userManager.UpdateAsync(user);
         }
 
+        public async Task ChangeNickname(string token, string nickname)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenSecurity = jsonToken as JwtSecurityToken;
+
+            var id = tokenSecurity.Claims.First(claim => claim.Type == "sub").Value;
+
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+                throw new ProcessException("User was not found");
+
+            user.NickName = nickname;
+            await userManager.UpdateAsync(user);
+
+        }
 
         public async Task ChangeEmail(string token, string email)
         {
@@ -252,9 +274,9 @@ namespace PetProject.UserAccountService
             });
         }
 
-        public async Task ConfirmForgotPassword(string email, string code, string password)
+        public async Task ConfirmForgotPassword(string nickname, string code, string password)
         {
-            var user = await userManager.FindByEmailAsync(email);
+            var user = userManager.Users.FirstOrDefault(x => (x.NickName.ToLower().Trim() == nickname));
             if (user == null)
                 throw new ProcessException("User was not found");
 

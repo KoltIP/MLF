@@ -18,20 +18,67 @@
             <MudText Typo="Typo.h5" GutterBottom="true" Align="Align.Center">Your data</MudText>
             <MudGrid>
                 <MudItem xs="12">
-                    <MudTextField T="string"  Label="Email"  Text="@profileModel.Email"/>
+                    <MudTextField T="string"  Label="Email"  Text="@email"/>
+                    <MudTooltip Text="Change your email">
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                        Variant="Variant.Outlined" 
+                        Color="Color.Primary" 
+                        Size="Size.Medium" 
+                        OnClick="@((e) => ChangeEmail())"
+                        /> 
+                    </MudTooltip>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Name"  Text="@profileModel.Name"/>
+                    <MudTextField T="string" Label="Name"  Text="@name"/>
+                    <MudTooltip Text="Change your name">
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                        Variant="Variant.Outlined" 
+                        Color="Color.Primary" 
+                        Size="Size.Medium" 
+                        OnClick="@((e) => ChangeName())"
+                        />
+                    </MudTooltip>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Surname"  Text="@profileModel.Surname"/>
+                    <MudTextField T="string" Label="Surname"  Text="@surname"/>
+                     <MudTooltip Text="Change your surname">
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                        Variant="Variant.Outlined" 
+                        Color="Color.Primary" 
+                        Size="Size.Medium" 
+                        OnClick="@((e) => ChangeSurname())"
+                        />
+                    </MudTooltip>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Patronymic"  Text="@profileModel.Patronymic"/>
+                    <MudTextField T="string" Label="Patronymic"  Text="@patronymic"/>
+                     <MudTooltip Text="Change your patronymic">
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                        Variant="Variant.Outlined" 
+                        Color="Color.Primary" 
+                        Size="Size.Medium" 
+                        OnClick="@((e) => ChangePatronymic())"
+                        />
+                    </MudTooltip>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Nickname"  Text="@profileModel.NickName"/>
+                    <MudTextField T="string" Label="Nickname"  Text="@nickname"/>
+                     <MudTooltip Text="Change your nickname">
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                        Variant="Variant.Outlined" 
+                        Color="Color.Primary" 
+                        Size="Size.Medium" 
+                        OnClick="@((e) => ChangeNickname())"
+                        />
+                    </MudTooltip>
                 </MudItem>
+                 <MudButton Variant="Variant.Text"
+                           Color="Color.Primary"
+                           Size="Size.Large"
+                           ButtonType="MudBlazor.ButtonType.Button"
+                            OnClick="@((e) => ChangePassword())">
+                           Change password
+                </MudButton>
                @* <MudItem xs="12">
                     <MudTextField T="string" Label="Mobile number" />@mobileNumber
                 </MudItem>   
@@ -57,28 +104,22 @@
 
     private ProfileModel profileModel = new ProfileModel();
 
-    //private string email;
-    //private string name;
-    //private string surname;
-    //private string patronymic;
-    //private string nickname;
-    //private string mobileNumber;
-    //private string age;
-
+    private string name;
+    private string surname;
+    private string patronymic;
+    private string nickname;
+    private string email;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             profileModel = await profileService.GetProfile();
-            //email = profileModel.Email;
-            //name = profileModel.Name;
-            //surname = profileModel.Surname;
-            //patronymic = profileModel.Patronymic;
-            //nickname = profileModel.NickName;
-            //mobileNumber = profileModel.MobilePhone;
-            //age = profileModel.Age;
-
+            name = profileModel.Name;
+            surname = profileModel.Surname;
+            patronymic = profileModel.Patronymic;
+            nickname = profileModel.NickName;
+            email = profileModel.Email;
         }
         catch(Exception ex)
         {
@@ -88,7 +129,121 @@
 
     private async Task DeleteProfile()
     {
-        await profileService.DeleteProfile();
-        
+        await profileService.DeleteProfile();        
+    }
+
+    private async Task ChangeName()
+    {
+        var parameters = new DialogParameters {};
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<NameDialog>("Change Name", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            profileModel = await profileService.GetProfile();
+            name = profileModel.Name;
+            surname = profileModel.Surname;
+            patronymic = profileModel.Patronymic;
+            nickname = profileModel.NickName;
+            email = profileModel.Email;
+        }
+    }
+
+    private async Task ChangeSurname()
+    {
+        var parameters = new DialogParameters {};
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<SurnameDialog>("Change Surname", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            profileModel = await profileService.GetProfile();
+            name = profileModel.Name;
+            surname = profileModel.Surname;
+            patronymic = profileModel.Patronymic;
+            nickname = profileModel.NickName;
+            email = profileModel.Email;
+        }
+    }
+
+    private async Task ChangePatronymic()
+    {
+        var parameters = new DialogParameters {};
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<PatronymicDialog>("Change Patronymic", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            profileModel = await profileService.GetProfile();
+            name = profileModel.Name;
+            surname = profileModel.Surname;
+            patronymic = profileModel.Patronymic;
+            nickname = profileModel.NickName;
+            email = profileModel.Email;
+        }
+    }
+
+    private async Task ChangeNickname()
+    {
+        var parameters = new DialogParameters {};
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<NicknameDialog>("Change Nickname, parameters, options");
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            profileModel = await profileService.GetProfile();
+            name = profileModel.Name;
+            surname = profileModel.Surname;
+            patronymic = profileModel.Patronymic;
+            nickname = profileModel.NickName;
+            email = profileModel.Email;
+        }
+    }
+
+
+    private async Task ChangeEmail()
+    {
+        var parameters = new DialogParameters {};
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<EmailDialog>("Change Email", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            profileModel = await profileService.GetProfile();
+            name = profileModel.Name;
+            surname = profileModel.Surname;
+            patronymic = profileModel.Patronymic;
+            nickname = profileModel.NickName;
+            email = profileModel.Email;
+        }
+    }
+
+    private async Task ChangePassword()
+    {
+        var parameters = new DialogParameters {};
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<PasswordDialog>("Change Password", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            profileModel = await profileService.GetProfile();
+            name = profileModel.Name;
+            surname = profileModel.Surname;
+            patronymic = profileModel.Patronymic;
+            nickname = profileModel.NickName;
+            email = profileModel.Email;
+        }
     }
 }

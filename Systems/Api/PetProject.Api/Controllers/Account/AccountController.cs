@@ -12,9 +12,13 @@ namespace PetProject.Api.Controllers.Account
     [ApiVersion("1.0")]
     public class AccountsController : ControllerBase
     {
+
+
         private readonly IMapper mapper;
         private readonly ILogger<AccountsController> logger;
         private readonly IUserAccountService userAccountService;
+
+
 
         public AccountsController(IMapper mapper, ILogger<AccountsController> logger, IUserAccountService userAccountService)
         {
@@ -22,6 +26,8 @@ namespace PetProject.Api.Controllers.Account
             this.logger = logger;
             this.userAccountService = userAccountService;
         }
+
+
 
         [HttpPost("")]
         public async Task<UserAccountResponse> Registration([FromBody] RegistrationUserRequest request)
@@ -33,23 +39,31 @@ namespace PetProject.Api.Controllers.Account
             return response;
         }
 
+
+
         [HttpPost("delete")]
         public async Task Delete([FromRoute] string token)
         {
             await userAccountService.Delete(token);
         }
 
+
+
         [HttpGet("confirm/email")]
-        public async Task ConfirmEmail([FromQuery] string email, [FromQuery] string code)
+        public async Task ConfirmEmail([FromQuery] string nickname, [FromQuery] string code)
         {
-            await userAccountService.ConfirmEmail(email, code);
+            await userAccountService.ConfirmEmail(nickname, code);
         }
 
+
+
         [HttpGet("inspect/{email}")]
-        public async Task<bool> InspectEmail([FromRoute] string email)
+        public async Task<bool> InspectEmail([FromRoute] string nickname)
         {
-            return await userAccountService.InspectEmail(email);
+            return await userAccountService.InspectEmail(nickname);
         }
+
+
 
         [HttpGet("find/{token}")]
         public async Task<UserAccountResponse> GetUser([FromRoute] string token)
@@ -62,17 +76,47 @@ namespace PetProject.Api.Controllers.Account
 
         }
 
+
+
         [HttpGet("change/name/{token}/{name}")]
         public async Task ChangeName([FromRoute] string token, [FromRoute] string name)
         {
             await userAccountService.ChangeName(token, name);
         }
 
+
+
+        [HttpGet("change/surname/{token}/{surname}")]
+        public async Task ChangeSurname([FromRoute] string token, [FromRoute] string surname)
+        {
+            await userAccountService.ChangeSurname(token, surname);
+        }
+
+
+
+        [HttpGet("change/patronymic/{token}/{patronymic}")]
+        public async Task ChangePatronymic([FromRoute] string token, [FromRoute] string patronymic)
+        {
+            await userAccountService.ChangePatronymic(token, patronymic);
+        }
+
+
+
+        [HttpGet("change/nickname/{token}/{nickname}")]
+        public async Task ChangeNickname([FromRoute] string token, [FromRoute] string nickname)
+        {
+            await userAccountService.ChangeNickname(token, nickname);
+        }
+
+
+
         [HttpGet("change/email/{token}/{email}")]
         public async Task ChangeEmail([FromRoute] string token, [FromRoute] string email)
         {
             await userAccountService.ChangeEmail(token, email);
         }
+
+
 
         [HttpPost("change/password/{token}")]
         public async Task ChangePassword([FromRoute] string token, [FromBody] PasswordRequest request)
@@ -85,6 +129,8 @@ namespace PetProject.Api.Controllers.Account
             };
             await userAccountService.ChangePassword(token, model);
         }
+
+
 
         [HttpPost("forgot/password")]
         public async Task ForgotPassword([FromBody] ForgotPasswordRequest request)
@@ -99,10 +145,14 @@ namespace PetProject.Api.Controllers.Account
             await userAccountService.ForgotPassword(forgotPassword);
         }
 
+
+
         [HttpGet("confirm/reset/password")]
-        public async Task ConfirmResetPassword([FromQuery] string email, [FromQuery] string code, [FromQuery] string password)
+        public async Task ConfirmResetPassword([FromQuery] string nickname, [FromQuery] string code, [FromQuery] string password)
         {
-            await userAccountService.ConfirmForgotPassword(email, code, password);
+            await userAccountService.ConfirmForgotPassword(nickname, code, password);
         }
+    
+    
     }
 }

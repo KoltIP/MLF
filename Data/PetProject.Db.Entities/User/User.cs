@@ -6,10 +6,10 @@ namespace PetProject.Db.Entities.User
     {
         public string NickName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public string Surname { get; set; } = string.Empty;
-        public string? Patronymic { get; set; }
-        public int Age { get; set; }
+        public string? Name { get; set; } = string.Empty;
+        public string? Surname { get; set; } = string.Empty;
+        public string? Patronymic { get; set; } = string.Empty;
+        public int? Age { get; set; }
         public string? Specialization { get; set; }
         public ICollection<Advertisement> Advertisements { get; set; }
         public UserStatus Status { get; set; }
