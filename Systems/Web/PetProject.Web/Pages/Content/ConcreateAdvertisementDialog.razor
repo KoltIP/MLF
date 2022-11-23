@@ -1,0 +1,99 @@
+﻿@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@inherits MudComponentBase
+
+@inject IAdvertisementService advertisementService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form">
+            <MudGrid>
+
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Name" @bind-Value="model.PetName"
+                                  For="@(() => model.PetName)"
+                                  Required="true"
+                                  RequiredError="Name is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>
+
+
+                <MudItem xs="12" >
+                    <MudTextField Label="Description"
+                                  Lines="5"
+                                  For="@(() => model.PetDescription)"
+                                  @bind-Value="model.PetDescription"
+                                  Required="true"
+                                  RequiredError="Description is required!"></MudTextField>
+                </MudItem>
+
+
+                <MudItem xs="12" >
+                    <MudTextField Label="Price"
+                                  Lines="5"
+                                  For="@(() => model.Price)"
+                                  @bind-Value="model.Price"
+                                  Required="true"
+                                  RequiredError="Price is required!"></MudTextField>
+                </MudItem>
+
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect Label="Type" @bind-Value="model.PetType" For="@(() => model.PetType)" />
+                </MudItem>
+
+
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect Label="Breed" @bind-Value="model.PetBreed" For="@(() => model.PetBreed)"/>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect Label="Color" @bind-Value="model.PetColor" For="@(() => model.PetColor)"/>
+                </MudItem>
+
+
+
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? AdvertisementId { get; set; } = default;
+
+
+    public AdvertisementListItems model { get; set; } = new AdvertisementListItems();
+
+    protected override async Task OnInitializedAsync()
+    { 
+
+        var advertisement = await advertisementService.GetAdvertisement(AdvertisementId ?? 0);
+
+        model.PetName = advertisement.PetName;
+        model.PetDescription = advertisement.PetDescription;
+        model.Price = advertisement.Price;
+        model.Id = advertisement.Id;
+        model.PetType = advertisement.PetType;
+        model.PetTypeId = advertisement.PetTypeId;
+        model.PetBreed = advertisement.PetBreed;
+        model.PetBreedId = advertisement.PetBreedId;
+        model.PetColorId = advertisement.PetColorId;     
+        model.PetColor = advertisement.PetColor;     
+    }    
+
+    void Cancel() => MudDialog.Cancel();
+}

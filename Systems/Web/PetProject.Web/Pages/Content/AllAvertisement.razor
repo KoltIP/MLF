@@ -49,7 +49,8 @@
         <MudTd DataLabel="Color">@context.PetColor</MudTd>
         <MudTd DataLabel="Award">@context.Price</MudTd>  
         <MudTd>
-           <MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => OpenComment(context.Id))" />
+            <MudIconButton Icon="@Icons.Filled.RemoveRedEye" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => Open(context.Id))" />
+            <MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => OpenComment(context.Id))" />
             <MudIconButton Icon="@Icons.Filled.AddComment" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddComment(context.Id))" />
             <MudIconButton Icon="@Icons.Filled.Subscriptions" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddSubscribe(context.Id))" />
         </MudTd>
@@ -80,12 +81,12 @@
         <MudTd DataLabel="Comment">@context.Content</MudTd>
         <MudTd>
             <MudTooltip Text="Edit">
-            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => UpdateComment(context.Id, context.AdvertisementId))" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => UpdateComment(context.Id, context.AdvertisementId))" />
             </MudTooltip>
             <MudTooltip Text="Delete">
                 <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteComment(context.Id, context.AdvertisementId))" />
             </MudTooltip>
-            </MudTd>
+        </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager />
@@ -156,6 +157,15 @@
                 Snackbar.Add(addResult.Message, Severity.Error);            
         }
     }    
+
+    private async Task Open(int advertisementId)
+    {
+        var parameters = new DialogParameters {};
+        parameters.Add("advertisementId", advertisementId);
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<ConcreateAdvertisementDialog>("Open comment", parameters, options);       
+    }
 
     private async Task OpenComment(int advertisementId)
     {

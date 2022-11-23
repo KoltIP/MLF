@@ -55,7 +55,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.Worker", "System
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.Db.Context", "Data\PetProject.Db.Context\PetProject.Db.Context.csproj", "{06B292CB-99CC-413F-8E98-9A1F3423FAB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetProject.CommentServices", "Services\PetProject.CommentServices\PetProject.CommentServices.csproj", "{86679D3A-1DC4-4E20-987C-5A8BCA51222F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.CommentServices", "Services\PetProject.CommentServices\PetProject.CommentServices.csproj", "{86679D3A-1DC4-4E20-987C-5A8BCA51222F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
