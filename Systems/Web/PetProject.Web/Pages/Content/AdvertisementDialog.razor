@@ -6,8 +6,12 @@
 @using PetProject.Web.Pages.Content.Models.Type
 @using PetProject.Web.Pages.Advertisement.Services.Advertisement
 @using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using MudBlazor.Interfaces;
+@using MudBlazor.Components;
+@using MudBlazor.Internal;
 
 @inherits MudComponentBase
+
 
 @inject IAdvertisementService advertisementService
 
@@ -17,7 +21,7 @@
             <MudGrid>
 
 
-                <MudItem xs="12" sm="6">
+                <MudItem xs="12">
                     <MudTextField Label="Name" @bind-Value="model.PetName"
                                   For="@(() => model.PetName)"
                                   Required="true"
@@ -29,7 +33,6 @@
 
                 <MudItem xs="12" >
                     <MudTextField Label="Description"
-                                  Lines="5"
                                   For="@(() => model.PetDescription)"
                                   @bind-Value="model.PetDescription"
                                   Required="true"
@@ -39,7 +42,6 @@
 
                 <MudItem xs="12" >
                     <MudTextField Label="Price"
-                                  Lines="5"
                                   For="@(() => model.Price)"
                                   @bind-Value="model.Price"
                                   Required="true"
@@ -79,6 +81,31 @@
                     </MudSelect>
                 </MudItem>
 
+                
+                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                        <ButtonTemplate>
+                            <MudButton HtmlTag="label"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       StartIcon="@Icons.Material.Filled.CloudUpload"
+                                       >
+                                Upload Files
+                            </MudButton>
+                        </ButtonTemplate>
+                    </MudFileUpload>
+                
+                @if (files != null)
+                {
+                    <MudList>
+                        @foreach (var file in files)
+                        {
+                            <MudListItem Icon="@Icons.Material.Filled.AttachFile">
+                                @file.Name <code>@file.Size bytes</code>
+                            </MudListItem>
+                        }
+                    </MudList>
+                }
+
 
 
             </MudGrid>
@@ -91,6 +118,17 @@
 </MudDialog>
 
 @code {
+
+    IList<IBrowserFile> files = new List<IBrowserFile>();
+    private void UploadFiles()
+    {
+        foreach (var file in files)
+        {
+            this.files.Add(file);
+        }
+    }
+
+
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; } = default!;
 

@@ -1,7 +1,10 @@
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using MudBlazor.Services;
 using PetProject.Web;
 using PetProject.Web.Pages.Advertisement.Services.Advertisement;
