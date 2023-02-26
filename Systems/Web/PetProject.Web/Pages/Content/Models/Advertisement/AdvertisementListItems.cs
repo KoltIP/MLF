@@ -6,6 +6,7 @@
         public Guid UserId { get; set; }
         public string PetName { get; set; } = string.Empty;
         public string PetDescription { get; set; } = string.Empty;
+        public string CreatedDate { get; set; }
         public float Price { get; set; }
         public int PetColorId { get; set; }
         public string PetColor { get; set; } = string.Empty;

@@ -82,29 +82,8 @@
                 </MudItem>
 
                 
-                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
-                        <ButtonTemplate>
-                            <MudButton HtmlTag="label"
-                                       Variant="Variant.Filled"
-                                       Color="Color.Primary"
-                                       StartIcon="@Icons.Material.Filled.CloudUpload"
-                                       >
-                                Upload Files
-                            </MudButton>
-                        </ButtonTemplate>
-                    </MudFileUpload>
+
                 
-                @if (files != null)
-                {
-                    <MudList>
-                        @foreach (var file in files)
-                        {
-                            <MudListItem Icon="@Icons.Material.Filled.AttachFile">
-                                @file.Name <code>@file.Size bytes</code>
-                            </MudListItem>
-                        }
-                    </MudList>
-                }
 
 
 
@@ -120,12 +99,10 @@
 @code {
 
     IList<IBrowserFile> files = new List<IBrowserFile>();
-    private void UploadFiles()
+    private void UploadFiles(IBrowserFile file)
     {
-        foreach (var file in files)
-        {
-            this.files.Add(file);
-        }
+        files.Add(file);
+        //TODO upload the files to the server
     }
 
 

@@ -5,11 +5,11 @@ using FluentValidation;
 namespace PetProject.Web.Pages.Advertisement.Models.Advertisement
 {
     public class AdvertisementModel
-    {
-        
+    {        
         public Guid UserId { get; set; }
         public string PetName { get; set; } 
-        public string PetDescription { get; set; } 
+        public string PetDescription { get; set; }
+        public string CreatedDate { get; set; } 
         public float Price { get; set; }
         public int PetColorId { get; set; }
         public int PetBreedId { get; set; }

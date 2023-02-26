@@ -69,6 +69,8 @@ namespace PetProject.AdvertisementServices
 
             var advertisement = mapper.Map<Advertisement>(model);
 
+            advertisement.CreatedDate = DateTime.Now.Date.Date.ToLongDateString();
+
             await context.Advertisements.AddAsync(advertisement);          
 
             context.SaveChanges();

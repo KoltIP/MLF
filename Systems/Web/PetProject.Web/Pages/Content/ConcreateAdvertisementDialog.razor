@@ -41,6 +41,13 @@
                     </MudTextField>
                 </MudItem>
 
+                <MudItem xs="12">
+                    <MudTextField Label="Created Date"
+                                  For="@(() => model.CreatedDate)"
+                                  @bind-Value="model.CreatedDate">
+                    </MudTextField>
+                </MudItem>
+
 
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Type"
