@@ -22,35 +22,35 @@
 
 
                 <MudItem xs="12">
-                    <MudTextField Label="Name" @bind-Value="model.PetName"
+                    <MudTextField Label="Имя" @bind-Value="model.PetName"
                                   For="@(() => model.PetName)"
                                   Required="true"
-                                  RequiredError="Name is required!"
+                                  RequiredError="Имя обязательно!"
                                   >
                     </MudTextField>
                 </MudItem>
 
 
                 <MudItem xs="12" >
-                    <MudTextField Label="Description"
+                    <MudTextField Label="Описание"
                                   For="@(() => model.PetDescription)"
                                   @bind-Value="model.PetDescription"
                                   Required="true"
-                                  RequiredError="Description is required!"></MudTextField>
+                                  RequiredError="Описание обязательно!"></MudTextField>
                 </MudItem>
 
 
                 <MudItem xs="12" >
-                    <MudTextField Label="Price"
+                    <MudTextField Label="Вознаграждение"
                                   For="@(() => model.Price)"
                                   @bind-Value="model.Price"
                                   Required="true"
-                                  RequiredError="Price is required!"></MudTextField>
+                                  RequiredError="Вознаграждение обязательно!"></MudTextField>
                 </MudItem>
 
 
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectType" T="int" Label="Type" @bind-Value="model.PetTypeId" For="@(() => model.PetTypeId)">
+                    <MudSelect @ref="selectType" T="int" Label="Тип" @bind-Value="model.PetTypeId" For="@(() => model.PetTypeId)">
                         <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
                         @foreach (var type in _typies)
                         {
@@ -62,7 +62,7 @@
 
 
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectBreed" T="int" Label="Breed" @bind-Value="model.PetBreedId" For="@(() => model.PetBreedId)">
+                    <MudSelect @ref="selectBreed" T="int" Label="Порода" @bind-Value="model.PetBreedId" For="@(() => model.PetBreedId)">
                         <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
                         @foreach (var breed in _breeds)
                         {
@@ -72,7 +72,7 @@
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectColor" T="int" Label="Color" @bind-Value="model.PetColorId" For="@(() => model.PetColorId)">
+                    <MudSelect @ref="selectColor" T="int" Label="Цвет" @bind-Value="model.PetColorId" For="@(() => model.PetColorId)">
                         <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
                         @foreach (var color in _colors)
                         {
@@ -91,8 +91,8 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ок</MudButton>
     </DialogActions>
 </MudDialog>
 

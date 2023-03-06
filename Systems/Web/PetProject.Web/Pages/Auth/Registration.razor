@@ -13,7 +13,7 @@
     <MudItem xs="7" sm="4">
         <MudPaper Class="pa-4">           
                 
-                <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3" >Registration</MudText>
+                <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3" >Регистрация</MudText>
 
                 <MudAlert Severity="Severity.Error" Class="@(ShowErrors ? "mb-3 d-block" : "d-none")">
                     @Error
@@ -22,21 +22,22 @@
                 <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
                     <MudTextField T="string"
                                     @bind-Value="model.Email" For="@(() => model.Email)"
-                                    Label="Email" 
+                                    Label="Адрес электронной почты" 
                                     Required="true" 
-                                    RequiredError="Email is required!"
-                                    Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})"/>
+                                    RequiredError="Адрес электронной почты обязателен!"
+                              Validation="@(new EmailAddressAttribute() {ErrorMessage = "Неправильный адрес электронной почты"})" />
+                    
                     <MudTextField @bind-Value="model.Nickname" For="@(() => model.Nickname)"
-                                    Label="Nickname" 
+                                    Label="Имя пользователя" 
                                     Required="true"
-                                    RequiredError="Nickname is required!"/>
+                              RequiredError="Имя пользователя обязательно!" />
                     <MudTextField @bind-Value="model.Password" For="@(() => model.Password)"
-                                    Label="Password" 
+                                    Label="Пароль" 
                                     InputType="@PasswordInput"
                                     Adornment="Adornment.End"
                                     AdornmentIcon="@PasswordInputIcon"
                                     Required="true"
-                                    RequiredError="Password is required!"
+                                    RequiredError="Пароль обязателен!"
                                     OnAdornmentClick="TogglePasswordVisibility" />
 
 
@@ -44,7 +45,7 @@
                                Color="Color.Primary"
                                Size="Size.Large"
                                ButtonType="MudBlazor.ButtonType.Button"
-                               OnClick="@((e) => Registr())">Registration</MudButton>
+                               OnClick="@((e) => Registr())">Зарегистрироваться</MudButton>
                 </MudForm>   
         </MudPaper>
     </MudItem>

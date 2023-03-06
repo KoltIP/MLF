@@ -20,14 +20,14 @@
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudTextField Label="Name" @bind-Value="model.PetName"
+                    <MudTextField Label="Имя" @bind-Value="model.PetName"
                                   For="@(() => model.PetName)">
                     </MudTextField>
                 </MudItem>
 
 
                 <MudItem xs="12" >
-                    <MudTextField Label="Description"
+                    <MudTextField Label="Описание"
                                   For="@(() => model.PetDescription)"
                                   @bind-Value="model.PetDescription">
                     </MudTextField>
@@ -35,22 +35,14 @@
 
 
                 <MudItem xs="12" >
-                    <MudTextField Label="Price"
+                    <MudTextField Label="Вознаграждение"
                                   For="@(() => model.Price)"
                                   @bind-Value="model.Price">
                     </MudTextField>
                 </MudItem>
 
-                <MudItem xs="12">
-                    <MudTextField Label="Created Date"
-                                  For="@(() => model.CreatedDate)"
-                                  @bind-Value="model.CreatedDate">
-                    </MudTextField>
-                </MudItem>
-
-
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Type"
+                    <MudTextField Label="Тип"
                                   For="@(() => model.PetType)"
                                   @bind-Value="model.PetType">
                     </MudTextField>
@@ -59,14 +51,14 @@
 
 
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Breed"
+                    <MudTextField Label="Порода"
                                   For="@(() => model.PetBreed)"
                                   @bind-Value="model.PetBreed">
                     </MudTextField>
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Color"
+                    <MudTextField Label="Цвет"
                                   For="@(() => model.PetColor)"
                                   @bind-Value="model.PetColor">
                     </MudTextField>
@@ -78,7 +70,7 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
     </DialogActions>
 </MudDialog>
 

@@ -11,10 +11,10 @@
         <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
             <MudGrid>
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Email" @bind-Value="model.Email"
+                    <MudTextField Label="Адрес электронной почты" @bind-Value="model.Email"
                                   For="@(() => model.Email)"
                                   Required="true"
-                                  RequiredError="New Email is required!"
+                                  RequiredError="Адрес электронной почты обязателен!"
                                   >
                     </MudTextField>
                 </MudItem>        
@@ -22,8 +22,8 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Change</MudButton>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Изменить</MudButton>
     </DialogActions>
 </MudDialog>
 

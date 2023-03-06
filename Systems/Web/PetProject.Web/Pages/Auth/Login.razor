@@ -13,7 +13,7 @@
         <MudPaper Class="pa-4">
             <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
                 
-                <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Sign In</MudText>
+                <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Войти</MudText>
 
                 <MudAlert Severity="Severity.Error" Class="@(ShowErrors ? "mb-3 d-block" : "d-none")">
                     @Error
@@ -25,31 +25,31 @@
                                 @bind-Value="model.Email" For="@(() => model.Email)"
                                 Label="Email" 
                                 Required="true" 
-                                RequiredError="Email is required!"
-                                HelperText="Input your username"
-                                Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})"/>
+                                RequiredError="Адрес электронной почты обязателен!"
+                                HelperText="Введите адрес электронной почты пользователя"
+                                Validation="@(new EmailAddressAttribute() {ErrorMessage = "Введён неправильный адрес электронной почты"})"/>
                 <MudTextField @bind-Value="model.Password" For="@(() => model.Password)"
                                 Label="Password" 
-                                HelperText="Input your password"
+                                HelperText="Введите пароль"
                                 InputType="@PasswordInput"
                                 Adornment="Adornment.End"
                                 AdornmentIcon="@PasswordInputIcon"
                                 Required="true"
-                                RequiredError="Password is required!"
+                                RequiredError="Пароль обязателен!"
                                 OnAdornmentClick="TogglePasswordVisibility" />
 
                 <div Class="d-flex justify-space-between align-center">
-                    <MudCheckBox For="@(() => model.RememberMe)" @bind-Checked="model.RememberMe" Label="Remember me?" Color="Color.Primary" Class="ml-n1 my-3"  Style="@($"color:{Colors.Green.Lighten2};")">
+                    <MudCheckBox For="@(() => model.RememberMe)" @bind-Checked="model.RememberMe" Label="Запомнить?" Color="Color.Primary" Class="ml-n1 my-3"  Style="@($"color:{Colors.Green.Lighten2};")">
                     </MudCheckBox>
-                    <MudLink Href="/forgot-password" Style="@($"color:{Colors.Green.Lighten2};")">Forgot password?</MudLink>
-                    <MudLink Href="/registration">Registration</MudLink>
+                    <MudLink Href="/forgot-password" Style="@($"color:{Colors.Green.Lighten2};")">Забыли пароль?</MudLink>
+                    <MudLink Href="/registration">Регистрация</MudLink>
                 </div>
 
                 <MudButton Variant="Variant.Filled"
                            Style="@($"background:{Colors.Green.Lighten2};")"
                            Color="Color.Primary"
                            Size="Size.Large"
-                           ButtonType="MudBlazor.ButtonType.Submit">Sign In</MudButton>
+                           ButtonType="MudBlazor.ButtonType.Submit">Войти</MudButton>
             </EditForm>
         </MudPaper>
     </MudItem>
@@ -62,7 +62,7 @@
     private LoginModel model = new LoginModel()
     {
         Email = "IKoltak02@yandex.ru",
-        Password = "IPassword"
+        Password = "123456"
     };
 
     bool PasswordVisibility;

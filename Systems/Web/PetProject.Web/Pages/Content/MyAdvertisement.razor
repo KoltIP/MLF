@@ -16,7 +16,7 @@
 @using PetProject.Web.Pages.Content.Models.Comment
 
 
-<MudText Typo="Typo.h4" Class="ma-8">My Advertisement</MudText>
+<MudText Typo="Typo.h4" Class="ma-8">Мои объявления</MudText>
 
 <MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementListItems,bool>(FilterFuncSimple)">
     <ColGroup>
@@ -27,26 +27,26 @@
         <col style="width:100px;" />
     </ColGroup>
     <ToolBarContent>
-        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddAdvertisement())">Add</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddAdvertisement())">Добавить объявление</MudButton>
         <MudSpacer />
-        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+        <MudTextField @bind-Value="searchString" Placeholder="Поиск ..." Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
         
-        <MudTh>Name</MudTh>
-        <MudTh>Description</MudTh>
-        <MudTh>Type</MudTh>
-        <MudTh>Breed</MudTh>
-        <MudTh>Color</MudTh>
-        <MudTh>Award</MudTh>
+        <MudTh>Имя</MudTh>
+        <MudTh>Описание</MudTh>
+        <MudTh>Тип</MudTh>
+        <MudTh>Порода</MudTh>
+        <MudTh>Цвет</MudTh>
+        <MudTh>Вознаграждение</MudTh>
     </HeaderContent>
     <RowTemplate>   
-        <MudTd DataLabel="Name">@context.PetName</MudTd>        
-        <MudTd DataLabel="Description">@context.PetDescription</MudTd>        
-        <MudTd DataLabel="Type">@context.PetType</MudTd>
-        <MudTd DataLabel="Breed">@context.PetBreed</MudTd>
-        <MudTd DataLabel="Color">@context.PetColor</MudTd>
-        <MudTd DataLabel="Award">@context.Price</MudTd>
+        <MudTd DataLabel="Имя">@context.PetName</MudTd>        
+        <MudTd DataLabel="Описание">@context.PetDescription</MudTd>        
+        <MudTd DataLabel="тип">@context.PetType</MudTd>
+        <MudTd DataLabel="Порода">@context.PetBreed</MudTd>
+        <MudTd DataLabel="Цвет">@context.PetColor</MudTd>
+        <MudTd DataLabel="Вознаграждение">@context.Price</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditAdvertisement(context.Id))" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteAdvertisement(context.Id))" />
@@ -107,7 +107,7 @@
         var parameters = new DialogParameters {};
         var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
 
-        var dialog = DialogService.Show<AdvertisementDialog>("Add advertisement", parameters, options);
+        var dialog = DialogService.Show<AdvertisementDialog>("Добавление объявления", parameters, options);
         var result = await dialog.Result;
 
         if (!result.Cancelled)
@@ -125,7 +125,7 @@
         parameters.Add("AdvertisementId", advertisementId);
 
         var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
-        var dialog = DialogService.Show<AdvertisementDialog>("Edit advertisement", parameters, options);
+        var dialog = DialogService.Show<AdvertisementDialog>("Изменение объявления", parameters, options);
         var result = await dialog.Result;
 
         if (!result.Cancelled)
@@ -140,13 +140,13 @@
     private async Task DeleteAdvertisement(int advertisementId)
     {
         var parameters = new DialogParameters();
-        parameters.Add("ContentText", "Do you really want to delete this advertisement? This process cannot be undone.");
-        parameters.Add("ButtonText", "Delete");
+        parameters.Add("ContentText", "Вы уверены, что хотите удалить объявление? Отменить это действие будет невозможно.");
+        parameters.Add("ButtonText", "Удаление");
         parameters.Add("Color", Color.Error);
 
         var options = new MudBlazor.DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
-        var dialog = DialogService.Show<ConfirmationDialog>("Delete advertisement", parameters, options);
+        var dialog = DialogService.Show<ConfirmationDialog>("Удаление объявления", parameters, options);
         var result = await dialog.Result;
 
         if (!result.Cancelled)

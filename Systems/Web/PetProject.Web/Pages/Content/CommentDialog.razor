@@ -8,18 +8,18 @@
         <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
             <MudGrid>
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Comment" @bind-Value="model.Content"
+                    <MudTextField Label="Комментарий" @bind-Value="model.Content"
                                   For="@(() => model.Content)"
                                   Required="true"
-                                  RequiredError="Comment is required!">
+                                  RequiredError="Комментарий обязателен!">
                     </MudTextField>
                 </MudItem>                
             </MudGrid>
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ок</MudButton>
     </DialogActions>
 </MudDialog>
 
