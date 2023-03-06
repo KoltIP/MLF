@@ -23,13 +23,13 @@
 
                 <MudTextField T="string"
                                 @bind-Value="model.Email" For="@(() => model.Email)"
-                                Label="Email" 
+                                Label="Адрес электронной почты" 
                                 Required="true" 
                                 RequiredError="Адрес электронной почты обязателен!"
                                 HelperText="Введите адрес электронной почты пользователя"
                                 Validation="@(new EmailAddressAttribute() {ErrorMessage = "Введён неправильный адрес электронной почты"})"/>
                 <MudTextField @bind-Value="model.Password" For="@(() => model.Password)"
-                                Label="Password" 
+                                Label="Пароль" 
                                 HelperText="Введите пароль"
                                 InputType="@PasswordInput"
                                 Adornment="Adornment.End"
