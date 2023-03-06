@@ -12,10 +12,10 @@
         <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
             <MudGrid>
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Surname" @bind-Value="model.Surname"
+                    <MudTextField Label="Фамилия" @bind-Value="model.Surname"
                                   For="@(() => model.Surname)"
                                   Required="true"
-                                  RequiredError="New Surname is required!"
+                                  RequiredError="Фамилия обязательна!"
                                   >
                     </MudTextField>
                 </MudItem>        
@@ -23,8 +23,8 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Change</MudButton>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Изменить</MudButton>
     </DialogActions>
 </MudDialog>
 

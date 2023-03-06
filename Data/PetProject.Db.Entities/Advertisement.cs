@@ -11,7 +11,8 @@ namespace PetProject.Db.Entities
     {
         public Guid UserId { get; set; }
         public virtual User.User User { get; set; }
-        public float Price { get; set; }
+        //public string CreatedDate { get; set; } = string.Empty;
+        public float Price { get; set; }        
         public string PetName { get; set; } = string.Empty;
         public string PetDescription { get; set; } = String.Empty;
         public int PetColorId { get; set; }
@@ -25,6 +26,6 @@ namespace PetProject.Db.Entities
 
         //public Importance Importance { get; set; }
         //public DateTime Age { get; set; }
-        //public DateTime CreatedDate { get; set; } = DateTime.Now.Date;
+        
     }
 }
