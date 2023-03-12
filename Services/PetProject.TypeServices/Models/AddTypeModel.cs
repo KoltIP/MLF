@@ -13,6 +13,7 @@ namespace PetProject.TypeServices.Models
     {
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public int BreedId { get; set; }
     }
 
     public class AddTypeResponseValidator : AbstractValidator<AddTypeModel>
@@ -25,6 +26,7 @@ namespace PetProject.TypeServices.Models
 
             RuleFor(x => x.Description)
                 .MaximumLength(500).WithMessage("Description is long.");
+            
         }
     }
 

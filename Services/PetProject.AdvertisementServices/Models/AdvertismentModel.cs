@@ -15,9 +15,8 @@ namespace PetProject.AdvertisementServices.Models
         public int PetId { get; set; }
         public string PetName { get; set; } = string.Empty;
         public string PetDescription { get; set; } = string.Empty;
-        //public string CreatedDate { get; set; } = string.Empty;
         public float Price { get; set; }
-        public int PetColorId { get; set; } 
+        public int PetColorId { get; set; }
         public string PetColor { get; set; } = string.Empty;
         public string PetBreedId { get; set; }
         public string PetBreed { get; set; } = string.Empty;
@@ -41,7 +40,7 @@ namespace PetProject.AdvertisementServices.Models
                 .ForMember(dest => dest.PetName, opt => opt.MapFrom(src => src.PetName))
                 .ForMember(dest => dest.PetDescription, opt => opt.MapFrom(src => src.PetDescription))
                 .ForMember(dest => dest.PetColor, opt => opt.MapFrom(src => src.Color.Name))
-                .ForMember(dest => dest.PetBreed, opt => opt.MapFrom(src => src.Breed.Name))
+                .ForMember(dest => dest.PetBreed, opt => opt.MapFrom(src => src.Type.Breed.Name))
                 .ForMember(dest => dest.PetType, opt => opt.MapFrom(src => src.Type.Name));
         }
     }

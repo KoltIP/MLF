@@ -3,6 +3,7 @@ using PetProject.Web.Pages.Advertisement.Models.Advertisement;
 using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
+using PetProject.Web.Pages.Content.Models.Favourite;
 using PetProject.Web.Pages.Content.Models.Subscribe;
 using PetProject.Web.Pages.Profile.Models;
 
@@ -17,11 +18,13 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
 
+
         public AdvertisementService(HttpClient httpClient, ILocalStorageService localStorage)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;
         }
+
 
         public async Task<IEnumerable<AdvertisementListItems>> GetAdvertisements(int offset = 0, int limit = 10)
         {
@@ -39,6 +42,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 
             return data;
         }
+
 
         public async Task<IEnumerable<AdvertisementListItems>> GetUserAdvertisements(int offset = 0, int limit = 10)
         {
@@ -67,6 +71,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             return userAdvertisementList;
         }
 
+
         public async Task<AdvertisementListItems> GetAdvertisement(int advertisementId)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";
@@ -84,8 +89,9 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             return data;
         }
 
+
         public async Task<ErrorResponse> AddAdvertisement(AdvertisementModel model)
-        {      
+        {
             var token = await _localStorage.GetItemAsync<string>("authToken");
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token);
@@ -114,6 +120,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 
         }
 
+
         public async Task<ErrorResponse> EditAdvertisement(int advertisementId, AdvertisementModel model)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";
@@ -134,6 +141,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             }
             return error;
         }
+
 
         public async Task<ErrorResponse> DeleteAdvertisement(int advertisementId)
         {
@@ -170,6 +178,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             return data;
         }
 
+
         public async Task<IEnumerable<ColorModel>> GetColorList()
         {
             string url = $"{Settings.ApiRoot}/v1/color";
@@ -186,6 +195,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 
             return data;
         }
+
 
         public async Task<IEnumerable<TypeModel>> GetTypeList()
         {
@@ -204,6 +214,48 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             return data;
         }
 
+
+        public async Task<IEnumerable<BreedModel>> GetBreedsWithTypeId(int typeId, int offset = 0, int limit = 10)
+        {
+            string url = $"{Settings.ApiRoot}/v1/breed/with/TypeId/{typeId}";
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var data = JsonSerializer.Deserialize<IEnumerable<BreedModel>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<BreedModel>();
+
+            return data;
+        }
+
+
+        public async Task<IEnumerable<AdvertisementListItems>> GetAllSubscribe()
+        {
+            var token = await _localStorage.GetItemAsync<string>("authToken");
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = jsonToken as JwtSecurityToken;
+            var idUser = tokenS.Claims.First(claim => claim.Type == "sub").Value;
+
+            string url = $"{Settings.ApiRoot}/v1/subscribe/{idUser}";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementListItems>();
+
+            return data;
+        }
+
+
         public async Task AddSubscribe(int advertisementId)
         {
             var token = await _localStorage.GetItemAsync<string>("authToken");
@@ -218,7 +270,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
                 UserId = Guid.Parse(idUser)
             };
 
-            string url = $"{Settings.ApiRoot}/v1/advertisement/sub";
+            string url = $"{Settings.ApiRoot}/v1/subscribe/add";
 
             var body = JsonSerializer.Serialize(model);
             var request = new StringContent(body, Encoding.UTF8, "application/json");
@@ -229,6 +281,87 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         }
 
 
+        public async Task<ErrorResponse> DropSubscribe(int id)
+        {
+            string url = $"{Settings.ApiRoot}/v1/subscribe/{id}";
+
+            var response = await _httpClient.DeleteAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            var error = new ErrorResponse();
+            if (!response.IsSuccessStatusCode)
+            {
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
+            }
+            return error;
+        }
+
+
+        public async Task<IEnumerable<AdvertisementListItems>> GetAllFavourite()
+        {
+            var token = await _localStorage.GetItemAsync<string>("authToken");
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = jsonToken as JwtSecurityToken;
+            var idUser = tokenS.Claims.First(claim => claim.Type == "sub").Value;
+
+            string url = $"{Settings.ApiRoot}/v1/favourite/{idUser}";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementListItems>();
+
+            return data;
+        }
+
+
+        public async Task AddInFavourite(int advertisementId)
+        {
+            var token = await _localStorage.GetItemAsync<string>("authToken");
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = jsonToken as JwtSecurityToken;
+            var idUser = tokenS.Claims.First(claim => claim.Type == "sub").Value;
+
+            FavouriteModel model = new FavouriteModel()
+            {
+                AdvertisementId = advertisementId,
+                UserId = Guid.Parse(idUser)
+            };
+
+            string url = $"{Settings.ApiRoot}/v1/favourite/add";
+
+            var body = JsonSerializer.Serialize(model);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, request);
+
+            var content = await response.Content.ReadAsStringAsync();
+        }
+
+
+        public async Task<ErrorResponse> DropInFavourite(int id)
+        {
+            string url = $"{Settings.ApiRoot}/v1/favourite/{id}";
+
+            var response = await _httpClient.DeleteAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            var error = new ErrorResponse();
+            if (!response.IsSuccessStatusCode)
+            {
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
+            }
+            return error;
+        }
     }
 }
-

@@ -1,4 +1,4 @@
-﻿@page "/MyAdvertisement"
+﻿@page "/MyAdvertisements"
 @layout MainLayout
 
 @attribute [Authorize]
@@ -69,10 +69,13 @@
 
     private string invis = "invisible ma-8";
     private int idAdvertisement;
+
+
     private async Task ReloadData()
     {
         AdvertisementListItems = await advertisementService.GetUserAdvertisements(0, 10000);
     }
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -86,7 +89,9 @@
         }
     }
 
+
     private bool FilterFuncSimple(AdvertisementListItems AdvertisementListItems) => FilterFunc(AdvertisementListItems, searchString);
+
 
     private bool FilterFunc(AdvertisementListItems AdvertisementListItems, string searchString)
     {
@@ -101,6 +106,7 @@
             AdvertisementListItems.PetType.ToString().Contains(searchString)
         ;
     }
+
 
     private async Task AddAdvertisement()
     {
@@ -119,6 +125,7 @@
         }
     }
 
+
     private async Task EditAdvertisement(int advertisementId)
     {
         var parameters = new DialogParameters();
@@ -136,6 +143,7 @@
                 Snackbar.Add(editResult.Message, Severity.Error);            
         }
     }
+
 
     private async Task DeleteAdvertisement(int advertisementId)
     {
@@ -158,6 +166,7 @@
             
         }
     }
+
 
     //private async Task OpenComment(int advertisementId)
     //{

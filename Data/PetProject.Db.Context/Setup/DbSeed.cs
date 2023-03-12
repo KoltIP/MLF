@@ -104,7 +104,8 @@ namespace PetProject.Db.Context.Setup
             {
                 Id = 1,
                 Name = "Не указано",
-                Description = "Не указано"
+                Description = "Не указано",
+                BreedId = breed1.Id
             };
             context.PetTypies.Add(petType1);
 
@@ -112,7 +113,8 @@ namespace PetProject.Db.Context.Setup
             {
                 Id = 2,
                 Name = "Собака",
-                Description = "Всю жизнь бегает за кошкой"
+                Description = "Всю жизнь бегает за кошкой",
+                BreedId = breed2.Id,
             };
             context.PetTypies.Add(petType2);
 
@@ -120,7 +122,8 @@ namespace PetProject.Db.Context.Setup
             {
                 Id = 3,
                 Name = "Кошка",
-                Description = "9 жизней"
+                Description = "9 жизней",
+                BreedId = breed5.Id,
             };
             context.PetTypies.Add(petType3);
 
@@ -128,7 +131,8 @@ namespace PetProject.Db.Context.Setup
             {
                 Id = 4,
                 Name = "Попугай",
-                Description = "Бешеный"
+                Description = "Бешеный",
+                BreedId = 1,
             };
             context.PetTypies.Add(petType4);
 
@@ -136,7 +140,8 @@ namespace PetProject.Db.Context.Setup
             {
                 Id = 5,
                 Name = "Шиншила",
-                Description = "Глупое создание"
+                Description = "Глупое создание",
+                BreedId = 1,
             };
             context.PetTypies.Add(petType5);
                         

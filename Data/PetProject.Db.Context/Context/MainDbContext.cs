@@ -13,6 +13,7 @@ namespace PetProject.Db.Context.Context
         public DbSet<Breed> Breeds { get; set; }
         public DbSet<Advertisement> Advertisements { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
@@ -57,9 +58,12 @@ namespace PetProject.Db.Context.Context
             modelBuilder.Entity<Breed>().ToTable("breeds");
             modelBuilder.Entity<Breed>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<Breed>().Property(x => x.Description).HasMaxLength(500);
-
+            
+            //Comments
             modelBuilder.Entity<Comment>().ToTable("comments");
             modelBuilder.Entity<Comment>().Property(x => x.Content).IsRequired();
+
+
 
             ////Advertisement - User
             modelBuilder.Entity<Advertisement>().HasOne(x => x.User).WithMany(x => x.Advertisements).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
@@ -68,13 +72,16 @@ namespace PetProject.Db.Context.Context
             //Pet - PetType
             modelBuilder.Entity<Advertisement>().HasOne(x => x.Type).WithMany(x => x.Advertisements).HasForeignKey(x => x.PetTypeId).OnDelete(DeleteBehavior.Restrict);
             //PetType - Breed
-            modelBuilder.Entity<Advertisement>().HasOne(x => x.Breed).WithMany(x => x.Advertisements).HasForeignKey(x => x.PetBreedId).OnDelete(DeleteBehavior.Restrict);
-
+            modelBuilder.Entity<PetType>().HasOne(x => x.Breed).WithMany(x => x.PetTypes).HasForeignKey(x => x.BreedId).OnDelete(DeleteBehavior.Restrict);
+            //Comment
             modelBuilder.Entity<Comment>().HasOne(x => x.User).WithMany(x => x.Comments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Comment>().HasOne(x => x.Advertisement).WithMany(x => x.Comments).HasForeignKey(x => x.AdvertisementId).OnDelete(DeleteBehavior.Restrict);
-            //???
+            //Subscription
             modelBuilder.Entity<Subscription>().HasOne(x => x.User).WithMany(x => x.Subscriptions).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Subscription>().HasOne(x => x.Advertisement).WithMany(x => x.Subscriptions).HasForeignKey(x => x.AdvertisementId).OnDelete(DeleteBehavior.Restrict);
+            //Favourites
+            modelBuilder.Entity<Favourite>().HasOne(x => x.User).WithMany(x => x.Favourites).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Favourite>().HasOne(x => x.Advertisement).WithMany(x => x.Favourites).HasForeignKey(x => x.AdvertisementId).OnDelete(DeleteBehavior.Restrict);
 
         }
     }

@@ -13,6 +13,6 @@ namespace PetProject.Db.Entities
         [Index(IsUnique = true)]
         public string Name { get; set; } = String.Empty;
         public string Description { get; set; } = String.Empty;
-        public virtual ICollection<Advertisement> Advertisements { get; set; }
+        public virtual ICollection<PetType> PetTypes { get; set; }
     }
 }

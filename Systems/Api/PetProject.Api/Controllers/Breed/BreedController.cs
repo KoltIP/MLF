@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PetProject.Api.Controllers.Advertisement.Models;
 using PetProject.Api.Controllers.Breed.Models;
 using PetProject.BreedServices;
 using PetProject.BreedServices.Models;
@@ -23,6 +24,16 @@ namespace PetProject.Api.Controllers.Breed
             this.logger = logger;
             this.service = breedService;
         }
+
+
+        [HttpGet("with/TypeId/{typeId}")]
+        public async Task<IEnumerable<BreedResponse>> GetBreedsWithTypeId([FromRoute] int typeId, [FromQuery] int offset = 0, [FromQuery] int limit = 10)
+        {
+            var breeds = await service.GetBreedsWithTypeId(typeId, offset, limit);
+            var response = mapper.Map<IEnumerable<BreedResponse>>(breeds);
+            return response;
+        }
+
 
         [HttpGet("{id}")]
         public async Task<BreedResponse> GetBreedById([FromRoute] int id)

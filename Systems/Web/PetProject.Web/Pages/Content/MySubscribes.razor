@@ -1,0 +1,103 @@
+﻿@page "/MySubscribes"
+@layout MainLayout
+
+@attribute [Authorize]
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IAdvertisementService advertisementService
+@inject NavigationManager navigationManager
+
+@using PetProject.Web.Pages.Advertisement.Models
+@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using PetProject.Web.Pages.Advertisement.Services
+@using PetProject.Web.Components
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Content.Models.Comment
+
+
+<MudText Typo="Typo.h4" Class="ma-8">Подписки</MudText>
+
+<MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementListItems,bool>(FilterFuncSimple)">
+    <ColGroup>
+        <col style="width:50px;" />
+        <col />
+        <col />
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudTextField @bind-Value="searchString" Placeholder="Поиск ..." Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+
+        <MudTh>Имя</MudTh>
+        <MudTh>Описание</MudTh>
+        <MudTh>Тип</MudTh>
+        <MudTh>Порода</MudTh>
+        <MudTh>Цвет</MudTh>
+        <MudTh>Вознаграждение</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Имя">@context.PetName</MudTd>
+        <MudTd DataLabel="Описание">@context.PetDescription</MudTd>
+        <MudTd DataLabel="тип">@context.PetType</MudTd>
+        <MudTd DataLabel="Порода">@context.PetBreed</MudTd>
+        <MudTd DataLabel="Цвет">@context.PetColor</MudTd>
+        <MudTd DataLabel="Вознаграждение">@context.Price</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = false;
+
+    private string searchString = "";
+
+    private IEnumerable<AdvertisementListItems> AdvertisementListItems = new List<AdvertisementListItems>();
+
+    private string invis = "invisible ma-8";
+    private int idAdvertisement;
+
+
+    private async Task ReloadData()
+    {
+        AdvertisementListItems = await advertisementService.GetAllFavourite();
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+
+    private bool FilterFuncSimple(AdvertisementListItems AdvertisementListItems) => FilterFunc(AdvertisementListItems, searchString);
+
+
+    private bool FilterFunc(AdvertisementListItems AdvertisementListItems, string searchString)
+    {
+        return
+            string.IsNullOrWhiteSpace(searchString)
+            ||
+
+            AdvertisementListItems.PetColor.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            AdvertisementListItems.PetBreed.ToString().Contains(searchString)
+            ||
+            AdvertisementListItems.PetType.ToString().Contains(searchString)
+        ;
+    }
+}

@@ -15,8 +15,14 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         Task<ErrorResponse> EditAdvertisement(int advertisementId, AdvertisementModel model);
         Task<ErrorResponse> DeleteAdvertisement(int advertisementId);
         Task<IEnumerable<BreedModel>> GetBreedList();
+        Task<IEnumerable<BreedModel>> GetBreedsWithTypeId(int typeId, int offset = 0, int limit = 10);
         Task<IEnumerable<ColorModel>> GetColorList();
         Task<IEnumerable<TypeModel>> GetTypeList();
+        Task<IEnumerable<AdvertisementListItems>> GetAllSubscribe();
         Task AddSubscribe(int advertisementId);
+        Task<ErrorResponse> DropSubscribe(int id);
+        Task<IEnumerable<AdvertisementListItems>> GetAllFavourite();
+        Task AddInFavourite(int advertisementId);
+        Task<ErrorResponse> DropInFavourite(int id);
     }
 }

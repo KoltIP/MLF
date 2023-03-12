@@ -1,4 +1,4 @@
-﻿@page "/AllAdvertisement"
+﻿@page "/AllAdvertisements"
 @layout MainLayout
 
 @attribute [Authorize]
@@ -50,6 +50,7 @@
         <MudTd DataLabel="Вознаграждение">@context.Price</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Filled.RemoveRedEye" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => Open(context.Id))" />
+            <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddInFavourite(context.Id))" />
             <MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => OpenComment(context.Id))" />
             <MudIconButton Icon="@Icons.Filled.AddComment" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddComment(context.Id))" />
             <MudIconButton Icon="@Icons.Filled.Subscriptions" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddSubscribe(context.Id))" />
@@ -95,7 +96,7 @@
 
 
 
-@code {    
+@code {
     private bool dense = false;
     private bool hover = true;
     private bool striped = true;
@@ -113,6 +114,7 @@
         AdvertisementListItems = await advertisementService.GetAdvertisements(0, 10000);
     }
 
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -125,7 +127,10 @@
         }
     }
 
+
+
     private bool FilterFuncSimple(AdvertisementListItems AdvertisementListItems) => FilterFunc(AdvertisementListItems, searchString);
+
 
     private bool FilterFunc(AdvertisementListItems AdvertisementListItems, string searchString)
     {
@@ -140,6 +145,7 @@
             AdvertisementListItems.PetType.ToString().Contains(searchString)
         ;
     }
+
 
     private async Task AddAdvertisement()
     {
@@ -158,6 +164,7 @@
         }
     }    
 
+
     private async Task Open(int advertisementId)
     {
         var parameters = new DialogParameters {};
@@ -167,11 +174,13 @@
         var dialog = DialogService.Show<ConcreateAdvertisementDialog>("Комментарий", parameters, options);       
     }
 
+
     private async Task OpenComment(int advertisementId)
     {
         invis = "ma-8";
         CommentListItems = await commentService.GetComments(advertisementId);
     }
+
 
     private async Task AddComment(int advertisementId)
     {
@@ -194,6 +203,7 @@
     {
         invis =  "invisible ma-8";
     }
+
 
     private async Task UpdateComment(int commentId, int advertisementId)
     {
@@ -219,6 +229,7 @@
 
     }
 
+
     private async Task DeleteComment(int commentId, int advertisementId)
     {
         var parameters = new DialogParameters();
@@ -243,9 +254,17 @@
         }
     }
 
+
+    private async Task AddInFavourite(int advertisementId)
+    {
+        await advertisementService.AddInFavourite(advertisementId);
+        Snackbar.Add("Успешно добавлено в избранное!");
+    }
+
+
     private async Task AddSubscribe(int advertisementId)
     {        
         await advertisementService.AddSubscribe(advertisementId);
-        Snackbar.Add("Вы успешно подписаны");
+        Snackbar.Add("Вы успешно подписаны!");
     }
 }

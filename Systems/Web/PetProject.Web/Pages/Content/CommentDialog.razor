@@ -36,10 +36,13 @@
     [Parameter]
     public int AdvertisementId { get; set; } = default;
 
+
     bool isNew = false;
+
 
     [Parameter]
     public CommentModel model { get; set; } = new() { };  
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,6 +57,7 @@
         }
     }
 
+
     async Task Submit()
     {
         model.AdvertisementId = AdvertisementId;
@@ -63,6 +67,7 @@
             MudDialog.Close(DialogResult.Ok(true));
         }
     }
+
 
     void Cancel() => MudDialog.Cancel();
 }
