@@ -31,7 +31,7 @@ namespace PetProject.Api.Controllers.Favourite
         {
             int limit = 10;
             int offset = 0;
-            var advertisements = await advertisementService.GetAdvertisements(offset, limit);
+            var advertisements = await advertisementService.GetAllFavourite(UserId);
             var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
             return response;
         }
