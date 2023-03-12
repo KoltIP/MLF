@@ -10,6 +10,7 @@ namespace PetProject.BreedServices
     public interface IBreedService
     {
         Task<IEnumerable<BreedModel>> GetBreeds(int offset = 0, int limit = 10);
+        Task<IEnumerable<BreedModel>> GetBreedsWithTypeId(int typeId, int offset = 0, int limit = 10);
         Task<BreedModel> GetBreed(int id);
         Task<BreedModel> AddBreed(AddBreedModel model);
         Task EditBreed(int id, EditBreedModel model);

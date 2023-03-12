@@ -13,6 +13,7 @@ namespace PetProject.TypeServices.Models
     {
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public int BreedId { get; set; }
     }
 
     public class EditTypeResponseValidator : AbstractValidator<EditTypeModel>

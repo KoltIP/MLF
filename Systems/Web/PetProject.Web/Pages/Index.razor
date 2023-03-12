@@ -5,6 +5,36 @@
 
 <PageTitle>Index</PageTitle>
 
-<MudTHeadRow>
-    <MudText Typo="Typo.h4" Class="ma-4">Главная</MudText><br />
-</MudTHeadRow>
+<MudText Typo="Typo.h3" Align="Align.Center" Class="ma-4">Cервис поиска потерявшихся домашних животных</MudText>
+<br />
+<MudText Typo="Typo.h4" Align="Align.Center" Class="ma-4">Возможности сервиса:</MudText>
+<br />
+<MudGrid>
+    <MudItem xs="12" md="4" Style="margin-left:75px;">
+        <MudText Typo="Typo.h6" GutterBottom="true">Каталог</MudText>
+        <MudPaper Width="100%">
+            <MudListItem Text="Просмотр каталога" Icon="@Icons.Filled.Preview" IconColor="Color.Primary" />
+            <MudListItem Text="Добавление объявления" Icon="@Icons.Filled.AddCircle" IconColor="Color.Primary" />
+            <MudListItem Text="Редактирование объявления" Icon="@Icons.Filled.EditCalendar" IconColor="Color.Primary" />
+            <MudListItem Text="Удаление объявляения" Icon="@Icons.Filled.DeleteForever" IconColor="Color.Primary" />
+            <MudListItem Text="Добавление/редактироватние/удаление комментрариев" Icon="@Icons.Filled.Comment" IconColor="Color.Primary" />
+        </MudPaper>        
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <MudText Typo="Typo.h6" GutterBottom="true">Профиль</MudText>
+        <MudPaper Width="100%">
+            <MudListItem Text="Просмотр информации о профиле" Icon="@Icons.Filled.Preview" IconColor="Color.Primary" />
+            <MudListItem Text="Редактирование информации о профиле" Icon="@Icons.Filled.EditCalendar" IconColor="Color.Primary" />
+            <MudListItem Text="Смена пароля профиля" Icon="@Icons.Filled.Password" IconColor="Color.Primary" />
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <MudText Typo="Typo.h6" GutterBottom="true">Аккаунт</MudText>
+        <MudPaper Width="100%">
+            <MudListItem Text="Регистрация аккаунта*" Icon="@Icons.Filled.AppRegistration" IconColor="Color.Primary" />
+            <MudListItem Text="Восстановление пароля" Icon="@Icons.Filled.Password" IconColor="Color.Primary" />
+            <MudListItem Text="Вход в свою учетную запись" Icon="@Icons.Filled.Login" IconColor="Color.Primary" />
+        </MudPaper>
+        @*<MudText Typo="Typo.caption">* для завершения регистрации требуется подтверждение своего email</MudText>*@
+    </MudItem>
+</MudGrid>

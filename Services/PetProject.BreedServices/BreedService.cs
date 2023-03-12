@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using PetProject.BreedServices.Models;
 using PetProject.Db.Context.Context;
@@ -7,6 +8,7 @@ using PetProject.Shared.Common.Validator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +30,22 @@ namespace PetProject.BreedServices
             this.contextFactory = contextFactory;
             this.addBreedModelValidator = addBreedModelValidator;
             this.editBreedModelValidator = editBreedModelValidator;
+        }
+
+        public async Task<IEnumerable<BreedModel>> GetBreedsWithTypeId(int typeId, int offset = 0, int limit = 10)
+        {
+            var context = contextFactory.CreateDbContext();
+
+            var breedIds = context.PetTypies.Where(x => x.Id == typeId).AsQueryable().Select(x=>x.BreedId).ToList();
+
+            var breeds = context.Breeds.Where(x=>breedIds.Contains(x.Id));
+
+            breeds = breeds                
+                        .Skip(Math.Max(offset, 0))
+                        .Take(Math.Max(0, Math.Min(limit, 1000)));
+
+            var data = (await breeds.ToListAsync()).Select(breed => mapper.Map<BreedModel>(breed));
+            return data;
         }
 
         public async Task<IEnumerable<BreedModel>> GetBreeds(int offset = 0, int limit = 10)

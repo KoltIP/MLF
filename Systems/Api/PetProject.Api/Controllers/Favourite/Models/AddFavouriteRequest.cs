@@ -1,19 +1,18 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using PetProject.AdvertisementServices.Models;
-using PetProject.CommentServices.Models;
 
-namespace PetProject.Api.Controllers.Advertisement.Models
+namespace PetProject.Api.Controllers.Favourite.Models
 {
-    public class AddSubscribeRequest
+    public class AddFavouriteRequest
     {
         public Guid UserId { get; set; }
         public int AdvertisementId { get; set; }
     }
 
-    public class AddSubscribeRequestValidator : AbstractValidator<AddSubscribeRequest>
+    public class AddFavouriteRequestValidator : AbstractValidator<AddFavouriteRequest>
     {
-        public AddSubscribeRequestValidator()
+        public AddFavouriteRequestValidator()
         {
             RuleFor(x => x.UserId)
                 .NotEmpty().WithMessage("User is required");
@@ -21,11 +20,11 @@ namespace PetProject.Api.Controllers.Advertisement.Models
                 .NotEmpty().WithMessage("Advertisement is required");
         }
     }
-    public class AddSubscribeRequestProfile : Profile
+    public class AddFavouriteRequestProfile : Profile
     {
-        public AddSubscribeRequestProfile()
+        public AddFavouriteRequestProfile()
         {
-            CreateMap<AddSubscribeRequest, AddSubscribeModel>();
+            CreateMap<AddFavouriteRequest, AddFavouriteModel>();
         }
     }
 }

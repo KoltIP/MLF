@@ -15,6 +15,24 @@ namespace PetProject.Web.Pages.Breed.Services.Breed
             _httpClient = httpClient;
         }
 
+        public async Task<IEnumerable<BreedListItems>> GetBreedsWithTypeId(int typeId, int offset = 0, int limit = 10)
+        {
+            string url = $"{Settings.ApiRoot}/v1/breed/type?typeId={typeId}&offset={offset}&limit={limit}";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var data = JsonSerializer.Deserialize<IEnumerable<BreedListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<BreedListItems>();
+
+            return data;
+        }
+
+
         public async Task<IEnumerable<BreedListItems>> GetBreeds(int offset = 0, int limit = 10)
         {
             string url = $"{Settings.ApiRoot}/v1/breed?offset={offset}&limit={limit}";

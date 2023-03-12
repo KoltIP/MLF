@@ -11,7 +11,6 @@ namespace PetProject.Api.Controllers.Advertisement.Models
         public string PetDescription { get; set; } 
         public float Price { get; set; }
         public int PetColorId { get; set; }
-        public int PetBreedId { get; set; }
         public int PetTypeId { get; set; }
         //public Importance Importance { get; set; }
         //public DateTime Age { get; set; }
@@ -32,8 +31,6 @@ namespace PetProject.Api.Controllers.Advertisement.Models
                 .NotEmpty().WithMessage("error in api, Price is required");
             RuleFor(x => x.PetColorId)
                 .NotEmpty().WithMessage("error in api, PetColorId is required");
-            RuleFor(x => x.PetBreedId)
-                .NotEmpty().WithMessage("error in api, PetBreedId is required");
             RuleFor(x => x.PetTypeId)
                 .NotEmpty().WithMessage("error in api, PetTypeId  is required");
         }

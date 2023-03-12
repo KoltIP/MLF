@@ -50,6 +50,17 @@
 
 
                 <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectColor" T="int" Label="Цвет" @bind-Value="model.PetColorId" For="@(() => model.PetColorId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var color in _colors)
+                        {
+                            <MudSelectItem T="int" Value="@color.Id">@color.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+
+                <MudItem xs="12" sm="6">
                     <MudSelect @ref="selectType" T="int" Label="Тип" @bind-Value="model.PetTypeId" For="@(() => model.PetTypeId)">
                         <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
                         @foreach (var type in _typies)
@@ -60,9 +71,8 @@
                 </MudItem>
 
 
-
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectBreed" T="int" Label="Порода" @bind-Value="model.PetBreedId" For="@(() => model.PetBreedId)">
+                    <MudSelect OnOpen="()=>LoadDependendenseBreeds()" @ref="selectBreed" T="int" Label="Порода" @bind-Value="model.PetBreedId" For="@(() => model.PetBreedId)">
                         <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
                         @foreach (var breed in _breeds)
                         {
@@ -70,21 +80,6 @@
                         }
                     </MudSelect>
                 </MudItem>
-
-                <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectColor" T="int" Label="Цвет" @bind-Value="model.PetColorId" For="@(() => model.PetColorId)">
-                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
-                        @foreach (var color in _colors)
-                        {
-                            <MudSelectItem T="int" Value="@color.Id">@color.Name</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-
-                
-
-                
-
 
 
             </MudGrid>
@@ -97,14 +92,6 @@
 </MudDialog>
 
 @code {
-
-    IList<IBrowserFile> files = new List<IBrowserFile>();
-    private void UploadFiles(IBrowserFile file)
-    {
-        files.Add(file);
-        //TODO upload the files to the server
-    }
-
 
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; } = default!;
@@ -134,7 +121,7 @@
         _typies.AddRange(typies);
 
         var breeds = await advertisementService.GetBreedList();
-        _breeds .AddRange(breeds);
+        _breeds.AddRange(breeds);
 
         var colors = await advertisementService.GetColorList();
         _colors.AddRange(colors);
@@ -157,6 +144,13 @@
         await selectBreed.SelectOption(model.PetBreedId);
         await selectColor.SelectOption(model.PetColorId);
         form.ResetValidation();
+    }
+
+    public async Task LoadDependendenseBreeds()
+    {
+        int? selectTypeValue = selectType.Value;
+        if (selectTypeValue.HasValue)        
+            _breeds = (await advertisementService.GetBreedsWithTypeId(selectTypeValue.Value)).ToList();        
     }
 
     async Task Submit()

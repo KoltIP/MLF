@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using PetProject.AdvertisementServices;
 using PetProject.AdvertisementServices.Models;
 using PetProject.Api.Controllers.Advertisement.Models;
+using PetProject.Api.Controllers.Favourite.Models;
+using PetProject.Api.Controllers.Subscribe.Models;
 
 namespace PetProject.Api.Controllers.Advertisement
 {
@@ -23,6 +25,7 @@ namespace PetProject.Api.Controllers.Advertisement
             this.logger = logger;
             this.advertisementService = advertisementService;
         }
+
 
         [HttpGet("{id}")]
         public async Task<AdvertisementResponse> GetAdvertisementById([FromRoute] int id)
@@ -65,14 +68,6 @@ namespace PetProject.Api.Controllers.Advertisement
         {
             await advertisementService.DeleteAdvertisement(id);
 
-            return Ok();
-        }
-
-        [HttpPost("sub/")]
-        public async Task<IActionResult> SubscribeAsync([FromBody] AddSubscribeRequest request)
-        {
-            var model = mapper.Map<AddSubscribeModel>(request);
-            await advertisementService.AddSubscribe(model);
             return Ok();
         }
 

@@ -9,6 +9,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Breed
         Task<ErrorResponse> AddBreed(BreedModel model);
         Task<BreedListItems> GetBreed(int advertisementId);
         Task<IEnumerable<BreedListItems>> GetBreeds(int offset = 0, int limit = 10);
+        Task<IEnumerable<BreedListItems>> GetBreedsWithTypeId(int typeId, int offset = 0, int limit = 10);
         Task<ErrorResponse> EditBreed(int breedId, BreedModel model);
         Task<ErrorResponse> DeleteBreed(int breedId);
     }

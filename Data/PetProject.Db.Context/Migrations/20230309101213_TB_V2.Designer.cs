@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetProject.Db.Context.Context;
@@ -11,9 +12,10 @@ using PetProject.Db.Context.Context;
 namespace PetProject.Db.Context.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230309101213_TB_V2")]
+    partial class TB_V2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,35 +288,6 @@ namespace PetProject.Db.Context.Migrations
                     b.ToTable("comments", (string)null);
                 });
 
-            modelBuilder.Entity("PetProject.Db.Entities.Favourite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AdvertisementId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("Uid")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdvertisementId");
-
-                    b.HasIndex("Uid")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Favourites");
-                });
-
             modelBuilder.Entity("PetProject.Db.Entities.PetType", b =>
                 {
                     b.Property<int>("Id")
@@ -568,25 +541,6 @@ namespace PetProject.Db.Context.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PetProject.Db.Entities.Favourite", b =>
-                {
-                    b.HasOne("PetProject.Db.Entities.Advertisement", "Advertisement")
-                        .WithMany("Favourites")
-                        .HasForeignKey("AdvertisementId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PetProject.Db.Entities.User.User", "User")
-                        .WithMany("Favourites")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Advertisement");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("PetProject.Db.Entities.PetType", b =>
                 {
                     b.HasOne("PetProject.Db.Entities.Breed", "Breed")
@@ -621,8 +575,6 @@ namespace PetProject.Db.Context.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("Favourites");
-
                     b.Navigation("Subscriptions");
                 });
 
@@ -646,8 +598,6 @@ namespace PetProject.Db.Context.Migrations
                     b.Navigation("Advertisements");
 
                     b.Navigation("Comments");
-
-                    b.Navigation("Favourites");
 
                     b.Navigation("Subscriptions");
                 });

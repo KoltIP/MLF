@@ -15,6 +15,7 @@ namespace PetProject.Db.Entities.User
         public ICollection<Advertisement> Advertisements { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Subscription> Subscriptions { get; set; }
+        public virtual ICollection<Favourite> Favourites { get; set; }
         
     }
 }

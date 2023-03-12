@@ -33,7 +33,9 @@ namespace PetProject.TypeServices
         public async Task<IEnumerable<TypeModel>> GetTypes(int offset = 0, int limit = 10)
         {
             var context = contextFactory.CreateDbContext();
-            var types = context.PetTypies.AsQueryable();
+            var types = context.PetTypies
+                .Include(x=>x.Breed)
+                .AsQueryable();
 
             types = types
                         .Skip(Math.Max(offset, 0))
@@ -48,7 +50,7 @@ namespace PetProject.TypeServices
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
-            var type = context.PetTypies.FirstOrDefault(x => x.Id.Equals(id));
+            var type = context.PetTypies.Include(x => x.Breed).FirstOrDefault(x => x.Id.Equals(id));
 
             var data = mapper.Map<TypeModel>(type);
             return data;
