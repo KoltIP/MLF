@@ -17,17 +17,17 @@ namespace PetProject.Web.Pages.Auth.Models.Registration
         {
 
             RuleFor(x => x.Email)
-                .MaximumLength(100).WithMessage("Email is long.")
-                .EmailAddress().WithMessage("Email is required.");
+                .MaximumLength(100).WithMessage("Адрес электронной почты слишком длинный.")
+                .EmailAddress().WithMessage("Адрес электронной обязателен.");
 
             RuleFor(x => x.Nickname)
-               .NotEmpty().WithMessage("User name is required.")
-               .MaximumLength(100).WithMessage("User name is long.");
+               .NotEmpty().WithMessage("Имя пользователя обязательно.")
+               .MaximumLength(100).WithMessage("Имя пользователя слишком длинное.");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Password is required.")
-                .MaximumLength(100).WithMessage("Password is long.")
-                .MinimumLength(3).WithMessage("Password is short (minimum 3 simbols).");
+                .NotEmpty().WithMessage("Пароль обязателен.")
+                .MaximumLength(100).WithMessage("Пароль слишком длинный.")
+                .MinimumLength(3).WithMessage("Пароль слишком короткий (минимум 3 символа).");
         }
         public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
         {

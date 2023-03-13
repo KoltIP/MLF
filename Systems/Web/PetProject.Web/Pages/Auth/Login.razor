@@ -62,7 +62,7 @@
     private LoginModel model = new LoginModel()
     {
         Email = "IKoltak02@yandex.ru",
-        Password = "123456"
+        Password = "123456789"
     };
 
     bool PasswordVisibility;
@@ -103,8 +103,9 @@
         }
         else
         {
-            Error = result.Error;
-            ErrorDetail = result.ErrorDescription;
+            Error = "Ошибка авторизации";
+            if (result.ErrorDescription == "invalid_username_or_password")
+                ErrorDetail = "Неверный адрес электронной почты или пароль";
             ShowErrors = true;
         }
     }
