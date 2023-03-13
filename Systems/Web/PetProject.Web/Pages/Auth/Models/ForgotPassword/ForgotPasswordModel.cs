@@ -14,14 +14,14 @@ namespace PetProject.Web.Pages.Auth.Models.ForgotPassword
         public ForgotPasswordModelValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email is empty.")
-                .MaximumLength(100).WithMessage("Email is long.")
-                .EmailAddress().WithMessage("Email is required.");
+                .NotEmpty().WithMessage("Адрес электронной почты не может быть пуст")
+                .MaximumLength(100).WithMessage("Адрес электронной почты слишком длинный.")
+                .EmailAddress().WithMessage("Адрес электронной почты обязателен.");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Email is empty.")
-                .MaximumLength(100).WithMessage("Email is long.")
-                .MinimumLength(3).WithMessage("Email is short");
+                .NotEmpty().WithMessage("Пароль не может быть пуст.")
+                .MaximumLength(100).WithMessage("Пароль слишком длинный.")
+                .MinimumLength(3).WithMessage("Пароль слишком короткий.");
         }
         public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
         {
