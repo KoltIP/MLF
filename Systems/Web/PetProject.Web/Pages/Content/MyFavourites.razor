@@ -31,12 +31,12 @@
     </ToolBarContent>
     <HeaderContent>
         
-        <MudTh>Имя</MudTh>
-        <MudTh>Описание</MudTh>
-        <MudTh>Тип</MudTh>
-        <MudTh>Порода</MudTh>
-        <MudTh>Цвет</MudTh>
-        <MudTh>Вознаграждение</MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetName)">Имя</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetDescription)">Описание</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetType)">Тип</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetBreed)">Порода</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetColor)">Цвет</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.Price)">Вознаграждение</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>   
         <MudTd DataLabel="Имя">@context.PetName</MudTd>        

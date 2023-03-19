@@ -20,7 +20,7 @@
 
 <MudText Typo="Typo.h4" Class="ma-8">Все объявления</MudText>
 
-<MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementListItems,bool>(FilterFuncSimple)">
+<MudTable  Items="@AdvertisementListItems"  Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementListItems,bool>(FilterFuncSimple)">
     <ColGroup>
         <col style="width:50px;" />
         <col />
@@ -97,6 +97,7 @@
 
 
 @code {
+
     private bool dense = false;
     private bool hover = true;
     private bool striped = true;

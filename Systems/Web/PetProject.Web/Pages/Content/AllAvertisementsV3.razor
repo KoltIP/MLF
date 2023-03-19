@@ -1,0 +1,95 @@
+﻿@page "/AllAdvertisements_V3"
+@layout MainLayout
+
+@attribute [Authorize]
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IAdvertisementService advertisementService
+@inject NavigationManager navigationManager
+@inject ICommentService commentService
+
+@using PetProject.Web.Pages.Advertisement.Models
+@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using PetProject.Web.Pages.Advertisement.Services
+@using PetProject.Web.Components
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Content.Models.Comment
+@using PetProject.Web.Pages.Content.Services.Comment
+
+
+<MudText Typo="Typo.h4" Class="ma-8">Все объявления_V3</MudText>
+
+
+<MudGrid>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddAdvertisement())" Style="margin-left:35px;">Добавить объявление</MudButton>
+    <MudItem xs="12">
+        <MudGrid Justify="justification">
+            @if (papers > 0)
+            {
+                for (int i = 0; i < papers; i++)
+                {
+                    int localindex = i;
+                    <MudItem xs="3">
+                        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                            <MudText Typo="Typo.h6" Align="Align.Center">@advertisementListItems[localindex].PetName.ToString()</MudText>
+                        </MudPaper>
+                    </MudItem>
+                }
+            }
+            else
+            {
+                <MudItem xs="3">
+                    <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                        <MudText Typo="Typo.h6" Align="Align.Center">Выполняется загрузка</MudText>
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudItem>
+</MudGrid>
+@code {
+    private List<AdvertisementListItems> advertisementListItems = new List<AdvertisementListItems>();
+    
+    private async Task ReloadData()
+    {
+        IEnumerable<AdvertisementListItems> resultList = await advertisementService.GetAdvertisements();
+        advertisementListItems = resultList.ToList();
+        papers = advertisementListItems.Count();
+    }      
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+    
+    int papers { get; set; }
+
+    Justify justification = Justify.Center;
+
+    private async Task AddAdvertisement()
+    {
+        var parameters = new DialogParameters { };
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<AdvertisementDialog>("Добавить объявление", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
+            await OnInitializedAsync();
+            if (addResult.ErrorCode != 0)
+                Snackbar.Add(addResult.Message, Severity.Error);
+        }
+    }
+
+}
+    

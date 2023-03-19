@@ -1,0 +1,112 @@
+﻿@page "/AllAdvertisements_V2"
+@layout MainLayout
+
+@attribute [Authorize]
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IAdvertisementService advertisementService
+@inject NavigationManager navigationManager
+@inject ICommentService commentService
+
+@using PetProject.Web.Pages.Advertisement.Models
+@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using PetProject.Web.Pages.Advertisement.Services
+@using PetProject.Web.Components
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Content.Models.Comment
+@using PetProject.Web.Pages.Content.Services.Comment
+
+
+<MudText Typo="Typo.h4" Class="ma-8">Все объявления_V2</MudText>
+
+<MudDataGrid T="AdvertisementListItems" Items="@AdvertisementListItems"  Filterable="true" QuickFilter="@_quickFilter"
+             Hideable="true" Style="margin:10px;">
+    <ToolBarContent>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddAdvertisement())">Добавить объявление</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <Columns>     
+        <Column T="AdvertisementListItems" Field="PetName" />
+        <Column T="AdvertisementListItems" Field="PetDescription" />
+        <Column T="AdvertisementListItems" Field="PetType" />
+        <Column T="AdvertisementListItems" Field="PetBreed" />
+        <Column T="AdvertisementListItems" Field="PetColor" />
+        <Column T="AdvertisementListItems" Field="Price" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="@AdvertisementListItems" />
+    </PagerContent>
+</MudDataGrid>
+
+@code {
+    private IEnumerable<AdvertisementListItems> AdvertisementListItems = new List<AdvertisementListItems>();
+    private string _searchString;
+    private bool _sortNameByLength;
+    private List<string> _events = new();
+
+
+    private Func<AdvertisementListItems, object> _sortBy => x =>
+    {
+        if (_sortNameByLength)
+            return x.PetName.Length;
+        else
+            return x.PetName;
+    };
+    
+
+    private Func<AdvertisementListItems, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+
+        if (x.PetDescription.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (x.PetName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if ($"{x.PetType} {x.PetBreed} {x.PetColor}".Contains(_searchString))
+            return true;
+
+        return false;
+    };
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        AdvertisementListItems = await advertisementService.GetAdvertisements(0, 10000);
+    }
+
+
+    private async Task AddAdvertisement()
+    {
+        var parameters = new DialogParameters { };
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<AdvertisementDialog>("Добавить объявление", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
+            await OnInitializedAsync();
+            if (addResult.ErrorCode != 0)
+                Snackbar.Add(addResult.Message, Severity.Error);
+        }
+    }
+
+
+    void RowClicked(DataGridRowClickEventArgs<AdvertisementListItems> args)
+    {
+        _events.Insert(0, $"Event = RowClick, Index = {args.RowIndex}, Data = {System.Text.Json.JsonSerializer.Serialize(args.Item)}");
+    }
+
+
+    void SelectedItemsChanged(HashSet<AdvertisementListItems> items)
+    {
+        _events.Insert(0, $"Event = SelectedItemsChanged, Data = {System.Text.Json.JsonSerializer.Serialize(items)}");
+    }
+}
