@@ -14,88 +14,46 @@
 <MudContainer Class="mt-16" MaxWidth="MaxWidth.Medium">
     <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Профиль</MudText>
     <MudGrid Spacing="6" Class="mt-16">
-        <MudItem xs="7">
-            <MudText Typo="Typo.h5" GutterBottom="true" Align="Align.Center">Ваши данные</MudText>
+        <MudItem xs="12">
             <MudGrid>
                 <MudItem xs="12">
-                    <MudTextField T="string"  Label="Адрес электронной почты"  Text="@email"/>
-                    <MudTooltip Text="Изменить адрес электронной почты">
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
-                        Variant="Variant.Outlined" 
-                        Color="Color.Primary" 
-                        Size="Size.Medium" 
-                        OnClick="@((e) => ChangeEmail())"
-                        /> 
-                    </MudTooltip>
+                    <MudTextField T="string" Variant="Variant.Outlined" Label="Адрес электронной почты" Text="@email" Adornment="Adornment.End" AdornmentColor="Color.Primary" AdornmentIcon="@Icons.Material.Filled.Edit" OnAdornmentClick="@((e) => ChangeEmail())" ReadOnly />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Имя"  Text="@name"/>
-                    <MudTooltip Text="Изменить имя">
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
-                        Variant="Variant.Outlined" 
-                        Color="Color.Primary" 
-                        Size="Size.Medium" 
-                        OnClick="@((e) => ChangeName())"
-                        />
-                    </MudTooltip>
+                    <MudTextField T="string" Variant="Variant.Outlined" Label="Имя" Text="@name" Adornment="Adornment.End" AdornmentColor="Color.Primary" AdornmentIcon="@Icons.Material.Filled.Edit" OnAdornmentClick="@((e) => ChangeName())" ReadOnly />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Фамилия"  Text="@surname"/>
-                     <MudTooltip Text="Изменить фамилию">
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
-                        Variant="Variant.Outlined" 
-                        Color="Color.Primary" 
-                        Size="Size.Medium" 
-                        OnClick="@((e) => ChangeSurname())"
-                        />
-                    </MudTooltip>
+                    <MudTextField T="string" Variant="Variant.Outlined" Label="Фамилия" Text="@surname" Adornment="Adornment.End" AdornmentColor="Color.Primary" AdornmentIcon="@Icons.Material.Filled.Edit" OnAdornmentClick="@((e) => ChangeSurname())" ReadOnly />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Отчество"  Text="@patronymic"/>
-                     <MudTooltip Text="Изменить отчество">
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
-                        Variant="Variant.Outlined" 
-                        Color="Color.Primary" 
-                        Size="Size.Medium" 
-                        OnClick="@((e) => ChangePatronymic())"
-                        />
-                    </MudTooltip>
+                    <MudTextField T="string" Variant="Variant.Outlined" Label="Отчество" Text="@patronymic" Adornment="Adornment.End" AdornmentColor="Color.Primary" AdornmentIcon="@Icons.Material.Filled.Edit" OnAdornmentClick="@((e) => ChangePatronymic())" ReadOnly />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Label="Имя пользователя"  Text="@nickname"/>
-                     <MudTooltip Text="Изменить имя пользователя">
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" 
-                        Variant="Variant.Outlined" 
-                        Color="Color.Primary" 
-                        Size="Size.Medium" 
-                        OnClick="@((e) => ChangeNickname())"
-                        />
-                    </MudTooltip>
+                    <MudTextField T="string" Variant="Variant.Outlined" Label="Имя пользователя" Text="@nickname" Adornment="Adornment.End" AdornmentColor="Color.Primary" AdornmentIcon="@Icons.Material.Filled.Edit" OnAdornmentClick="@((e) => ChangeNickname())" ReadOnly/>
                 </MudItem>
-                 <MudButton Variant="Variant.Text"
-                           Color="Color.Primary"
-                           Size="Size.Large"
-                           ButtonType="MudBlazor.ButtonType.Button"
-                            OnClick="@((e) => ChangePassword())">
-                           Изменить пароль
-                </MudButton>
-               @* <MudItem xs="12">
-                    <MudTextField T="string" Label="Mobile number" />@mobileNumber
-                </MudItem>   
-                <MudItem xs="12">
-                    <MudTextField T="string" Label="Age" />@age
-                </MudItem>  *@ 
-                @*<MudItem xs="12" Class="d-flex justify-center">
-                    <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Tertiary" Size="Size.Large" Class="mt-8">Change</MudButton>
-                </MudItem>*@
-                <MudIconButton Icon="@Icons.Material.Filled.DeleteForever" 
-                        Variant="Variant.Filled" 
-                        DisableElevation="true"
-                        Color="Color.Tertiary" 
-                        Size="Size.Large" 
-                        Class="mt-8"
-                        OnClick="@((e) => DeleteProfile())"/> 
-
+                <MudItem xs="9">
+                    <MudButton 
+                                EndIcon="@Icons.Material.Filled.Edit"
+                                IconColor="Color.Primary"
+                                Variant="Variant.Outlined"
+                                Color="Color.Primary"
+                                Size="Size.Large"
+                                ButtonType="MudBlazor.ButtonType.Button"
+                                OnClick="@((e) => ChangePassword())">
+                                Изменить пароль
+                    </MudButton>
+                </MudItem>
+                <MudItem xs="3">
+                    <MudButton EndIcon="@Icons.Material.Filled.Delete"
+                                IconColor="Color.Primary"
+                                Variant="Variant.Outlined"
+                                Color="Color.Primary"
+                                Size="Size.Large"
+                                ButtonType="MudBlazor.ButtonType.Button"
+                                OnClick="@((e) => DeleteProfile())">
+                        Удалить профиль
+                    </MudButton>
+                </MudItem>
             </MudGrid>
         </MudItem>
     </MudGrid>
