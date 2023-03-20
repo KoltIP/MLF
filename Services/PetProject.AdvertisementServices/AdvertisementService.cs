@@ -48,6 +48,8 @@ namespace PetProject.AdvertisementServices
         }
 
 
+
+
         public async Task<AdvertisementModel> GetAdvertisement(int id)
         {
             using var context = await contextFactory.CreateDbContextAsync();

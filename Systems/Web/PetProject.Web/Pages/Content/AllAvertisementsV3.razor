@@ -23,7 +23,7 @@
 
 <MudGrid>
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddAdvertisement())" Style="margin-left:35px;">Добавить объявление</MudButton>
-    <MudItem xs="12">
+    <MudItem xs="12" Style="margin-left:25px;margin-right:25px;">
         <MudGrid Justify="justification">
             @if (papers > 0)
             {
@@ -32,8 +32,23 @@
                     int localindex = i;
                     <MudItem xs="3">
                         <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8">
-                            <MudText Typo="Typo.h6" Align="Align.Center">@advertisementListItems[localindex].PetName.ToString()</MudText>
-                        </MudPaper>
+                            
+                            @* <MudText Typo="Typo.h6" Align="Align.Center">@advertisementListItems[localindex].PetName.ToString()</MudText>*@
+                            <MudImage Width="200"
+                              Height="150"
+                              Src="http://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQkrjYxSfSHeCEA7hkPy8e2JphDsfFHZVKqx-3t37E4XKr-AT7DML8IwtwY0TnZsUcQ"
+                              Alt="Mony the dog"
+                              Elevation="25"
+                              Class="rounded-lg"                              
+                              />
+                            <Row Style="margin-top:15px;">
+                                <MudIconButton Icon="@Icons.Filled.RemoveRedEye" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" />
+                                <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small"  />
+                                <MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small"  />
+                                <MudIconButton Icon="@Icons.Filled.AddComment" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small"  />
+                                <MudIconButton Icon="@Icons.Filled.Subscriptions" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small"  />
+                            </Row>
+                        </MudPaper>                        
                     </MudItem>
                 }
             }
@@ -53,7 +68,7 @@
     
     private async Task ReloadData()
     {
-        IEnumerable<AdvertisementListItems> resultList = await advertisementService.GetAdvertisements();
+        IEnumerable<AdvertisementListItems> resultList = await advertisementService.GetAdvertisements(0,1000);
         advertisementListItems = resultList.ToList();
         papers = advertisementListItems.Count();
     }      
@@ -72,7 +87,7 @@
     
     int papers { get; set; }
 
-    Justify justification = Justify.Center;
+    Justify justification = Justify.FlexStart;
 
     private async Task AddAdvertisement()
     {

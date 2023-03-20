@@ -1,17 +1,23 @@
-﻿@using PetProject.Web.Pages.Advertisement.Models.Breed
+﻿@using Microsoft.AspNetCore.Http;
+@using PetProject.Web.Pages.Advertisement.Models.Breed
 @using PetProject.Web.Pages.Advertisement.Models.Color
 @using PetProject.Web.Pages.Advertisement.Models.Type
 @using PetProject.Web.Pages.Content.Models.Breed
 @using PetProject.Web.Pages.Content.Models.Color
+@using PetProject.Web.Pages.Content.Models.File;
 @using PetProject.Web.Pages.Content.Models.Type
 @using PetProject.Web.Pages.Advertisement.Services.Advertisement
 @using PetProject.Web.Pages.Advertisement.Models.Advertisement
 @using MudBlazor.Interfaces;
 @using MudBlazor.Components;
 @using MudBlazor.Internal;
+@using System;
+@using System.IO;
+@using System.Drawing;
+@using System.Drawing.Imaging;
 
 @inherits MudComponentBase
-
+@inject ISnackbar Snackbar
 
 @inject IAdvertisementService advertisementService
 
@@ -82,11 +88,11 @@
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                    <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFiles" MaximumFileCount="5" Accept=".jpg">
                         <ButtonTemplate>
                             <MudButton HtmlTag="label"
                                        Variant="Variant.Filled"
-                                       Color="Color.Primary"
+                                       Color="MudBlazor.Color.Primary"
                                        StartIcon="@Icons.Material.Filled.CloudUpload"
                                        for="@context">
                                 Upload Files
@@ -189,9 +195,49 @@
 
     void Cancel() => MudDialog.Cancel();
 
+
+
+    IList<string> imageDataUrls = new List<string>();
     IList<IBrowserFile> files = new List<IBrowserFile>();
-    void UploadFiles(IBrowserFile file)
-    {        
-        files.Add(file);
+    List<FileModel> list = new List<FileModel>();   
+
+
+    async void UploadFiles(IReadOnlyList<IBrowserFile> inputFiles)
+    {       
+        foreach (var file in inputFiles)
+        {
+            var buffer = new byte[file.Size];
+            await file.OpenReadStream().ReadAsync(buffer);
+
+
+            //try
+            //{
+            //    //MemoryStream ms = new MemoryStream(buffer);
+            //    //Image returnImage = Image.FromStream(ms);
+            //    //returnImage.Save(@"C:\");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Snackbar.Add(ex.Message,Severity.Error);
+            //}
+
+
+            var imageDataUrl = $"{Convert.ToBase64String(buffer)}";
+
+            imageDataUrls.Add(imageDataUrl);
+
+            list.Add(new FileModel
+                {
+                    Content = buffer,
+                    ImageDataUrl = imageDataUrl,
+                    ContentType = file.ContentType,
+                    Name = file.Name,
+                    Size = file.Size,
+                });
+            files.Add(file);
+            await advertisementService.SaveFiles(list.ToList());
+        }
     }
+
+    
 }

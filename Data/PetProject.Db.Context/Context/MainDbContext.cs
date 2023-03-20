@@ -16,6 +16,9 @@ namespace PetProject.Db.Context.Context
         public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
 
+        public DbSet<PetFile> PetFiles;
+
+
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
             //Database.EnsureDeleted();
@@ -64,6 +67,8 @@ namespace PetProject.Db.Context.Context
             modelBuilder.Entity<Comment>().Property(x => x.Content).IsRequired();
 
 
+            //PetFiles
+            modelBuilder.Entity<PetFile>().ToTable("files");
 
             ////Advertisement - User
             modelBuilder.Entity<Advertisement>().HasOne(x => x.User).WithMany(x => x.Advertisements).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);

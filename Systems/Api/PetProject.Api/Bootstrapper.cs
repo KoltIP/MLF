@@ -8,6 +8,7 @@ using PetProject.UserAccountService;
 using PetProject.EmailService;
 using PetProject.RabbitMqService;
 using PetProject.CommentServices;
+using PetProject.FileService;
 
 namespace PetProject.Api
 {
@@ -24,6 +25,7 @@ namespace PetProject.Api
             services.AddEmailSender();
             services.AddRabbitMq();
             services.AddCommentService();
+            services.AddFileService();
             return services;
         }
         
