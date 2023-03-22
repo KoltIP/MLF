@@ -12,7 +12,7 @@
     "PetProject.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/pet",
+      "launchUrl": "api",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

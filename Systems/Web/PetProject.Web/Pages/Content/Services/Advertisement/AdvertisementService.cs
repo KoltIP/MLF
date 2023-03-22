@@ -7,7 +7,7 @@ using PetProject.Web.Pages.Content.Models.Favourite;
 using PetProject.Web.Pages.Content.Models.File;
 using PetProject.Web.Pages.Content.Models.Subscribe;
 using PetProject.Web.Pages.Profile.Models;
-
+using System.Drawing;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Text;
@@ -370,7 +370,8 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         {
             string url = $"{Settings.ApiRoot}/v1/file";
 
-            var body = JsonSerializer.Serialize(files);
+            FileModel file = files.First();
+            var body = JsonSerializer.Serialize(file);
             var request = new StringContent(body, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(url, request);
 
@@ -384,5 +385,23 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
                     error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
         }
+
+        public async Task GetFile()
+        {
+            string url = $"{Settings.ApiRoot}/v1/file";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var data = JsonSerializer.Deserialize<IEnumerable<byte>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<byte>();
+            var bytes = data.ToArray();
+            
+        }
+
     }
 }

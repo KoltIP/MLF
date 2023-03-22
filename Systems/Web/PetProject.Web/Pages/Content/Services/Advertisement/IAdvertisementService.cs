@@ -4,6 +4,7 @@ using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
 using PetProject.Web.Pages.Content.Models.File;
 using PetProject.Web.Pages.Profile.Models;
+using System.Drawing;
 
 namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 {
@@ -26,5 +27,6 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         Task AddInFavourite(int advertisementId);
         Task<ErrorResponse> DropInFavourite(int id);
         Task SaveFiles(List<FileModel> files);
+        Task GetFile();
     }
 }

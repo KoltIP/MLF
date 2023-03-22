@@ -15,8 +15,7 @@ namespace PetProject.Db.Context.Context
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
-
-        public DbSet<PetFile> PetFiles;
+        public DbSet<PetFile> PetFiles { get; set; }
 
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)

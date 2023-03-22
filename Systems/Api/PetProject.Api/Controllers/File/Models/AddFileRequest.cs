@@ -1,6 +1,6 @@
 ﻿namespace PetProject.Api.Controllers.File.Models
 {
-    public class FileModel
+    public class AddFileRequest
     {
         public Guid Id { get; set; }
         public String Name { get; set; }
@@ -9,7 +9,7 @@
         public Byte[] Content { get; set; }
         public String ImageDataUrl { get; set; }
 
-        public FileModel()
+        public AddFileRequest()
         {
             Id = Guid.NewGuid();
         }

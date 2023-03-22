@@ -10,6 +10,9 @@ namespace PetProject.Db.Entities
     public class PetFile : BaseEntity
     {
         public string Name { get; set; }
-        public string Path { get; set; }
+        public long Size { get; set; }
+        public string ImageDataUrl { get; set; }
+        public string ContentType { get; set; }        
+        public string Content { get; set; }
     }
 }

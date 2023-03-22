@@ -40,12 +40,17 @@
                                     RequiredError="Пароль обязателен!"
                                     OnAdornmentClick="TogglePasswordVisibility" />
 
+                    <div Class="d-flex justify-space-between align-center">
+                        <MudLink Href="/registration">Вход</MudLink>
 
-                    <MudButton Variant="Variant.Filled"
-                               Color="Color.Primary"
-                               Size="Size.Large"
-                               ButtonType="MudBlazor.ButtonType.Button"
-                               OnClick="@((e) => Registr())">Зарегистрироваться</MudButton>
+
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   Style="margin-top:25px;"
+                                   Size="Size.Large"
+                                   ButtonType="MudBlazor.ButtonType.Button"
+                                   OnClick="@((e) => Registr())">Зарегистрироваться</MudButton>
+                    </div>
                 </MudForm>   
         </MudPaper>
     </MudItem>

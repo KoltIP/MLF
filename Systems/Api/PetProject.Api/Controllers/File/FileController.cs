@@ -6,6 +6,7 @@ using PetProject.Api.Controllers.Subscribe.Models;
 using PetProject.Api.Controllers.Subscribe;
 using PetProject.FileService;
 using PetProject.FileService.Models;
+using PetProject.Api.Controllers.File.Models;
 
 namespace PetProject.Api.Controllers.File
 {
@@ -28,11 +29,26 @@ namespace PetProject.Api.Controllers.File
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> AddFileAsync([FromBody] List<FileModel> request)
+        public async Task<IActionResult> AddFileAsync([FromBody] AddFileRequest request)
         {
-            var model = mapper.Map<List<FileModel>>(request);
+            FileModel model = new FileModel()
+            {
+                Name = request.Name,
+                Size = request.Size,
+                Content = request.Content,
+                ContentType = request.ContentType,
+                ImageDataUrl = request.ImageDataUrl,
+            };
             await fileService.Add(model);
             return Ok();
         }
+
+        [HttpGet("")]
+        public async Task<IEnumerable<byte>> GetFileAsync()
+        {
+            var fileContent = await fileService.Get();
+            return fileContent.ToList();
+        }
+
     }
 }
