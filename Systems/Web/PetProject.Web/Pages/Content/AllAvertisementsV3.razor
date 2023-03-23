@@ -21,41 +21,59 @@
 <MudText Typo="Typo.h4" Class="ma-8">Все объявления_V3</MudText>
 
 
-<MudGrid>
-        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddAdvertisement())" Style="margin-left:35px;">Добавить объявление</MudButton>
-    <MudItem xs="12">
-        <MudGrid Justify="justification">
-            @if (papers > 0)
-            {
-                for (int i = 0; i < papers; i++)
+@if (papers > 0)
+{
+    <MudGrid>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => AddAdvertisement())" Style="margin-left:35px;">Добавить объявление</MudButton>
+    
+        
+            <MudItem xs="12" Style="margin-left:25px;margin-right:25px;">
+                <MudGrid Justify="justification">   
+                @if (pathes != null)
                 {
-                    int localindex = i;
-                    <MudItem xs="3">
-                        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8">
-                            <MudText Typo="Typo.h6" Align="Align.Center">@advertisementListItems[localindex].PetName.ToString()</MudText>
-                        </MudPaper>
-                    </MudItem>
+                    @for (int i = 0; i < papers; i++)
+                    {
+                        int localindex = i;
+                        <MudItem xs="3">
+                            <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" onclick="@ReloadData()">
+                                <MudImage Width="200"
+                                Height="150"
+                                Src="@pathes[localindex]"
+                                Alt="Mony the dog"
+                                Elevation="25"
+                                Class="rounded-lg"                              
+                                />
+                                <Row Style="margin-top:15px;">
+                                    <MudIconButton Icon="@Icons.Filled.RemoveRedEye" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                                    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                                    <MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                                    <MudIconButton Icon="@Icons.Filled.AddComment" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                                    <MudIconButton Icon="@Icons.Filled.Subscriptions" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                                </Row>
+                            </MudPaper>                        
+                        </MudItem>
+                    }
                 }
-            }
-            else
-            {
-                <MudItem xs="3">
-                    <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8">
-                        <MudText Typo="Typo.h6" Align="Align.Center">Выполняется загрузка</MudText>
-                    </MudPaper>
-                </MudItem>
-            }
-        </MudGrid>
+                </MudGrid>
+            </MudItem>    
+    </MudGrid>
+}
+else
+{
+    <MudItem xxl="12">
+        <MudProgressCircular Color="MudBlazor.Color.Success" Indeterminate="true" Style="height:70px;width:70px; position:absolute;top: 350%;left: 50%;" />
     </MudItem>
-</MudGrid>
+}
 @code {
     private List<AdvertisementListItems> advertisementListItems = new List<AdvertisementListItems>();
-    
     private async Task ReloadData()
     {
-        IEnumerable<AdvertisementListItems> resultList = await advertisementService.GetAdvertisements();
+        IEnumerable<AdvertisementListItems> resultList = await advertisementService.GetAdvertisements(0,1000);
         advertisementListItems = resultList.ToList();
-        papers = advertisementListItems.Count();
+        //papers = advertisementListItems.Count();
+        papers = 3;
+        pathes = new string[3] 
+        { "pictures/first.jpeg", "pictures/second.jpg", "pictures/third.jpg" };
     }      
 
     protected override async Task OnInitializedAsync()
@@ -69,10 +87,11 @@
             Snackbar.Add(ex.Message, Severity.Error);
         }
     }
-    
-    int papers { get; set; }
 
-    Justify justification = Justify.Center;
+    int papers { get; set; }
+    string[] pathes { get; set; }
+
+    Justify justification = Justify.FlexStart;
 
     private async Task AddAdvertisement()
     {

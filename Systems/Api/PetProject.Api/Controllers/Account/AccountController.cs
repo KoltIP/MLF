@@ -60,7 +60,8 @@ namespace PetProject.Api.Controllers.Account
         [HttpGet("inspect/{email}")]
         public async Task<bool> InspectEmail([FromRoute] string nickname)
         {
-            return await userAccountService.InspectEmail(nickname);
+            //return await userAccountService.InspectEmail(nickname);
+            return true;
         }
 
 

@@ -4,10 +4,12 @@ using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
 using PetProject.Web.Pages.Content.Models.Favourite;
+using PetProject.Web.Pages.Content.Models.File;
 using PetProject.Web.Pages.Content.Models.Subscribe;
 using PetProject.Web.Pages.Profile.Models;
-
+using System.Drawing;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 
@@ -363,5 +365,43 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             }
             return error;
         }
+
+        public async Task SaveFiles(List<FileModel> files)
+        {
+            string url = $"{Settings.ApiRoot}/v1/file";
+
+            FileModel file = files.First();
+            var body = JsonSerializer.Serialize(file);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, request);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var error = new ErrorResponse();
+            if (!response.IsSuccessStatusCode)
+            {
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
+            }
+        }
+
+        public async Task GetFile()
+        {
+            string url = $"{Settings.ApiRoot}/v1/file";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var data = JsonSerializer.Deserialize<IEnumerable<byte>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<byte>();
+            var bytes = data.ToArray();
+            
+        }
+
     }
 }

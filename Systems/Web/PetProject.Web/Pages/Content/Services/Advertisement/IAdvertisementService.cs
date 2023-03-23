@@ -2,13 +2,15 @@
 using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
+using PetProject.Web.Pages.Content.Models.File;
 using PetProject.Web.Pages.Profile.Models;
+using System.Drawing;
 
 namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 {
     public interface IAdvertisementService
     {
-        Task<ErrorResponse> AddAdvertisement(AdvertisementModel model);
+        Task<ErrorResponse> AddAdvertisement(AdvertisementModel model);        
         Task<AdvertisementListItems> GetAdvertisement(int advertisementId);
         Task<IEnumerable<AdvertisementListItems>> GetAdvertisements(int offset = 0, int limit = 10);
         Task<IEnumerable<AdvertisementListItems>> GetUserAdvertisements(int offset = 0, int limit = 10);
@@ -24,5 +26,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         Task<IEnumerable<AdvertisementListItems>> GetAllFavourite();
         Task AddInFavourite(int advertisementId);
         Task<ErrorResponse> DropInFavourite(int id);
+        Task SaveFiles(List<FileModel> files);
+        Task GetFile();
     }
 }
