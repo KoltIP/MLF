@@ -3,6 +3,7 @@
 @using PetProject.Web.Pages.Advertisement.Models.Color
 @using PetProject.Web.Pages.Advertisement.Models.Type
 @using PetProject.Web.Pages.Content.Models.Breed
+@using PetProject.Web.Pages.Content.Models.City;
 @using PetProject.Web.Pages.Content.Models.Color
 @using PetProject.Web.Pages.Content.Models.File;
 @using PetProject.Web.Pages.Content.Models.Type
@@ -15,11 +16,15 @@
 @using System.IO;
 @using System.Drawing;
 @using System.Drawing.Imaging;
+@using PetProject.Web.Pages.Content.Services.File;
+@using PetProject.Web.Pages.Content.Services.Location;
 
 @inherits MudComponentBase
 @inject ISnackbar Snackbar
 
 @inject IAdvertisementService advertisementService
+@inject ILocationService locationService
+@inject IFileService fileService
 
 <MudDialog>
     <DialogContent>
@@ -30,7 +35,7 @@
                 <MudItem xs="12">
                     <MudTextField Label="Имя" @bind-Value="model.PetName"
                                   For="@(() => model.PetName)"
-                                  Required="true"
+                                  Required="false"
                                   RequiredError="Имя обязательно!"
                                   >
                     </MudTextField>
@@ -41,7 +46,7 @@
                     <MudTextField Label="Описание"
                                   For="@(() => model.PetDescription)"
                                   @bind-Value="model.PetDescription"
-                                  Required="true"
+                                  Required="false"
                                   RequiredError="Описание обязательно!"></MudTextField>
                 </MudItem>
 
@@ -50,7 +55,7 @@
                     <MudTextField Label="Вознаграждение"
                                   For="@(() => model.Price)"
                                   @bind-Value="model.Price"
-                                  Required="true"
+                                  Required="false"
                                   RequiredError="Вознаграждение обязательно!"></MudTextField>
                 </MudItem>
 
@@ -83,6 +88,24 @@
                         @foreach (var breed in _breeds)
                         {
                             <MudSelectItem T="int" Value="@breed.Id">@breed.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="model.Age" Label="Возраст" Variant="Variant.Text" Min="0" Max="100" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudDatePicker Label="Дата" @bind-Date="model.DateLost" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectCity" T="int" Label="Город" @bind-Value="model.CityId" For="@(() => model.CityId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var city in _cities)
+                        {
+                            <MudSelectItem T="int" Value="@city.Id">@city.Name</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
@@ -131,12 +154,18 @@
     MudSelect<int> selectBreed = default!;
     MudSelect<int> selectType = default!;
     MudSelect<int> selectColor = default!;
+    MudSelect<int> selectCity = default!;
 
     AdvertisementModelValidator modelValidator = new AdvertisementModelValidator();
 
     private List<TypeModel> _typies { get; set; } = new List<TypeModel>();
     private List<BreedModel> _breeds { get; set; } = new List<BreedModel>();
     private List<ColorModel> _colors { get; set; } = new List<ColorModel>();
+    private List<CityModel> _cities { get; set; } = new List<CityModel>();
+
+    private int selectedTypeId = 0;
+    private int selectedBreedId = 0;
+    private int selectedColorid = 0;
 
     bool isNew = false;
 
@@ -157,6 +186,9 @@
         var colors = await advertisementService.GetColorList();
         _colors.AddRange(colors);
 
+        var cities = await locationService.GetCitiesAsync();
+        _cities.AddRange(cities);
+
         isNew = AdvertisementId == null;
         if (!isNew)
         {
@@ -174,6 +206,7 @@
         await selectType.SelectOption(model.PetTypeId);
         await selectBreed.SelectOption(model.PetBreedId);
         await selectColor.SelectOption(model.PetColorId);
+        await selectCity.SelectOption(model.CityId);
         form.ResetValidation();
     }
 
@@ -235,7 +268,7 @@
                     Size = file.Size,
                 });
             files.Add(file);
-            await advertisementService.SaveFiles(list.ToList());
+            await fileService.SaveFiles(list.ToList());
         }
     }
 

@@ -16,12 +16,11 @@ namespace PetProject.Db.Context.Context
         public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<PetFile> PetFiles { get; set; }
-
+        public DbSet<City> Cities { get; set; }
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,7 +43,6 @@ namespace PetProject.Db.Context.Context
 
             //Advertisment
             modelBuilder.Entity<Advertisement>().ToTable("advertisment");
-            modelBuilder.Entity<Advertisement>().Property(x => x.Price).IsRequired();
 
             //PetType
             modelBuilder.Entity<PetType>().ToTable("typies");
@@ -69,6 +67,9 @@ namespace PetProject.Db.Context.Context
             //PetFiles
             modelBuilder.Entity<PetFile>().ToTable("files");
 
+            //Cities
+            modelBuilder.Entity<City>().ToTable("city");
+
             ////Advertisement - User
             modelBuilder.Entity<Advertisement>().HasOne(x => x.User).WithMany(x => x.Advertisements).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
             //Pet - Color
@@ -77,6 +78,8 @@ namespace PetProject.Db.Context.Context
             modelBuilder.Entity<Advertisement>().HasOne(x => x.Type).WithMany(x => x.Advertisements).HasForeignKey(x => x.PetTypeId).OnDelete(DeleteBehavior.Restrict);
             //PetType - Breed
             modelBuilder.Entity<PetType>().HasOne(x => x.Breed).WithMany(x => x.PetTypes).HasForeignKey(x => x.BreedId).OnDelete(DeleteBehavior.Restrict);
+            //PetType - City
+            modelBuilder.Entity<Advertisement>().HasOne(x => x.City).WithMany(x => x.Advertisements).HasForeignKey(x => x.CityId).OnDelete(DeleteBehavior.Restrict);
             //Comment
             modelBuilder.Entity<Comment>().HasOne(x => x.User).WithMany(x => x.Comments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Comment>().HasOne(x => x.Advertisement).WithMany(x => x.Comments).HasForeignKey(x => x.AdvertisementId).OnDelete(DeleteBehavior.Restrict);

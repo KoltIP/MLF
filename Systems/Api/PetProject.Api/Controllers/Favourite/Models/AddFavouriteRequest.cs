@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using PetProject.AdvertisementServices.Models;
+using PetProject.FavoutiteService.Models;
 
 namespace PetProject.Api.Controllers.Favourite.Models
 {

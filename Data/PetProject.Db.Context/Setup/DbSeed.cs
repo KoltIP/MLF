@@ -146,6 +146,36 @@ namespace PetProject.Db.Context.Setup
             context.PetTypies.Add(petType5);
                         
             context.SaveChanges();
+
+            var city1 = new Entities.City()
+            {
+                Id = 1,
+                Name = "Воронеж"
+            };
+            context.Cities.Add(city1);
+
+            var city2 = new Entities.City()
+            {
+                Id = 2,
+                Name = "Москва"
+            };
+            context.Cities.Add(city2);
+
+            var city3 = new Entities.City()
+            {
+                Id = 3,
+                Name = "Санкт-Петербург"
+            };
+            context.Cities.Add(city3);
+
+            var city4 = new Entities.City()
+            {
+                Id = 4,
+                Name = "Новосибирск"
+            };
+            context.Cities.Add(city4);
+
+            context.SaveChanges();
         }
 
         public static void Execute(IServiceProvider serviceProvider)

@@ -2,6 +2,7 @@
 using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
+using PetProject.Web.Pages.Content.Models.City;
 using PetProject.Web.Pages.Content.Models.File;
 using PetProject.Web.Pages.Profile.Models;
 using System.Drawing;
@@ -20,13 +21,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         Task<IEnumerable<BreedModel>> GetBreedsWithTypeId(int typeId, int offset = 0, int limit = 10);
         Task<IEnumerable<ColorModel>> GetColorList();
         Task<IEnumerable<TypeModel>> GetTypeList();
-        Task<IEnumerable<AdvertisementListItems>> GetAllSubscribe();
-        Task AddSubscribe(int advertisementId);
-        Task<ErrorResponse> DropSubscribe(int id);
-        Task<IEnumerable<AdvertisementListItems>> GetAllFavourite();
-        Task AddInFavourite(int advertisementId);
-        Task<ErrorResponse> DropInFavourite(int id);
-        Task SaveFiles(List<FileModel> files);
-        Task GetFile();
+        
+             
     }
 }

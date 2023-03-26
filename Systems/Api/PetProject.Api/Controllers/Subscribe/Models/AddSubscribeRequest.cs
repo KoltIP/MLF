@@ -2,6 +2,7 @@
 using FluentValidation;
 using PetProject.AdvertisementServices.Models;
 using PetProject.CommentServices.Models;
+using PetProject.SubscribeService.Models;
 
 namespace PetProject.Api.Controllers.Subscribe.Models
 {

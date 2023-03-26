@@ -42,6 +42,13 @@
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
+                    <MudTextField Label="Цвет"
+                                  For="@(() => model.PetColor)"
+                                  @bind-Value="model.PetColor">
+                    </MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
                     <MudTextField Label="Тип"
                                   For="@(() => model.PetType)"
                                   @bind-Value="model.PetType">
@@ -58,12 +65,25 @@
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Цвет"
-                                  For="@(() => model.PetColor)"
-                                  @bind-Value="model.PetColor">
+                    <MudTextField Label="Возраст"
+                                  For="@(() => model.Age)"
+                                  @bind-Value="model.Age">
                     </MudTextField>
                 </MudItem>
 
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Дата"
+                                  For="@(() => model.DateLost)"
+                                  @bind-Value="model.DateLost">
+                    </MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Город"
+                                  For="@(() => model.City)"
+                                  @bind-Value="model.City">
+                    </MudTextField>
+                </MudItem>
 
 
             </MudGrid>
@@ -102,7 +122,11 @@
         model.PetBreed = advertisement.PetBreed;
         model.PetBreedId = advertisement.PetBreedId;
         model.PetColorId = advertisement.PetColorId;     
-        model.PetColor = advertisement.PetColor;     
+        model.PetColor = advertisement.PetColor;
+        model.Age = advertisement.Age;
+        model.CityId = advertisement.CityId;
+        model.City = advertisement.City;
+        model.DateLost = advertisement.DateLost;
     }    
 
     void Cancel() => MudDialog.Cancel();

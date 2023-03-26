@@ -12,34 +12,34 @@ namespace PetProject.AdvertisementServices.Models
     public class AddAdvertisementModel
     {
         public Guid UserId { get; set; }
-        public string PetName { get; set; } = string.Empty;
-        public string PetDescription { get; set; } = string.Empty;
-        public float Price { get; set; }
+        public string? PetName { get; set; } = string.Empty;
+        public string? PetDescription { get; set; } = string.Empty;
+        public float? Price { get; set; }
         public int PetColorId { get; set; }
         public int PetTypeId { get; set; }
-        //public DateTime Age { get; set; }
-        //public DateTime CreatedDate { get; set; }
-        //public Importance Importance { get; set; }
+        public int CityId { get; set; }
+        public int? Age { get; set; }
+        public DateTime? DateLost { get; set; }
     }
 
     public class AddAdvertisementResponseValidator : AbstractValidator<AddAdvertisementModel>
     {
         public AddAdvertisementResponseValidator()
         {
-            RuleFor(x => x.UserId)
-                 .NotEmpty().WithMessage("userID is required");
-            RuleFor(x => x.PetName)
-                .NotEmpty().WithMessage("PetName is required");
-            RuleFor(x => x.PetDescription)
-                .NotEmpty().WithMessage("PetDescription is required");
-            RuleFor(x => x.Price)
-                .NotEmpty().WithMessage("Price is required");
-            RuleFor(x => x.PetColorId)
-                .NotEmpty().WithMessage("PetColorId is required");
-            //RuleFor(x => x.PetBreedId)
-            //    .NotEmpty().WithMessage("PetBreedId is required");
-            RuleFor(x => x.PetTypeId)
-                .NotEmpty().WithMessage("PetTypeId  is required");
+            //RuleFor(x => x.UserId)
+            //     .NotEmpty().WithMessage("userID is required");
+            //RuleFor(x => x.PetName)
+            //    .NotEmpty().WithMessage("PetName is required");
+            //RuleFor(x => x.PetDescription)
+            //    .NotEmpty().WithMessage("PetDescription is required");
+            //RuleFor(x => x.Price)
+            //    .NotEmpty().WithMessage("Price is required");
+            //RuleFor(x => x.PetColorId)
+            //    .NotEmpty().WithMessage("PetColorId is required");
+            ////RuleFor(x => x.PetBreedId)
+            ////    .NotEmpty().WithMessage("PetBreedId is required");
+            //RuleFor(x => x.PetTypeId)
+            //    .NotEmpty().WithMessage("PetTypeId  is required");
         }
     }
 

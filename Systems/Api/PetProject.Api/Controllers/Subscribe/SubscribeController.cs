@@ -5,6 +5,8 @@ using PetProject.AdvertisementServices.Models;
 using PetProject.Api.Controllers.Advertisement.Models;
 using PetProject.Api.Controllers.Favourite.Models;
 using PetProject.Api.Controllers.Subscribe.Models;
+using PetProject.SubscribeService;
+using PetProject.SubscribeService.Models;
 
 namespace PetProject.Api.Controllers.Subscribe
 {
@@ -15,15 +17,15 @@ namespace PetProject.Api.Controllers.Subscribe
     {
         private readonly IMapper mapper;
         private readonly ILogger<SubscribeController> logger;
-        private readonly IAdvertisementService advertisementService;
+        private readonly ISubscribeService subscribeService;
 
         public SubscribeController(IMapper mapper,
             ILogger<SubscribeController> logger,
-            IAdvertisementService advertisementService)
+            ISubscribeService subscriveService)
         {
             this.mapper = mapper;
             this.logger = logger;
-            this.advertisementService = advertisementService;
+            this.subscribeService = subscriveService;
         }
 
         [HttpGet("{UserId}")]
@@ -31,7 +33,7 @@ namespace PetProject.Api.Controllers.Subscribe
         {
             int limit = 10;
             int offset = 0;
-            var advertisements = await advertisementService.GetAllSubscribe(UserId);
+            var advertisements = await subscribeService.GetAllSubscribe(UserId);
             var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
             return response;
         }
@@ -40,7 +42,7 @@ namespace PetProject.Api.Controllers.Subscribe
         public async Task<IActionResult> AddSubscribeAsync([FromBody] AddSubscribeRequest request)
         {
             var model = mapper.Map<AddSubscribeModel>(request);
-            await advertisementService.AddSubscribe(model);
+            await subscribeService.AddSubscribe(model);
             return Ok();
         }
 
@@ -48,7 +50,7 @@ namespace PetProject.Api.Controllers.Subscribe
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubscribe([FromRoute] int id)
         {
-            await advertisementService.DeleteSubscribe(id);
+            await subscribeService.DeleteSubscribe(id);
             return Ok();
         }
 

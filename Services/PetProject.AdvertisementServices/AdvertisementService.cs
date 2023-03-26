@@ -58,6 +58,7 @@ namespace PetProject.AdvertisementServices
                 .Include(x => x.Color)
                 .Include(x => x.Type.Breed)
                 .Include(x => x.Type)
+                .Include(x=>x.City)
                 .FirstOrDefault(x => x.Id.Equals(id));
 
             var data = mapper.Map<AdvertisementModel>(advertisement);
@@ -70,6 +71,8 @@ namespace PetProject.AdvertisementServices
             using var context = await contextFactory.CreateDbContextAsync();
 
             var advertisement = mapper.Map<Advertisement>(model);
+
+            advertisement.DateCreated = DateTime.Now;
 
             await context.Advertisements.AddAsync(advertisement);          
 
@@ -101,100 +104,6 @@ namespace PetProject.AdvertisementServices
 
             context.Advertisements.Remove(advertisement);
 
-            context.SaveChanges();
-        }
-
-
-        public async Task<IEnumerable<AdvertisementModel>> GetAllSubscribe(Guid UserId)
-        {
-            var context = contextFactory.CreateDbContext();
-            var advertisements = context.Advertisements.AsQueryable();
-
-            var subscribe = context.Subscriptions.AsQueryable().Where(x => x.UserId == UserId).Select(x=>x.AdvertisementId).ToList();
-
-            advertisements = advertisements.Where(x=> subscribe.Contains(x.Id))
-                        .Include(x => x.Color)
-                        .Include(x => x.Type.Breed)
-                        .Include(x => x.Type);
-
-            var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement));
-            return data;
-        }
-
-
-        public async Task AddSubscribe(AddSubscribeModel model)
-        {
-            using var context = await contextFactory.CreateDbContextAsync();
-
-            var find_sub = context.Subscriptions.FirstOrDefaultAsync(x => x.UserId == model.UserId && x.AdvertisementId == model.AdvertisementId);
-            if (find_sub.Result != null)
-            {
-                throw new ProcessException("The subscription has already been issued.");
-            }
-
-            var sub = mapper.Map<Subscription>(model);
-            await context.Subscriptions.AddAsync(sub);
-            context.SaveChanges();
-        }
-
-
-        public async Task DeleteSubscribe(int id)
-        {
-            using var context = await contextFactory.CreateDbContextAsync();
-
-            var find_sub = context.Subscriptions.FirstOrDefault(x=>x.Id == id);
-            if (find_sub != null)
-            {
-                throw new ProcessException("The subscription hasn't find.");
-            }
-            context.Subscriptions.Remove(find_sub);
-            context.SaveChanges();
-        }
-
-
-        public async Task<IEnumerable<AdvertisementModel>> GetAllFavourite(Guid UserId)
-        {
-            var context = contextFactory.CreateDbContext();
-            var advertisements = context.Advertisements.AsQueryable();
-
-            var favourites = context.Favourites.AsQueryable().Where(x => x.UserId == UserId).Select(x => x.AdvertisementId).ToList();
-
-            advertisements = advertisements.Where(x => favourites.Contains(x.Id))
-                        .Include(x => x.Color)
-                        .Include(x => x.Type.Breed)
-                        .Include(x => x.Type);
-
-            var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement));
-            return data;
-        }
-
-
-        public async Task AddInFavourite(AddFavouriteModel model)
-        {
-            using var context = await contextFactory.CreateDbContextAsync();
-
-            var find_fav = context.Favourites.FirstOrDefaultAsync(x => x.UserId == model.UserId && x.AdvertisementId == model.AdvertisementId);
-            if (find_fav.Result != null)
-            {
-                throw new ProcessException("The favourite has already been issued.");
-            }
-
-            var fav = mapper.Map<Favourite>(model);
-            await context.Favourites.AddAsync(fav);
-            context.SaveChanges();
-        }
-
-
-        public async Task DeleteInFavourite(int id)
-        {
-            using var context = await contextFactory.CreateDbContextAsync();
-
-            var find_fav = context.Favourites.FirstOrDefault(x => x.Id == id);
-            if (find_fav != null)
-            {
-                throw new ProcessException("The favourites hasn't find.");
-            }
-            context.Favourites.Remove(find_fav);
             context.SaveChanges();
         }
     }
