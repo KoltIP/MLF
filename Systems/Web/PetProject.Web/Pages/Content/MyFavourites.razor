@@ -7,6 +7,7 @@
 @inject IDialogService DialogService
 @inject IAdvertisementService advertisementService
 @inject NavigationManager navigationManager
+@inject IFavouriteService favouriteService
 
 @using PetProject.Web.Pages.Advertisement.Models
 @using PetProject.Web.Pages.Advertisement.Models.Advertisement
@@ -14,6 +15,7 @@
 @using PetProject.Web.Components
 @using PetProject.Web.Pages.Advertisement.Services.Advertisement
 @using PetProject.Web.Pages.Content.Models.Comment
+@using PetProject.Web.Pages.Content.Services.Favourite;
 
 
 <MudText Typo="Typo.h4" Class="ma-8">Избранное</MudText>
@@ -67,7 +69,7 @@
 
     private async Task ReloadData()
     {
-        AdvertisementListItems = await advertisementService.GetAllFavourite();
+        AdvertisementListItems = await favouriteService.GetAllFavourite();
     }
 
 

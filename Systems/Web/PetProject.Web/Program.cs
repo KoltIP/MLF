@@ -10,6 +10,10 @@ using PetProject.Web;
 using PetProject.Web.Pages.Advertisement.Services.Advertisement;
 using PetProject.Web.Pages.Auth.Services;
 using PetProject.Web.Pages.Content.Services.Comment;
+using PetProject.Web.Pages.Content.Services.Favourite;
+using PetProject.Web.Pages.Content.Services.File;
+using PetProject.Web.Pages.Content.Services.Location;
+using PetProject.Web.Pages.Content.Services.Subscribe;
 using PetProject.Web.Pages.Profile.Services;
 using PetProject.Web.Providers;
 using PetProject.Web.Services;
@@ -28,7 +32,10 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IAdvertisementService, AdvertisementService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
-
+builder.Services.AddScoped<IFavouriteService, FavouriteService>();
+builder.Services.AddScoped<ISubscribeService, SubscribeService>();
+builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 builder.Services.AddMudServices();
 

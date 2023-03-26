@@ -160,21 +160,31 @@ namespace PetProject.Db.Context.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("Age")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DateLost")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<int>("PetColorId")
                         .HasColumnType("integer");
 
                     b.Property<string>("PetDescription")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PetName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("PetTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<float>("Price")
+                    b.Property<float?>("Price")
                         .HasColumnType("real");
 
                     b.Property<Guid>("Uid")
@@ -184,6 +194,8 @@ namespace PetProject.Db.Context.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("PetColorId");
 
@@ -223,6 +235,29 @@ namespace PetProject.Db.Context.Migrations
                         .IsUnique();
 
                     b.ToTable("breeds", (string)null);
+                });
+
+            modelBuilder.Entity("PetProject.Db.Entities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("Uid")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Uid")
+                        .IsUnique();
+
+                    b.ToTable("city", (string)null);
                 });
 
             modelBuilder.Entity("PetProject.Db.Entities.Color", b =>
@@ -562,6 +597,12 @@ namespace PetProject.Db.Context.Migrations
 
             modelBuilder.Entity("PetProject.Db.Entities.Advertisement", b =>
                 {
+                    b.HasOne("PetProject.Db.Entities.City", "City")
+                        .WithMany("Advertisements")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("PetProject.Db.Entities.Color", "Color")
                         .WithMany("Advertisements")
                         .HasForeignKey("PetColorId")
@@ -579,6 +620,8 @@ namespace PetProject.Db.Context.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("City");
 
                     b.Navigation("Color");
 
@@ -667,6 +710,11 @@ namespace PetProject.Db.Context.Migrations
             modelBuilder.Entity("PetProject.Db.Entities.Breed", b =>
                 {
                     b.Navigation("PetTypes");
+                });
+
+            modelBuilder.Entity("PetProject.Db.Entities.City", b =>
+                {
+                    b.Navigation("Advertisements");
                 });
 
             modelBuilder.Entity("PetProject.Db.Entities.Color", b =>

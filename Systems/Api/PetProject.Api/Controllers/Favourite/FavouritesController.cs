@@ -5,6 +5,8 @@ using PetProject.AdvertisementServices.Models;
 using PetProject.Api.Controllers.Advertisement.Models;
 using PetProject.Api.Controllers.Favourite.Models;
 using PetProject.Api.Controllers.Subscribe.Models;
+using PetProject.FavoutiteService;
+using PetProject.FavoutiteService.Models;
 
 namespace PetProject.Api.Controllers.Favourite
 {
@@ -15,15 +17,15 @@ namespace PetProject.Api.Controllers.Favourite
     {
         private readonly IMapper mapper;
         private readonly ILogger<FavouritesController> logger;
-        private readonly IAdvertisementService advertisementService;
+        private readonly IFavouriteService favouriteService;
 
         public FavouritesController(IMapper mapper,
             ILogger<FavouritesController> logger,
-            IAdvertisementService advertisementService)
+            IFavouriteService favouriteService)
         {
             this.mapper = mapper;
             this.logger = logger;
-            this.advertisementService = advertisementService;
+            this.favouriteService = favouriteService;
         }
 
         [HttpGet("{UserId}")]
@@ -31,7 +33,7 @@ namespace PetProject.Api.Controllers.Favourite
         {
             int limit = 10;
             int offset = 0;
-            var advertisements = await advertisementService.GetAllFavourite(UserId);
+            var advertisements = await favouriteService.GetAllFavourite(UserId);
             var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
             return response;
         }
@@ -40,7 +42,7 @@ namespace PetProject.Api.Controllers.Favourite
         public async Task<IActionResult> AddInFavouriteAsync([FromBody] AddFavouriteRequest request)
         {
             var model = mapper.Map<AddFavouriteModel>(request);
-            await advertisementService.AddInFavourite(model);
+            await favouriteService.AddInFavourite(model);
             return Ok();
         }
 
@@ -48,7 +50,7 @@ namespace PetProject.Api.Controllers.Favourite
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInFavourite([FromRoute] int id)
         {
-            await advertisementService.DeleteInFavourite(id);
+            await favouriteService.DeleteInFavourite(id);
             return Ok();
         }        
     }
