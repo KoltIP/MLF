@@ -46,7 +46,7 @@ namespace PetProject.Web.Pages.Content.Services.File
 
         public async Task<FileResponse> GetFile()
         {
-            string url = $"{Settings.ApiRoot}/v1/file";
+            string url = $"{Settings.ApiRoot}/v1/file/getFile";
 
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -57,6 +57,22 @@ namespace PetProject.Web.Pages.Content.Services.File
             }
 
             var data = JsonSerializer.Deserialize<FileResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new FileResponse();
+            return data;
+        }
+
+        public async Task<IEnumerable<FileResponse>> GetFiles()
+        {
+            string url = $"{Settings.ApiRoot}/v1/file/getFiles";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var data = JsonSerializer.Deserialize<List<FileResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<FileResponse>();
             return data;
         }
     }

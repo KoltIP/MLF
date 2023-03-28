@@ -242,31 +242,15 @@
             var buffer = new byte[file.Size];
             await file.OpenReadStream().ReadAsync(buffer);
 
-
-            //try
-            //{
-            //    //MemoryStream ms = new MemoryStream(buffer);
-            //    //Image returnImage = Image.FromStream(ms);
-            //    //returnImage.Save(@"C:\");
-            //}
-            //catch (Exception ex)
-            //{
-            //    Snackbar.Add(ex.Message,Severity.Error);
-            //}
-
-
             var imageDataUrl = $"{Convert.ToBase64String(buffer)}";
 
             imageDataUrls.Add(imageDataUrl);
 
             list.Add(new FileModel
-                {
-                    Content = buffer,
-                    ImageDataUrl = imageDataUrl,
-                    ContentType = file.ContentType,
-                    Name = file.Name,
-                    Size = file.Size,
-                });
+            {
+                Content = buffer,
+                ContentType = file.ContentType,
+            });
             files.Add(file);
             await fileService.SaveFiles(list.ToList());
         }

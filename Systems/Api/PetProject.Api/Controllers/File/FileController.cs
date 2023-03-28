@@ -33,49 +33,45 @@ namespace PetProject.Api.Controllers.File
         {
             AddFileModel model = new AddFileModel()
             {
-                Name = request.Name,
-                Size = request.Size,
                 Content = request.Content,
                 ContentType = request.ContentType,
-                ImageDataUrl = request.ImageDataUrl,
             };
             await fileService.AddFile(model);
-
-            var folderName = System.IO.Path.Combine("StaticFiles", "Images");
-            var directory = Directory.GetCurrentDirectory();
-            var pathToSave = System.IO.Path.Combine(directory, folderName);
-            var fullPath = System.IO.Path.Combine(pathToSave, model.Name);            
-            using (var stream = new FileStream(fullPath, FileMode.Create))
-            {
-                using (var ms = new MemoryStream(model.Content))
-                {
-                    ms.CopyTo(stream);
-                };
-            }
 
             return Ok();
         }
 
-        [HttpGet("")]
+        [HttpGet("getFile")]
         public async Task<FileResponse> GetFileAsync()
         {
             var fileModel = await fileService.GetFile();
 
             var folderName = "//StaticFiles//Images";
-            //var folderName = System.IO.Path.Combine("StaticFiles", "Images");
-            //var directory = Directory.GetCurrentDirectory();
-            //var pathToSave = System.IO.Path.Combine(directory, folderName);
 
             FileResponse fileResponse = new FileResponse()
             {
                 Content = fileModel.Content,
                 ContentType = fileModel.ContentType,
-                Id = fileModel.Id,
-                //ImageDataUrl = System.IO.Path.Combine(pathToSave, fileModel.ImageDataUrl),
-                ImageDataUrl = folderName+"//"+fileModel.ImageDataUrl,
-                Size = fileModel.Size,
             };
             return fileResponse;
+        }
+
+        [HttpGet("getFiles")]
+        public async Task<IEnumerable<FileResponse>> GetFilesAsync()
+        {
+            var filesModel = (await fileService.GetFiles()).ToList();
+
+            List<FileResponse> result = new List<FileResponse>();
+            for (int i=0;i<filesModel.Count();i++)
+            { 
+                FileResponse item = new FileResponse()
+                {
+                    Content = filesModel[i].Content,
+                    ContentType = filesModel[i].ContentType,
+                };
+                result.Add(item);
+            }
+            return result;
         }
     }
 }

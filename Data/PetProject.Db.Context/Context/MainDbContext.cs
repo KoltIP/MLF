@@ -89,7 +89,8 @@ namespace PetProject.Db.Context.Context
             //Favourites
             modelBuilder.Entity<Favourite>().HasOne(x => x.User).WithMany(x => x.Favourites).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Favourite>().HasOne(x => x.Advertisement).WithMany(x => x.Favourites).HasForeignKey(x => x.AdvertisementId).OnDelete(DeleteBehavior.Restrict);
-
+            //File
+            modelBuilder.Entity<Advertisement>().HasOne(x => x.Image).WithMany(x => x.Advertisements).HasForeignKey(x => x.ImageId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -2,10 +2,7 @@
 {
     public class FileResponse
     {
-        public int Id { get; set; }
-        public string ImageDataUrl { get; set; }
-        public long Size { get; set; }
-        public string ContentType { get; set; }
-        public byte[] Content { get; set; }
+        public String ContentType { get; set; }
+        public Byte[] Content { get; set; }
     }
 }

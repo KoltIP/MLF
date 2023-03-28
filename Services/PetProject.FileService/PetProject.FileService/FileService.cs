@@ -35,9 +35,6 @@ namespace PetProject.FileService
 
             PetFile entity = new PetFile()
             {
-                Name = model.Name,
-                Size = model.Size,
-                ImageDataUrl = model.ImageDataUrl,
                 ContentType = model.ContentType,
                 Content = dbContent
             };
@@ -48,37 +45,34 @@ namespace PetProject.FileService
         public async Task<FileResponseModel> GetFile()
         {
             using var context = await contextFactory.CreateDbContextAsync();
-
             var fileEntity = context.PetFiles.First();
 
             var result = new FileResponseModel()
             {
-                Id = fileEntity.Id,
                 Content = Convert.FromBase64String(fileEntity.Content),
                 ContentType = fileEntity.ContentType,
-                Size = fileEntity.Size,
-                ImageDataUrl = fileEntity.Name
             };
 
             return result;
         }
 
-        //public async Task<FileResponseModel> GetFiles()
-        //{
-        //    using var context = await contextFactory.CreateDbContextAsync();
+        public async Task<IEnumerable<FileResponseModel>> GetFiles()
+        {
+            using var context = await contextFactory.CreateDbContextAsync();
+            var filesEntities = context.PetFiles.ToList();
 
-        //    var fileEntity = context.PetFiles;
+            var result = new List<FileResponseModel>();
+            for (int i = 0; i < filesEntities.Count(); i++)
+            {
+                var item = new FileResponseModel()
+                {
+                    Content = Convert.FromBase64String(filesEntities[i].Content),
+                    ContentType = filesEntities[i].ContentType,
+                };
+                result.Add(item);
+            }
 
-        //    var result = new FileResponseModel()
-        //    {
-        //        Id = fileEntity.Id,
-        //        Content = Convert.FromBase64String(fileEntity.Content),
-        //        ContentType = fileEntity.ContentType,
-        //        Size = fileEntity.Size,
-        //        ImageDataUrl = fileEntity.ImageDataUrl,
-        //    };
-
-        //    return result;
-        //}
+            return result;
+        }
     }
 }
