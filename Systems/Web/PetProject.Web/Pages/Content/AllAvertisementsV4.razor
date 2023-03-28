@@ -1,0 +1,123 @@
+﻿@page "/AllAdvertisements_V4"
+@layout MainLayout
+
+@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IAdvertisementService advertisementService
+@inject NavigationManager navigationManager
+@inject ICommentService commentService
+@inject IFileService fileService 
+
+@using PetProject.Web.Pages.Advertisement.Models
+@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using PetProject.Web.Pages.Advertisement.Services
+@using PetProject.Web.Components
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Content.Models.Comment
+@using PetProject.Web.Pages.Content.Models.File;
+@using PetProject.Web.Pages.Content.Services.Comment
+@using PetProject.Web.Pages.Content.Services.File;
+@using System.Web.Mvc;
+
+
+<MudText Typo="Typo.h4" Class="ma-8">Все объявления_V4</MudText>
+
+
+
+    <MudGrid>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => AddAdvertisement())" Style="margin-left:35px;">Добавить объявление</MudButton>
+         @if (path != string.Empty)
+        {
+            <MudItem xs="12" Style="margin-left:25px;margin-right:25px;">
+                <MudGrid Justify="justification">   
+            
+            
+                <MudItem xs="3">
+                    <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" onclick="@ReloadData()">
+                        <img src="@path" alt="Ошибка поиска" class="rounded-lg" style="height:150px;width:200px;"/>
+                        <Row Style="margin-top:15px;">
+                            <MudIconButton Icon="@Icons.Filled.RemoveRedEye" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                            <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                            <MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                            <MudIconButton Icon="@Icons.Filled.AddComment" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                            <MudIconButton Icon="@Icons.Filled.Subscriptions" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                        </Row>
+                    </MudPaper>                        
+                </MudItem>
+                </MudGrid>
+            </MudItem>  
+        }
+    </MudGrid>
+
+
+
+
+
+
+@code {
+    //private FileContentResult file { get; set; }
+    bool isLoading { get; set; } = true;
+    string path { get; set; } = string.Empty;
+
+    private async Task<string> GetImage()
+    {       
+        var image = await fileService.GetFile();
+        if (image != null)
+        {
+            var base64 = Convert.ToBase64String(image.Content);
+            var fs = string.Format("data:image/jpg;base64,{0}", base64);
+            return fs;
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    private async Task ReloadData()
+    {
+        try
+        {
+            path = await GetImage();
+        }
+        catch(Exception ex)
+        {            
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }      
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    Justify justification = Justify.FlexStart;
+
+    private async Task AddAdvertisement()
+    {
+        var parameters = new DialogParameters { };
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<AdvertisementDialog>("Добавить объявление", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
+            await OnInitializedAsync();
+            if (addResult.ErrorCode != 0)
+                Snackbar.Add(addResult.Message, Severity.Error);
+        }
+    }
+
+}
+    
