@@ -8,9 +8,6 @@ namespace PetProject.FileService.Models
 {
     public class FileResponseModel
     {
-        public int Id { get; set; }
-        public string ImageDataUrl { get; set; }
-        public long Size { get; set; }
         public string ContentType { get; set; }
         public byte[] Content { get; set; }
     }

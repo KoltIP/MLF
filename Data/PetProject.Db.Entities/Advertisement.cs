@@ -20,6 +20,8 @@ namespace PetProject.Db.Entities
         public int PetColorId { get; set; }
         public int PetTypeId { get; set; }
         public int CityId { get; set; }
+        public int ImageId { get; set; }
+        public virtual PetFile Image { get; set; }
         public virtual PetType Type { get; set; }
         public virtual Color Color { get; set; }
         public virtual City City { get; set; }

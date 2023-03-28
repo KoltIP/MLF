@@ -7,5 +7,6 @@ namespace PetProject.Web.Pages.Content.Services.File
     {
         Task SaveFiles(List<FileModel> files);
         Task<FileResponse> GetFile();
+        Task<IEnumerable<FileResponse>> GetFiles();
     }
 }

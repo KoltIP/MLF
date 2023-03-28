@@ -11,5 +11,6 @@ namespace PetProject.FileService
     {
         Task AddFile(AddFileModel model);
         Task<FileResponseModel> GetFile();
+        Task<IEnumerable<FileResponseModel>> GetFiles();
     }
 }
