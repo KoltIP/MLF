@@ -3,6 +3,12 @@ using System.Text.Json;
 using System.Text;
 using PetProject.Web.Pages.Content.Models.File;
 using PetProject.Web.Pages.Profile.Models;
+using Microsoft.JSInterop;
+using System.IO;
+using Radzen.Blazor.Rendering;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Web.Mvc;
+using System.Reflection;
 
 namespace PetProject.Web.Pages.Content.Services.File
 {
@@ -17,8 +23,6 @@ namespace PetProject.Web.Pages.Content.Services.File
             _httpClient = httpClient;
             _localStorage = localStorage;
         }
-
-
 
         public async Task SaveFiles(List<FileModel> files)
         {
@@ -40,7 +44,7 @@ namespace PetProject.Web.Pages.Content.Services.File
             }
         }
 
-        public async Task GetFile()
+        public async Task<FileResponse> GetFile()
         {
             string url = $"{Settings.ApiRoot}/v1/file";
 
@@ -52,9 +56,8 @@ namespace PetProject.Web.Pages.Content.Services.File
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<IEnumerable<byte>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<byte>();
-            var bytes = data.ToArray();
-
+            var data = JsonSerializer.Deserialize<FileResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new FileResponse();
+            return data;
         }
     }
 }

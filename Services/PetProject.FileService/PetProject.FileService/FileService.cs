@@ -26,7 +26,7 @@ namespace PetProject.FileService
         }
 
 
-        public async Task Add(FileModel model)
+        public async Task AddFile(AddFileModel model)
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
@@ -45,17 +45,40 @@ namespace PetProject.FileService
             context.SaveChanges();
         }
 
-        public async Task<byte[]> Get()
+        public async Task<FileResponseModel> GetFile()
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
             var fileEntity = context.PetFiles.First();
 
-            string contentStr = fileEntity.Content;
+            var result = new FileResponseModel()
+            {
+                Id = fileEntity.Id,
+                Content = Convert.FromBase64String(fileEntity.Content),
+                ContentType = fileEntity.ContentType,
+                Size = fileEntity.Size,
+                ImageDataUrl = fileEntity.Name
+            };
 
-            byte[] content = System.Text.Encoding.Default.GetBytes(contentStr);
-
-            return content;
+            return result;
         }
+
+        //public async Task<FileResponseModel> GetFiles()
+        //{
+        //    using var context = await contextFactory.CreateDbContextAsync();
+
+        //    var fileEntity = context.PetFiles;
+
+        //    var result = new FileResponseModel()
+        //    {
+        //        Id = fileEntity.Id,
+        //        Content = Convert.FromBase64String(fileEntity.Content),
+        //        ContentType = fileEntity.ContentType,
+        //        Size = fileEntity.Size,
+        //        ImageDataUrl = fileEntity.ImageDataUrl,
+        //    };
+
+        //    return result;
+        //}
     }
 }

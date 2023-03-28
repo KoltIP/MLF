@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PetProject.FileService.Models
 {
-    public class FileModel
+    public class AddFileModel
     {
         public Guid Id { get; set; }
         public String Name { get; set; }
@@ -15,7 +15,7 @@ namespace PetProject.FileService.Models
         public Byte[] Content { get; set; }
         public String ImageDataUrl { get; set; }
 
-        public FileModel()
+        public AddFileModel()
         {
             Id = Guid.NewGuid();
         }

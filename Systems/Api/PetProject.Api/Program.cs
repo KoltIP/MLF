@@ -1,5 +1,6 @@
 
 
+using Microsoft.Extensions.FileProviders;
 using PetProject.Api;
 using PetProject.Api.Configuration;
 using PetProject.Settings.Settings;
@@ -20,7 +21,7 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 var settings = new ApiSettings(new SettingsSource());
 
 
-// Add services to the container.
+
 var services = builder.Services;
 
 services.AddHttpContextAccessor();
@@ -47,12 +48,18 @@ services.AddAutoMappers();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 Log.Information("Start");
 
 app.UseMiddlewares();
 
-app.UseStaticFiles();
+//app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
+    RequestPath = new PathString("/StaticFiles")
+});
+//app.UseStaticFiles();
 
 app.UseRouting();
 
