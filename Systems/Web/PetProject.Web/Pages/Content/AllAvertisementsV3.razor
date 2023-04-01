@@ -65,10 +65,10 @@ else
     </MudItem>
 }
 @code {
-    private List<AdvertisementListItems> advertisementListItems = new List<AdvertisementListItems>();
+    private List<AdvertisementResponse> advertisementListItems = new List<AdvertisementResponse>();
     private async Task ReloadData()
     {
-        IEnumerable<AdvertisementListItems> resultList = await advertisementService.GetAdvertisements(0,1000);
+        IEnumerable<AdvertisementResponse> resultList = await advertisementService.GetAdvertisements(0,1000);
         advertisementListItems = resultList.ToList();
         //papers = advertisementListItems.Count();
         papers = 3;

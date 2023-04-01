@@ -23,7 +23,7 @@ namespace PetProject.Web.Pages.Content.Services.Subscribe
         }
 
 
-        public async Task<IEnumerable<AdvertisementListItems>> GetAllSubscribe()
+        public async Task<IEnumerable<AdvertisementResponse>> GetAllSubscribe()
         {
             var token = await _localStorage.GetItemAsync<string>("authToken");
             var handler = new JwtSecurityTokenHandler();
@@ -41,7 +41,7 @@ namespace PetProject.Web.Pages.Content.Services.Subscribe
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementListItems>();
+            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementResponse>();
 
             return data;
         }

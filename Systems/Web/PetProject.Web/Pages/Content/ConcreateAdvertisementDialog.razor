@@ -21,6 +21,8 @@
 
                 <MudItem xs="12">
                     <MudTextField Label="Имя" @bind-Value="model.PetName"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.DriveFileRenameOutline"
                                   For="@(() => model.PetName)">
                     </MudTextField>
                 </MudItem>
@@ -28,6 +30,8 @@
 
                 <MudItem xs="12" >
                     <MudTextField Label="Описание"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.Description"
                                   For="@(() => model.PetDescription)"
                                   @bind-Value="model.PetDescription">
                     </MudTextField>
@@ -36,6 +40,8 @@
 
                 <MudItem xs="12" >
                     <MudTextField Label="Вознаграждение"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"
                                   For="@(() => model.Price)"
                                   @bind-Value="model.Price">
                     </MudTextField>
@@ -43,6 +49,8 @@
 
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Цвет"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.Palette"
                                   For="@(() => model.PetColor)"
                                   @bind-Value="model.PetColor">
                     </MudTextField>
@@ -50,6 +58,8 @@
 
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Тип"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.GeneratingTokens"
                                   For="@(() => model.PetType)"
                                   @bind-Value="model.PetType">
                     </MudTextField>
@@ -59,6 +69,8 @@
 
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Порода"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.Interests"
                                   For="@(() => model.PetBreed)"
                                   @bind-Value="model.PetBreed">
                     </MudTextField>
@@ -80,6 +92,8 @@
 
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Город"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.LocationCity"
                                   For="@(() => model.City)"
                                   @bind-Value="model.City">
                     </MudTextField>
@@ -106,7 +120,7 @@
     public int? AdvertisementId { get; set; } = default;
 
 
-    public AdvertisementListItems model { get; set; } = new AdvertisementListItems();
+    public AdvertisementResponse model { get; set; } = new AdvertisementResponse();
 
     protected override async Task OnInitializedAsync()
     { 

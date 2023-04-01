@@ -5,7 +5,7 @@ namespace PetProject.Web.Pages.Content.Services.Favourite
 {
     public interface IFavouriteService
     {
-        Task<IEnumerable<AdvertisementListItems>> GetAllFavourite();
+        Task<IEnumerable<AdvertisementResponse>> GetAllFavourite();
         Task AddInFavourite(int advertisementId);
         Task<ErrorResponse> DropInFavourite(int id);
     }

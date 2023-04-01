@@ -20,7 +20,7 @@
 
 <MudText Typo="Typo.h4" Class="ma-8">Все объявления_V2</MudText>
 
-<MudDataGrid T="AdvertisementListItems" Items="@AdvertisementListItems"  Filterable="true" QuickFilter="@_quickFilter"
+<MudDataGrid T="AdvertisementResponse" Items="@AdvertisementListItems"  Filterable="true" QuickFilter="@_quickFilter"
              Hideable="true" Style="margin:10px;">
     <ToolBarContent>
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddAdvertisement())">Добавить объявление</MudButton>
@@ -29,26 +29,26 @@
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <Columns>     
-        <Column T="AdvertisementListItems" Field="PetName" />
-        <Column T="AdvertisementListItems" Field="PetDescription" />
-        <Column T="AdvertisementListItems" Field="PetType" />
-        <Column T="AdvertisementListItems" Field="PetBreed" />
-        <Column T="AdvertisementListItems" Field="PetColor" />
-        <Column T="AdvertisementListItems" Field="Price" />
+        <Column T="AdvertisementResponse" Field="PetName" />
+        <Column T="AdvertisementResponse" Field="PetDescription" />
+        <Column T="AdvertisementResponse" Field="PetType" />
+        <Column T="AdvertisementResponse" Field="PetBreed" />
+        <Column T="AdvertisementResponse" Field="PetColor" />
+        <Column T="AdvertisementResponse" Field="Price" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="@AdvertisementListItems" />
+        <MudDataGridPager T="@AdvertisementResponse" />
     </PagerContent>
 </MudDataGrid>
 
 @code {
-    private IEnumerable<AdvertisementListItems> AdvertisementListItems = new List<AdvertisementListItems>();
+    private IEnumerable<AdvertisementResponse> AdvertisementListItems = new List<AdvertisementResponse>();
     private string _searchString;
     private bool _sortNameByLength;
     private List<string> _events = new();
 
 
-    private Func<AdvertisementListItems, object> _sortBy => x =>
+    private Func<AdvertisementResponse, object> _sortBy => x =>
     {
         if (_sortNameByLength)
             return x.PetName.Length;
@@ -57,7 +57,7 @@
     };
     
 
-    private Func<AdvertisementListItems, bool> _quickFilter => x =>
+    private Func<AdvertisementResponse, bool> _quickFilter => x =>
     {
         if (string.IsNullOrWhiteSpace(_searchString))
             return true;
@@ -99,13 +99,13 @@
     }
 
 
-    void RowClicked(DataGridRowClickEventArgs<AdvertisementListItems> args)
+    void RowClicked(DataGridRowClickEventArgs<AdvertisementResponse> args)
     {
         _events.Insert(0, $"Event = RowClick, Index = {args.RowIndex}, Data = {System.Text.Json.JsonSerializer.Serialize(args.Item)}");
     }
 
 
-    void SelectedItemsChanged(HashSet<AdvertisementListItems> items)
+    void SelectedItemsChanged(HashSet<AdvertisementResponse> items)
     {
         _events.Insert(0, $"Event = SelectedItemsChanged, Data = {System.Text.Json.JsonSerializer.Serialize(items)}");
     }

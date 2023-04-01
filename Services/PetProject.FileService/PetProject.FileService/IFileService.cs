@@ -9,7 +9,7 @@ namespace PetProject.FileService
 {
     public interface IFileService
     {
-        Task AddFile(AddFileModel model);
+        Task<int> AddFile(AddFileModel model);
         Task<FileResponseModel> GetFile();
         Task<IEnumerable<FileResponseModel>> GetFiles();
     }

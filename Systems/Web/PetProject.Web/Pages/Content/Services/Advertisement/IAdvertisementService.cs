@@ -11,11 +11,11 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 {
     public interface IAdvertisementService
     {
-        Task<ErrorResponse> AddAdvertisement(AdvertisementModel model);        
-        Task<AdvertisementListItems> GetAdvertisement(int advertisementId);
-        Task<IEnumerable<AdvertisementListItems>> GetAdvertisements(int offset = 0, int limit = 10);
-        Task<IEnumerable<AdvertisementListItems>> GetUserAdvertisements(int offset = 0, int limit = 10);
-        Task<ErrorResponse> EditAdvertisement(int advertisementId, AdvertisementModel model);
+        Task<ErrorResponse> AddAdvertisement(AdvertisementDialogModel model);        
+        Task<AdvertisementResponse> GetAdvertisement(int advertisementId);
+        Task<IEnumerable<AdvertisementResponse>> GetAdvertisements(int offset = 0, int limit = 10);
+        Task<IEnumerable<AdvertisementResponse>> GetUserAdvertisements(int offset = 0, int limit = 10);
+        Task<ErrorResponse> EditAdvertisement(int advertisementId, AdvertisementDialogModel model);
         Task<ErrorResponse> DeleteAdvertisement(int advertisementId);
         Task<IEnumerable<BreedModel>> GetBreedList();
         Task<IEnumerable<BreedModel>> GetBreedsWithTypeId(int typeId, int offset = 0, int limit = 10);
