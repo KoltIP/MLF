@@ -20,6 +20,9 @@ namespace PetProject.Api.Controllers.Advertisement.Models
         public string City { get; set; } = string.Empty;
         public int? Age { get; set; }
         public DateTime? DateLost { get; set; }
+        public int ImageId { get; set; }
+        public byte[] ImageContent { get; set; }
+        public string ImageContentType { get; set; } = string.Empty;
     }
     public class AdvertismentResponseProfile : Profile
     {

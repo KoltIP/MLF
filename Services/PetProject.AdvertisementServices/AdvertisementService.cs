@@ -40,6 +40,8 @@ namespace PetProject.AdvertisementServices
                         .Include(x => x.Color)
                         .Include(x => x.Type.Breed)
                         .Include(x => x.Type)
+                        .Include(x =>x.City)
+                        .Include(x => x.Image)
                         .Skip(Math.Max(offset, 0))
                         .Take(Math.Max(0, Math.Min(limit, 1000)));
 
