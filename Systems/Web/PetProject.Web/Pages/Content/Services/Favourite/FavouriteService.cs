@@ -20,7 +20,7 @@ namespace PetProject.Web.Pages.Content.Services.Favourite
             _localStorage = localStorage;
         }
 
-        public async Task<IEnumerable<AdvertisementListItems>> GetAllFavourite()
+        public async Task<IEnumerable<AdvertisementResponse>> GetAllFavourite()
         {
             var token = await _localStorage.GetItemAsync<string>("authToken");
             var handler = new JwtSecurityTokenHandler();
@@ -38,7 +38,7 @@ namespace PetProject.Web.Pages.Content.Services.Favourite
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementListItems>();
+            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementResponse>();
 
             return data;
         }

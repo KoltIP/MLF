@@ -26,7 +26,7 @@ namespace PetProject.FileService
         }
 
 
-        public async Task AddFile(AddFileModel model)
+        public async Task<int> AddFile(AddFileModel model)
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
@@ -40,6 +40,7 @@ namespace PetProject.FileService
             };
             var result = context.PetFiles.Add(entity);
             context.SaveChanges();
+            return entity.Id;
         }
 
         public async Task<FileResponseModel> GetFile()

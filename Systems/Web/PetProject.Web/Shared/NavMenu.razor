@@ -1,12 +1,17 @@
 ﻿<MudNavMenu>
-    <MudText Typo="Typo.h5" Class="pa-4" Style="@($"color:{Colors.Green.Lighten2};")"><MudIcon Icon="@Icons.Outlined.CrueltyFree" Title="GitHub" /> MLF</MudText>
+    <MudText Typo="Typo.h5" Class="pa-4" Style="@($"color:{Colors.Green.Lighten2};")">
+        <MudIcon Icon="@Icons.Outlined.CrueltyFree" />
+            Экзюпери
+    </MudText>
     <MudDivider />
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Главная</MudNavLink>
-    <MudNavLink Href="/AllAdvertisements" Match="NavLinkMatch.All">Все объявления</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Public" Href="/" Match="NavLinkMatch.All">Главная</MudNavLink>
+    @*<MudNavLink Href="/AllAdvertisements" Match="NavLinkMatch.All">Все объявления</MudNavLink>
     <MudNavLink Href="/AllAdvertisements_V2" Match="NavLinkMatch.All">Все объявления_V2</MudNavLink>
-    <MudNavLink Href="/AllAdvertisements_V3" Match="NavLinkMatch.All">Все объявления_V3</MudNavLink>
-    <MudNavLink Href="/AllAdvertisements_V4" Match="NavLinkMatch.All">Все объявления_V4</MudNavLink>
-    <MudNavLink Href="/MyAdvertisements" Match="NavLinkMatch.All">Мои объявления</MudNavLink>
-    <MudNavLink Href="/MyFavourites" Match="NavLinkMatch.All">Избранное</MudNavLink>
-    <MudNavLink Href="/MySubscribes" Match="NavLinkMatch.All">Мои подписки</MudNavLink>
+    <MudNavLink Href="/AllAdvertisements_V3" Match="NavLinkMatch.All">Все объявления_V3</MudNavLink>*@
+    <MudNavLink Icon="@Icons.Material.Filled.Pets" Href="/AllAdvertisements_V4" Match="NavLinkMatch.All">Все объявления_V4</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.PersonPin" Href="/MyAdvertisements" Match="NavLinkMatch.All">Мои объявления</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.FavoriteBorder" Href="/MyFavourites" Match="NavLinkMatch.All">Избранное</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Subscriptions" Href="/MySubscribes" Match="NavLinkMatch.All">Мои подписки</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.QueryStats" Href="#" Match="NavLinkMatch.All">Статистика</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.SettingsSuggest" Href="#" Match="NavLinkMatch.All">Настройки</MudNavLink>
 </MudNavMenu>

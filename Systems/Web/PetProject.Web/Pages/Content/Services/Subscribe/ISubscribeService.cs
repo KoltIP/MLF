@@ -5,7 +5,7 @@ namespace PetProject.Web.Pages.Content.Services.Subscribe
 {
     public interface ISubscribeService
     {
-        Task<IEnumerable<AdvertisementListItems>> GetAllSubscribe();
+        Task<IEnumerable<AdvertisementResponse>> GetAllSubscribe();
         Task AddSubscribe(int advertisementId);
         Task<ErrorResponse> DropSubscribe(int id);
     }

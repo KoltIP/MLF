@@ -1,18 +1,23 @@
 ﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Forms;
 using PetProject.Web.Pages.Advertisement.Models.Advertisement;
 using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
+using PetProject.Web.Pages.Content.Models.Advertisement;
 using PetProject.Web.Pages.Content.Models.City;
 using PetProject.Web.Pages.Content.Models.Favourite;
 using PetProject.Web.Pages.Content.Models.File;
 using PetProject.Web.Pages.Content.Models.Subscribe;
+using PetProject.Web.Pages.Content.Services.File;
 using PetProject.Web.Pages.Profile.Models;
 using System.Drawing;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using System.Web.Mvc;
 
 namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 {
@@ -20,16 +25,17 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
+        private readonly IFileService fileService; 
 
-
-        public AdvertisementService(HttpClient httpClient, ILocalStorageService localStorage)
+        public AdvertisementService(HttpClient httpClient, ILocalStorageService localStorage, IFileService fileService)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;
+            this.fileService = fileService;
         }
 
 
-        public async Task<IEnumerable<AdvertisementListItems>> GetAdvertisements(int offset = 0, int limit = 10)
+        public async Task<IEnumerable<AdvertisementResponse>> GetAdvertisements(int offset = 0, int limit = 10)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement?offset={offset}&limit={limit}";
 
@@ -41,13 +47,13 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementListItems>();
+            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementResponse>();
 
             return data;
         }
 
 
-        public async Task<IEnumerable<AdvertisementListItems>> GetUserAdvertisements(int offset = 0, int limit = 10)
+        public async Task<IEnumerable<AdvertisementResponse>> GetUserAdvertisements(int offset = 0, int limit = 10)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement?offset={offset}&limit={limit}";
 
@@ -59,7 +65,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementListItems>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementListItems>();
+            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementResponse>();
 
             var token = await _localStorage.GetItemAsync<string>("authToken");
             var handler = new JwtSecurityTokenHandler();
@@ -69,13 +75,13 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 
             var userId = Guid.Parse(idUser);
 
-            IEnumerable<AdvertisementListItems> userAdvertisementList = data.Where(data => data.UserId == userId);
+            IEnumerable<AdvertisementResponse> userAdvertisementList = data.Where(data => data.UserId == userId);
 
             return userAdvertisementList;
         }
 
 
-        public async Task<AdvertisementListItems> GetAdvertisement(int advertisementId)
+        public async Task<AdvertisementResponse> GetAdvertisement(int advertisementId)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";
 
@@ -87,13 +93,13 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<AdvertisementListItems>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new AdvertisementListItems();
+            var data = JsonSerializer.Deserialize<AdvertisementResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new AdvertisementResponse();
 
             return data;
         }
 
 
-        public async Task<ErrorResponse> AddAdvertisement(AdvertisementModel model)
+        public async Task<ErrorResponse> AddAdvertisement(AdvertisementDialogModel model)
         {
             var token = await _localStorage.GetItemAsync<string>("authToken");
             var handler = new JwtSecurityTokenHandler();
@@ -102,7 +108,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             var idUser = tokenS.Claims.First(claim => claim.Type == "sub").Value;
 
             model.UserId = Guid.Parse(idUser);
-            model.Id = 1;
+            model.Id = 1;                        
 
             string url = $"{Settings.ApiRoot}/v1/advertisement";
 
@@ -124,7 +130,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         }
 
 
-        public async Task<ErrorResponse> EditAdvertisement(int advertisementId, AdvertisementModel model)
+        public async Task<ErrorResponse> EditAdvertisement(int advertisementId, AdvertisementDialogModel model)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";
 

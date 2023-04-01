@@ -119,14 +119,20 @@ else
 
         var dialog = DialogService.Show<AdvertisementDialog>("Добавить объявление", parameters, options);
         var result = await dialog.Result;
-
-        if (!result.Cancelled)
+        if (result != null)
         {
-            var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
-            await OnInitializedAsync();
-            if (addResult.ErrorCode != 0)
-                Snackbar.Add(addResult.Message, Severity.Error);
+            if (!result.Cancelled)
+            {
+                var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
+                await OnInitializedAsync();
+                if (addResult.ErrorCode != 0)
+                    Snackbar.Add(addResult.Message, Severity.Error);
+            }
+            else
+                Snackbar.Add("Объявление успешно добавлено!", Severity.Success);
         }
+        else
+            Snackbar.Add("Произошла непредвиденная ошибка. Попробуйте повторить операцию позже.", Severity.Error);
     }
 
 }

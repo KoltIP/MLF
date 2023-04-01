@@ -20,7 +20,7 @@
 
 <MudText Typo="Typo.h4" Class="ma-8">Избранное</MudText>
 
-<MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementListItems,bool>(FilterFuncSimple)">
+<MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementResponse,bool>(FilterFuncSimple)">
     <ColGroup>
         <col style="width:50px;" />
         <col />
@@ -33,12 +33,12 @@
     </ToolBarContent>
     <HeaderContent>
         
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetName)">Имя</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetDescription)">Описание</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetType)">Тип</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetBreed)">Порода</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.PetColor)">Цвет</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementListItems, object>(x=>x.Price)">Вознаграждение</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetName)">Имя</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetDescription)">Описание</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetType)">Тип</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetBreed)">Порода</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetColor)">Цвет</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.Price)">Вознаграждение</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>   
         <MudTd DataLabel="Имя">@context.PetName</MudTd>        
@@ -61,7 +61,7 @@
 
     private string searchString = "";
 
-    private IEnumerable<AdvertisementListItems> AdvertisementListItems = new List<AdvertisementListItems>();
+    private IEnumerable<AdvertisementResponse> AdvertisementListItems = new List<AdvertisementResponse>();
 
     private string invis = "invisible ma-8";
     private int idAdvertisement;
@@ -86,10 +86,10 @@
     }
 
 
-    private bool FilterFuncSimple(AdvertisementListItems AdvertisementListItems) => FilterFunc(AdvertisementListItems, searchString);
+    private bool FilterFuncSimple(AdvertisementResponse AdvertisementListItems) => FilterFunc(AdvertisementListItems, searchString);
 
 
-    private bool FilterFunc(AdvertisementListItems AdvertisementListItems, string searchString)
+    private bool FilterFunc(AdvertisementResponse AdvertisementListItems, string searchString)
     {
         return 
             string.IsNullOrWhiteSpace(searchString)

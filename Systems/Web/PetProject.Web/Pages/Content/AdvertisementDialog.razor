@@ -31,9 +31,22 @@
         <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
             <MudGrid>
 
+                <MudItem xs="6">                    
+                    @if (filePath != string.Empty)
+                    {
+                        @*<img src="@filePath" alt="Ошибка поиска" class="rounded-lg" style="height:100px;width:150px;" />*@
+                        <MudImage Src="@filePath" Alt="Изображение не загружено" Class="rounded-lg" Style="height:100px;width:150px;"></MudImage>
+                    }
+                    else
+                    {
+                        <MudImage Src="#" Alt="Изображение не загружено" Class="rounded-lg" Style="height:100px;width:150px;"></MudImage>
+                    }
+                </MudItem>
 
-                <MudItem xs="12">
+                <MudItem xs="6">
                     <MudTextField Label="Имя" @bind-Value="model.PetName"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.DriveFileRenameOutline"
                                   For="@(() => model.PetName)"
                                   Required="false"
                                   RequiredError="Имя обязательно!"
@@ -42,8 +55,10 @@
                 </MudItem>
 
 
-                <MudItem xs="12" >
+                <MudItem xs="6" >
                     <MudTextField Label="Описание"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.Description"
                                   For="@(() => model.PetDescription)"
                                   @bind-Value="model.PetDescription"
                                   Required="false"
@@ -51,17 +66,26 @@
                 </MudItem>
 
 
-                <MudItem xs="12" >
+                <MudItem xs="6" >
                     <MudTextField Label="Вознаграждение"
                                   For="@(() => model.Price)"
                                   @bind-Value="model.Price"
                                   Required="false"
-                                  RequiredError="Вознаграждение обязательно!"></MudTextField>
+                                  RequiredError="Вознаграждение обязательно!"
+                                  Adornment="Adornment.End" 
+                                  AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"></MudTextField>
                 </MudItem>
 
 
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectColor" T="int" Label="Цвет" @bind-Value="model.PetColorId" For="@(() => model.PetColorId)">
+                    <MudSelect 
+                        @ref="selectColor"
+                        T="int"
+                        Label="Цвет"
+                        @bind-Value="model.PetColorId"
+                        For="@(() => model.PetColorId)"
+                        Adornment="Adornment.End"
+                        AdornmentIcon="@Icons.Material.Filled.Palette">
                         <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
                         @foreach (var color in _colors)
                         {
@@ -72,7 +96,9 @@
 
 
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectType" T="int" Label="Тип" @bind-Value="model.PetTypeId" For="@(() => model.PetTypeId)">
+                    <MudSelect @ref="selectType" T="int" Label="Тип" @bind-Value="model.PetTypeId" For="@(() => model.PetTypeId)"
+                               Adornment="Adornment.End"
+                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">
                         <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
                         @foreach (var type in _typies)
                         {
@@ -83,7 +109,9 @@
 
 
                 <MudItem xs="12" sm="6">
-                    <MudSelect OnOpen="()=>LoadDependendenseBreeds()" @ref="selectBreed" T="int" Label="Порода" @bind-Value="model.PetBreedId" For="@(() => model.PetBreedId)">
+                    <MudSelect Adornment="Adornment.End"
+                               AdornmentIcon="@Icons.Material.Filled.Interests"
+                        OnOpen="()=>LoadDependendenseBreeds()" @ref="selectBreed" T="int" Label="Порода" @bind-Value="model.PetBreedId" For="@(() => model.PetBreedId)">
                         <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
                         @foreach (var breed in _breeds)
                         {
@@ -101,7 +129,14 @@
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectCity" T="int" Label="Город" @bind-Value="model.CityId" For="@(() => model.CityId)">
+                    <MudSelect 
+                        @ref="selectCity"
+                        T="int"
+                        Label="Город"
+                        @bind-Value="model.CityId"
+                        For="@(() => model.CityId)"
+                        Adornment="Adornment.End"
+                        AdornmentIcon="@Icons.Material.Filled.LocationCity">
                         <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
                         @foreach (var city in _cities)
                         {
@@ -111,29 +146,17 @@
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFiles" MaximumFileCount="5" Accept=".jpg">
+                    <MudFileUpload T="IBrowserFile" FilesChanged="ShowImage" Accept=".jpg">
                         <ButtonTemplate>
                             <MudButton HtmlTag="label"
                                        Variant="Variant.Filled"
                                        Color="MudBlazor.Color.Primary"
                                        StartIcon="@Icons.Material.Filled.CloudUpload"
                                        for="@context">
-                                Upload Files
+                               Загрузить фотографию
                             </MudButton>
                         </ButtonTemplate>
                     </MudFileUpload>
-                    @if (files != null)
-                    {
-                        <MudText Typo="@Typo.h6">@files.Count() File@(files.Count() == 1 ? "" : "s"):</MudText>
-                        <MudList>
-                            @foreach (var file in files)
-                            {
-                                <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@file">
-                                    @file.Name <code>@file.Size bytes</code>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
                 </MudItem>
 
             </MudGrid>
@@ -156,7 +179,7 @@
     MudSelect<int> selectColor = default!;
     MudSelect<int> selectCity = default!;
 
-    AdvertisementModelValidator modelValidator = new AdvertisementModelValidator();
+    AdvertisementDialogModelValidator modelValidator = new AdvertisementDialogModelValidator();
 
     private List<TypeModel> _typies { get; set; } = new List<TypeModel>();
     private List<BreedModel> _breeds { get; set; } = new List<BreedModel>();
@@ -169,11 +192,13 @@
 
     bool isNew = false;
 
+    string filePath = string.Empty;
+
     [Parameter]
     public int? AdvertisementId { get; set; } = default;
 
     [Parameter]
-    public AdvertisementModel model { get; set; } = new() { PetTypeId = 0, PetBreedId = 0, PetColorId = 0};
+    public AdvertisementDialogModel model { get; set; } = new() { PetTypeId = 0, PetBreedId = 0, PetColorId = 0};
 
     protected override async Task OnInitializedAsync()
     {
@@ -200,7 +225,8 @@
             model.Id = advertisement.Id;
             model.PetTypeId = advertisement.PetTypeId;
             model.PetBreedId = advertisement.PetBreedId;
-            model.PetColorId = advertisement.PetColorId;            
+            model.PetColorId = advertisement.PetColorId; 
+            //model.File = advertisement.
         }
 
         await selectType.SelectOption(model.PetTypeId);
@@ -228,32 +254,24 @@
 
     void Cancel() => MudDialog.Cancel();
 
+    private async Task ShowImage(IBrowserFile inputFile)
+    {     
+        var buffer = new byte[inputFile.Size];
+        await inputFile.OpenReadStream().ReadAsync(buffer);
 
-
-    IList<string> imageDataUrls = new List<string>();
-    IList<IBrowserFile> files = new List<IBrowserFile>();
-    List<FileModel> list = new List<FileModel>();   
-
-
-    async void UploadFiles(IReadOnlyList<IBrowserFile> inputFiles)
-    {       
-        foreach (var file in inputFiles)
+        //save in model
+        var file = new FileModel()
         {
-            var buffer = new byte[file.Size];
-            await file.OpenReadStream().ReadAsync(buffer);
+            Content = buffer,
+            ContentType = inputFile.ContentType
+        };
 
-            var imageDataUrl = $"{Convert.ToBase64String(buffer)}";
+        model.File = file;
 
-            imageDataUrls.Add(imageDataUrl);
-
-            list.Add(new FileModel
-            {
-                Content = buffer,
-                ContentType = file.ContentType,
-            });
-            files.Add(file);
-            await fileService.SaveFiles(list.ToList());
-        }
+        //show
+        var base64 = Convert.ToBase64String(buffer);
+        var fs = string.Format("data:image/jpg;base64,{0}", base64);
+        filePath = fs;
     }
 
     
