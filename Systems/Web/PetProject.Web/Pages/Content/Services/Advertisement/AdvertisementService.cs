@@ -4,7 +4,6 @@ using PetProject.Web.Pages.Advertisement.Models.Advertisement;
 using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
-using PetProject.Web.Pages.Content.Models.Advertisement;
 using PetProject.Web.Pages.Content.Models.City;
 using PetProject.Web.Pages.Content.Models.Favourite;
 using PetProject.Web.Pages.Content.Models.File;
