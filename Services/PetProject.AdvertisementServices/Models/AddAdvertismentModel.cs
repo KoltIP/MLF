@@ -12,6 +12,7 @@ namespace PetProject.AdvertisementServices.Models
     public class AddAdvertisementModel
     {
         public Guid UserId { get; set; }
+        public bool IsWanted { get; set; }
         public string? PetName { get; set; } = string.Empty;
         public string? PetDescription { get; set; } = string.Empty;
         public float? Price { get; set; }

@@ -11,6 +11,7 @@ namespace PetProject.Db.Entities
     {
         public Guid UserId { get; set; }
         public virtual User.User User { get; set; }
+        public bool IsWanted { get; set; }
         public float? Price { get; set; }        
         public string? PetName { get; set; } = string.Empty;
         public string? PetDescription { get; set; } = String.Empty;
@@ -27,6 +28,6 @@ namespace PetProject.Db.Entities
         public virtual City City { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Subscription> Subscriptions { get; set; }
-        public virtual ICollection<Favourite> Favourites { get; set; }        
+        public virtual ICollection<Favourite> Favourites { get; set; }       
     }
 }
