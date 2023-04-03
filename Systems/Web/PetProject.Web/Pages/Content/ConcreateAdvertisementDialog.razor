@@ -38,6 +38,16 @@
                 </MudItem>
 
 
+                <MudItem xs="12">
+                    <MudTextField Label="Разыскивается/Найдено"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"
+                                  For="@(()=>isWanted)"
+                                  @bind-Value="isWanted">
+                    </MudTextField>
+                </MudItem>
+
+
                 <MudItem xs="12" >
                     <MudTextField Label="Вознаграждение"
                                   Adornment="Adornment.End"
@@ -119,12 +129,14 @@
     [Parameter]
     public AdvertisementResponse advertisementResponse { get; set; } = default;
     public string path { get; set; }
+    public string isWanted { get; set; }
 
     public AdvertisementResponse model { get; set; } = new AdvertisementResponse();
 
     protected override async Task OnInitializedAsync()
     {
         model = advertisementResponse;
+        isWanted = model.IsWanted == true ? "Разыскивается" : "Найдено";
         path = await GetImagePath(advertisementResponse);
     }    
 

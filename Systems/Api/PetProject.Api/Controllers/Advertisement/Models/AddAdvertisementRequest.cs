@@ -9,6 +9,7 @@ namespace PetProject.Api.Controllers.Advertisement.Models
     public class AddAdvertisementRequest
     {
         public Guid UserId { get; set; }
+        public int IsWanted { get; set; }
         public string? PetName { get; set; } 
         public string? PetDescription { get; set; } 
         public float? Price { get; set; }
@@ -42,7 +43,8 @@ namespace PetProject.Api.Controllers.Advertisement.Models
     {
         public AddAdvertismentRequestProfile()
         {
-            CreateMap<AddAdvertisementRequest, AddAdvertisementModel>();
+            CreateMap<AddAdvertisementRequest, AddAdvertisementModel>()
+                 .ForMember(dest => dest.IsWanted, opt => opt.MapFrom(src => (src.IsWanted == 1 ? true : false)));
         }
     }
 }

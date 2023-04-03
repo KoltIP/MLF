@@ -34,7 +34,6 @@
                 <MudItem xs="6">                    
                     @if (filePath != string.Empty)
                     {
-                        @*<img src="@filePath" alt="Ошибка поиска" class="rounded-lg" style="height:100px;width:150px;" />*@
                         <MudImage Src="@filePath" Alt="Изображение не загружено" Class="rounded-lg" Style="height:100px;width:150px;"></MudImage>
                     }
                     else
@@ -63,6 +62,15 @@
                                   @bind-Value="model.PetDescription"
                                   Required="false"
                                   RequiredError="Описание обязательно!"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectType" T="int" Label="Тип" @bind-Value="model.IsWanted" For="@(() => model.IsWanted)"
+                               Adornment="Adornment.End"
+                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">
+                        <MudSelectItem T="int" Value="1">Разыскивается</MudSelectItem>
+                        <MudSelectItem T="int" Value="0">Найдено</MudSelectItem>
+                    </MudSelect>
                 </MudItem>
 
 
@@ -225,8 +233,8 @@
             model.Id = advertisement.Id;
             model.PetTypeId = advertisement.PetTypeId;
             model.PetBreedId = advertisement.PetBreedId;
-            model.PetColorId = advertisement.PetColorId; 
-            //model.File = advertisement.
+            model.PetColorId = advertisement.PetColorId;
+            model.IsWanted = advertisement.IsWanted == true ? 1 : 0;
         }
 
         await selectType.SelectOption(model.PetTypeId);

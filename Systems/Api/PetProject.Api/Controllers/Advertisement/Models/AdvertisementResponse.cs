@@ -7,6 +7,7 @@ namespace PetProject.Api.Controllers.Advertisement.Models
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
+        public bool IsWanted { get; set; }
         public string? PetName { get; set; } = string.Empty;
         public string? PetDescription { get; set; } = string.Empty;
         public float? Price { get; set; }
@@ -29,6 +30,7 @@ namespace PetProject.Api.Controllers.Advertisement.Models
         public AdvertismentResponseProfile()
         {
             CreateMap<AdvertisementModel, AdvertisementResponse>();
+                 //.ForMember(dest => dest.IsWanted, opt => opt.MapFrom(src => (src.IsWanted == true ? "Разыскивается" : "Найдено")));
         }
     }
 }
