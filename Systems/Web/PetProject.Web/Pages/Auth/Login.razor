@@ -38,15 +38,13 @@
                                 RequiredError="Пароль обязателен!"
                                 OnAdornmentClick="TogglePasswordVisibility" />
 
-                <div Class="d-flex justify-space-between align-center">
-                    <MudCheckBox For="@(() => model.RememberMe)" @bind-Checked="model.RememberMe" Label="Запомнить?" Color="Color.Primary" Class="ml-n1 my-3"  Style="@($"color:{Colors.Green.Lighten2};")">
-                    </MudCheckBox>
-                    <MudLink Href="/forgot-password" Style="@($"color:{Colors.Green.Lighten2};")">Забыли пароль?</MudLink>
+                <div Class="d-flex justify-space-between align-center" style="margin-top:10px;margin-bottom:20px;">
+                    <MudLink Href="/forgot-password">Забыли пароль?</MudLink>
                     <MudLink Href="/registration">Регистрация</MudLink>
                 </div>
 
                 <MudButton Variant="Variant.Filled"
-                           Style="@($"background:{Colors.Green.Lighten2};")"
+                           Style="@($"background:{Colors.Green.Lighten2};margin-left:83%")"
                            Color="Color.Primary"
                            Size="Size.Large"
                            ButtonType="MudBlazor.ButtonType.Submit">Войти</MudButton>
