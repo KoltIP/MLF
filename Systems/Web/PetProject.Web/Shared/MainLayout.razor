@@ -25,10 +25,17 @@
     <MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
 </MudScrollToTop>
 
+<MudText Style="@($"background:{Colors.Green.Lighten2};width:100%;height:35px;position:absolute;bottom:0")">
+    <span style="margin-left:45%;color:whitesmoke;font-size:x-large;">
+        @copyRight
+    </span>
+</MudText>
+
 @code {
 
     private bool _darkMode = false;
     private bool _navigationMenuVisible = false;
+    private string copyRight = "© Экзюпери, 2022‐2023";
 
     protected override async Task OnInitializedAsync()
     {
