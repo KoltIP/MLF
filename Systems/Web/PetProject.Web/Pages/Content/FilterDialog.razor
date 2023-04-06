@@ -1,0 +1,211 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using PetProject.Web.Pages.Advertisement.Models.Breed
+@using PetProject.Web.Pages.Advertisement.Models.Color
+@using PetProject.Web.Pages.Advertisement.Models.Type
+@using PetProject.Web.Pages.Content.Models.Advertisement;
+@using PetProject.Web.Pages.Content.Models.Breed
+@using PetProject.Web.Pages.Content.Models.City;
+@using PetProject.Web.Pages.Content.Models.Color
+@using PetProject.Web.Pages.Content.Models.File;
+@using PetProject.Web.Pages.Content.Models.Type
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using MudBlazor.Interfaces;
+@using MudBlazor.Components;
+@using MudBlazor.Internal;
+@using System;
+@using System.IO;
+@using System.Drawing;
+@using System.Drawing.Imaging;
+@using PetProject.Web.Pages.Content.Services.File;
+@using PetProject.Web.Pages.Content.Services.Location;
+
+@inherits MudComponentBase
+@inject ISnackbar Snackbar
+
+@inject IAdvertisementService advertisementService
+@inject ILocationService locationService
+@inject IFileService fileService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form">
+            <MudGrid>
+                               
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectWanted" T="int" Label="Тип" @bind-Value="model.IsWanted" Required="false"
+                               Adornment="Adornment.End"
+                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">                        
+                        <MudSelectItem T="int" Value="0">Найдено</MudSelectItem>
+                        <MudSelectItem T="int" Value="1">Разыскивается</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+
+                <MudItem xs="6" >
+                    <MudTextField Label="Вознаграждение от"
+                                  
+                                  @bind-Value="model.PriceStart"
+                                  Adornment="Adornment.End" 
+                                  AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <MudTextField Label="Вознаграждение до"
+                                  
+                                  @bind-Value="model.PriceEnd"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"></MudTextField>
+                </MudItem>
+
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect 
+                        @ref="selectColor"
+                        T="int"
+                        Label="Цвет"
+                        @bind-Value="model.PetColorId"
+                       
+                        Adornment="Adornment.End"
+                        AdornmentIcon="@Icons.Material.Filled.Palette">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var color in _colors)
+                        {
+                            <MudSelectItem T="int" Value="@color.Id">@color.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectType" T="int" Label="Тип" @bind-Value="model.PetTypeId" 
+                               Adornment="Adornment.End"
+                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var type in _typies)
+                        {
+                            <MudSelectItem T="int" Value="@type.Id">@type.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect Adornment="Adornment.End"
+                               AdornmentIcon="@Icons.Material.Filled.Interests"
+                        OnOpen="()=>LoadDependendenseBreeds()" @ref="selectBreed" T="int" Label="Порода" @bind-Value="model.PetBreedId" >
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var breed in _breeds)
+                        {
+                            <MudSelectItem T="int" Value="@breed.Id">@breed.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="model.AgeStart" Label="Возраст от" Variant="Variant.Text" Min="0" Max="100" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="model.AgeEnd" Label="Возраст до" Variant="Variant.Text" Min="0" Max="100" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudDatePicker Label="Дата от" @bind-Date="model.DateLostStart" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudDatePicker Label="Дата до" @bind-Date="model.DateLostEnd" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect 
+                        @ref="selectCity"
+                        T="int"
+                        Label="Город"
+                        @bind-Value="model.CityId"                       
+                        Adornment="Adornment.End"
+                        AdornmentIcon="@Icons.Material.Filled.LocationCity">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var city in _cities)
+                        {
+                            <MudSelectItem T="int" Value="@city.Id">@city.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ок</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+    MudSelect<int> selectWanted = default!;
+    MudSelect<int> selectBreed = default!;
+    MudSelect<int> selectType = default!;
+    MudSelect<int> selectColor = default!;
+    MudSelect<int> selectCity = default!;
+
+    private List<TypeModel> _typies { get; set; } = new List<TypeModel>();
+    private List<BreedModel> _breeds { get; set; } = new List<BreedModel>();
+    private List<ColorModel> _colors { get; set; } = new List<ColorModel>();
+    private List<CityModel> _cities { get; set; } = new List<CityModel>();
+
+
+
+    string filePath = string.Empty;
+
+    [Parameter]
+    public AdvertisementFilterModel model { get; set; } = new AdvertisementFilterModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var typies = await advertisementService.GetTypeList();
+        _typies.AddRange(typies);
+
+        var breeds = await advertisementService.GetBreedList();
+        _breeds.AddRange(breeds);
+
+        var colors = await advertisementService.GetColorList();
+        _colors.AddRange(colors);
+
+        var cities = await locationService.GetCitiesAsync();
+        _cities.AddRange(cities);
+
+        await selectType.SelectOption(model.PetTypeId);
+        await selectBreed.SelectOption(model.PetBreedId);
+        await selectColor.SelectOption(model.PetColorId);
+        await selectCity.SelectOption(model.CityId);
+        form.ResetValidation();
+    }
+
+    public async Task LoadDependendenseBreeds()
+    {
+        int? selectTypeValue = selectType.Value;
+        if (selectTypeValue.HasValue)        
+            _breeds = (await advertisementService.GetBreedsWithTypeId(selectTypeValue.Value)).ToList();        
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+
+    
+}

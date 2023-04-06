@@ -41,9 +41,9 @@ namespace PetProject.AdvertisementServices
                         .Include(x => x.Type.Breed)
                         .Include(x => x.Type)
                         .Include(x =>x.City)
-                        .Include(x => x.Image)
-                        .Skip(Math.Max(offset, 0))
-                        .Take(Math.Max(0, Math.Min(limit, 1000)));
+                        .Include(x => x.Image);
+                        //.Skip(Math.Max(offset, 0))
+                        //.Take(Math.Max(0, Math.Min(limit, 1000)));
 
             var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement));
             return data;
@@ -107,6 +107,46 @@ namespace PetProject.AdvertisementServices
             context.Advertisements.Remove(advertisement);
 
             context.SaveChanges();
+        }
+
+        public async Task<IEnumerable<AdvertisementModel>> FilterAdvertisement(FilterModel filter)
+        {
+            var context = contextFactory.CreateDbContext();
+            var advertisements = context.Advertisements.AsQueryable();
+
+            advertisements = advertisements
+                        .Include(x => x.Color)
+                        .Include(x => x.Type.Breed)
+                        .Include(x => x.Type)
+                        .Include(x => x.City)
+                        .Include(x => x.Image);
+
+            //Добавить логику
+            if (filter.Price.HasValue)
+                advertisements = advertisements.Where(x => x.Price == filter.Price);
+            if (filter.IsWanted.HasValue)
+                advertisements = advertisements.Where(x => x.IsWanted == (filter.IsWanted.Value == 1 ? true:false));
+            if (filter.AgeStart.HasValue || filter.AgeEnd.HasValue)
+            {
+                if (filter.AgeStart.HasValue && filter.AgeEnd.HasValue)
+                    advertisements = advertisements.Where(x => x.DateLost <= filter.DateLostEnd && x.DateLost >= filter.DateLostStart);
+                else if (filter.AgeStart.HasValue)
+                    advertisements = advertisements.Where(x => x.DateLost >= filter.DateLostStart);
+                else
+                    advertisements = advertisements.Where(x => x.DateLost <= filter.DateLostEnd);
+            }
+            if (filter.CityId.HasValue && filter.CityId.Value != 0)
+                advertisements = advertisements.Where(x => x.CityId == filter.CityId);
+            if (filter.PetColorId.HasValue && filter.PetColorId.Value != 0)
+                advertisements = advertisements.Where(x => x.PetColorId == filter.PetColorId);
+            if(filter.PetTypeId.HasValue && filter.PetTypeId.Value != 0)
+                advertisements = advertisements.Where(x => x.PetTypeId == filter.PetTypeId);
+            if (filter.PetBreedId.HasValue && filter.PetBreedId.Value != 0)
+                advertisements = advertisements.Where(x => x.Type.BreedId == filter.PetBreedId);
+
+
+            var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement));
+            return data;
         }
     }
 }
