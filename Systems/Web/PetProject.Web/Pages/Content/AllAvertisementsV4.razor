@@ -27,19 +27,23 @@
 
 @if (!isLoading)
 {
-    <MudGrid>
-        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => Add())" Style="margin-left:35px;">Добавить объявление</MudButton>
 
+    //добавить Пагинацию
+    //Кнопка добавить фильтрацию, которая откроет фильтры в диалоговом окне и результатом будет фильтер модель 150px 200px
+
+    <MudGrid xs="12" sm="6">
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => Add())" Style="margin-left:35px;">Добавить объявление</MudButton>
         <MudIconButton Icon="@Icons.Material.Filled.Update" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" Style="margin-left:35px;" OnClick="@((e) => ReloadData())"></MudIconButton>
+        <MudIconButton Icon="@Icons.Material.Filled.FilterAlt" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" Style="margin-left:35px;" OnClick="@((e) => Filtering())"></MudIconButton>
 
         <MudItem xs="12" Style="margin-left:25px;margin-right:25px;">
             <MudGrid Justify="justification">
                 @for (int i = 0; i < pathes.Count(); i++)
                 {
                     int localindex = i;
-                    <MudItem xs="3">
+                    <MudItem xs="2">
                         <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8">
-                            <img src="@pathes[localindex]" alt="Ошибка поиска" class="rounded-lg" style="height:150px;width:200px;" />
+                            <MudImage Src="@pathes[localindex]" Alt="Ошибка поиска" Class="rounded-lg" Style="height:200px;width:250px;" />
                             <Row Style="margin-top:15px;">
                                 <MudIconButton Icon="@Icons.Filled.RemoveRedEye" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" OnClick="@((e) => Open(advertisements[localindex]))" />
                                 <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
@@ -52,7 +56,7 @@
                 }
             </MudGrid>
         </MudItem>    
-    </MudGrid>
+    </MudGrid>    
 }
 else
 {
@@ -137,13 +141,32 @@ else
             Snackbar.Add("Произошла непредвиденная ошибка. Попробуйте повторить операцию позже.", Severity.Error);
     }
 
+    private async Task Filtering()
+    {        
+        var parameters = new DialogParameters { };
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<FilterDialog>("Добавление фильтров", parameters, options);
+        var result = await dialog.Result;
+        if (result != null)
+        {
+            if (!result.Cancelled)
+            {
+                var filterResult = await advertisementService.FilterAdvertisements(((FilterDialog)dialog.Dialog).model);
+                advertisements = filterResult.ToList();
+                pathes = await GetImagesPath(advertisements);
+            }
+        }
+        else
+            Snackbar.Add("Произошла непредвиденная ошибка. Попробуйте повторить операцию позже.", Severity.Error);
+    }
+
     private async Task Open(AdvertisementResponse advertisementResponse)
     {
         var parameters = new DialogParameters { };
         parameters.Add("advertisementResponse", advertisementResponse);
         var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
 
-        var dialog = DialogService.Show<ConcreateAdvertisementDialog>("Комментарий", parameters, options);
+        var dialog = DialogService.Show<ConcreateAdvertisementDialog>("Подробности", parameters, options);
     }
 }
     

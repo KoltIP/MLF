@@ -89,5 +89,13 @@ namespace PetProject.Api.Controllers.Advertisement
             return Ok();
         }
 
+        [HttpPost("filter")]
+        public async Task<IEnumerable<AdvertisementResponse>> FilterAdvertisement([FromBody] FilterRequest request)
+        {
+            var model = mapper.Map<FilterModel>(request);
+            var advertisements = await advertisementService.FilterAdvertisement(model);
+            var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
+            return response;
+        }
     }
 }

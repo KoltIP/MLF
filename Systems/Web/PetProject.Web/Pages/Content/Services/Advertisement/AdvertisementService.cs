@@ -4,6 +4,7 @@ using PetProject.Web.Pages.Advertisement.Models.Advertisement;
 using PetProject.Web.Pages.Advertisement.Models.Breed;
 using PetProject.Web.Pages.Advertisement.Models.Color;
 using PetProject.Web.Pages.Advertisement.Models.Type;
+using PetProject.Web.Pages.Content.Models.Advertisement;
 using PetProject.Web.Pages.Content.Models.City;
 using PetProject.Web.Pages.Content.Models.Favourite;
 using PetProject.Web.Pages.Content.Models.File;
@@ -237,6 +238,21 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             var data = JsonSerializer.Deserialize<IEnumerable<BreedModel>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<BreedModel>();
 
             return data;
-        }       
+        }
+
+        public async Task<IEnumerable<AdvertisementResponse>> FilterAdvertisements(AdvertisementFilterModel filtermodel)
+        {
+            string url = $"{Settings.ApiRoot}/v1/advertisement/filter";
+
+            var body = JsonSerializer.Serialize(filtermodel);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, request);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementResponse>();
+
+            return data;
+        }
     }
 }

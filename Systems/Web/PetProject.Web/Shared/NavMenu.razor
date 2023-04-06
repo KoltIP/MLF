@@ -8,10 +8,19 @@
     @*<MudNavLink Href="/AllAdvertisements" Match="NavLinkMatch.All">Все объявления</MudNavLink>
     <MudNavLink Href="/AllAdvertisements_V2" Match="NavLinkMatch.All">Все объявления_V2</MudNavLink>
     <MudNavLink Href="/AllAdvertisements_V3" Match="NavLinkMatch.All">Все объявления_V3</MudNavLink>*@
-    <MudNavLink Icon="@Icons.Material.Filled.Pets" Href="/AllAdvertisements_V4" Match="NavLinkMatch.All">Все объявления_V4</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Pets" Href="/AllAdvertisements_V4" Match="NavLinkMatch.All">Все объявления</MudNavLink>
     <MudNavLink Icon="@Icons.Material.Filled.PersonPin" Href="/MyAdvertisements" Match="NavLinkMatch.All">Мои объявления</MudNavLink>
     <MudNavLink Icon="@Icons.Material.Filled.FavoriteBorder" Href="/MyFavourites" Match="NavLinkMatch.All">Избранное</MudNavLink>
     <MudNavLink Icon="@Icons.Material.Filled.Subscriptions" Href="/MySubscribes" Match="NavLinkMatch.All">Мои подписки</MudNavLink>
-    <MudNavLink Icon="@Icons.Material.Filled.QueryStats" Href="#" Match="NavLinkMatch.All">Статистика</MudNavLink>
-    <MudNavLink Icon="@Icons.Material.Filled.SettingsSuggest" Href="#" Match="NavLinkMatch.All">Настройки</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.QueryStats" Href="/Statistics" Match="NavLinkMatch.All">Статистика</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.SettingsSuggest" Href="/UserSettings" Match="NavLinkMatch.All">Настройки</MudNavLink>
 </MudNavMenu>
+<MudText Style="@($"background:{Colors.Green.Lighten2};width:100%;height:35px;position:absolute;bottom:0;")">
+    <span style="margin-left:25px;color:whitesmoke;font-size:medium;">
+        @copyRight
+    </span>
+</MudText>
+
+@code{
+    private string copyRight = "© Экзюпери, 2022‐2023";
+}
