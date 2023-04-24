@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using PetProject.AdvertisementServices.Models;
 using PetProject.Db.Context.Context;
 using PetProject.Db.Entities;
+using PetProject.FilterService;
+using PetProject.FilterService.Models;
 using PetProject.Shared.Common.Exceptions;
 using PetProject.Shared.Common.Validator;
 using System;
@@ -22,35 +24,30 @@ namespace PetProject.AdvertisementServices
 
         public AdvertisementService(IMapper mapper,
             IDbContextFactory<MainDbContext> contextFactory,
+           
              IModelValidator<AddAdvertisementModel> addAdvertisementModelValidator,
              IModelValidator<EditAdvertisementModel> editAdvertisementModelValidator)
         {
             this.mapper = mapper;
-            this.contextFactory = contextFactory;
+            this.contextFactory = contextFactory;            
             this.addAdvertisementModelValidator = addAdvertisementModelValidator;
             this.editAdvertisementModelValidator = editAdvertisementModelValidator;
         }
 
-        public async Task<IEnumerable<AdvertisementModel>> GetAdvertisements(int offset = 0, int limit = 10)
+        public async Task<IEnumerable<AdvertisementModel>> GetAdvertisements()
         {
-            var context = contextFactory.CreateDbContext();
+            var context = contextFactory.CreateDbContext();                                    
             var advertisements = context.Advertisements.AsQueryable();
-
             advertisements = advertisements
                         .Include(x => x.Color)
                         .Include(x => x.Type.Breed)
                         .Include(x => x.Type)
                         .Include(x =>x.City)
                         .Include(x => x.Image);
-                        //.Skip(Math.Max(offset, 0))
-                        //.Take(Math.Max(0, Math.Min(limit, 1000)));
 
             var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement));
             return data;
         }
-
-
-
 
         public async Task<AdvertisementModel> GetAdvertisement(int id)
         {
@@ -67,7 +64,6 @@ namespace PetProject.AdvertisementServices
             return data;
         }
 
-
         public async Task<AdvertisementModel> AddAdvertisement(AddAdvertisementModel model)
         {
             using var context = await contextFactory.CreateDbContextAsync();
@@ -83,7 +79,6 @@ namespace PetProject.AdvertisementServices
             return mapper.Map<AdvertisementModel>(advertisement);
         }
 
-
         public async Task EditAdvertisement(int id, EditAdvertisementModel model)
         {
             using var context = await contextFactory.CreateDbContextAsync();
@@ -96,7 +91,6 @@ namespace PetProject.AdvertisementServices
 
             context.SaveChanges();
         }
-
 
         public async Task DeleteAdvertisement(int id)
         {
@@ -111,7 +105,8 @@ namespace PetProject.AdvertisementServices
 
         public async Task<IEnumerable<AdvertisementModel>> FilterAdvertisement(FilterModel filter)
         {
-            var context = contextFactory.CreateDbContext();
+            var context = contextFactory.CreateDbContext();          
+            
             var advertisements = context.Advertisements.AsQueryable();
 
             advertisements = advertisements

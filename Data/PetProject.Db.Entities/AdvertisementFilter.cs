@@ -1,12 +1,15 @@
-﻿using AutoMapper;
-using PetProject.AdvertisementServices.Models;
-using PetProject.FilterService.Models;
+﻿using PetProject.Db.Entities._Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PetProject.Api.Controllers.Advertisement.Models
+namespace PetProject.Db.Entities
 {
-    public class FilterRequest
-    {
-        public Guid UserId { get; set; }
+    public class AdvertisementFilter : BaseEntity
+    {        
+        
         public int? IsWanted { get; set; }
         public float? Price { get; set; }
         public int? PetColorId { get; set; }
@@ -17,13 +20,8 @@ namespace PetProject.Api.Controllers.Advertisement.Models
         public int? AgeEnd { get; set; }
         public DateTime? DateLostStart { get; set; }
         public DateTime? DateLostEnd { get; set; }
-    }
 
-    public class FilterRequestProfile : Profile
-    {
-        public FilterRequestProfile()
-        {
-            CreateMap<FilterRequest, FilterModel>();
-        }
+        public Guid UserId { get; set; }
+        public virtual User.User User { get; set; }
     }
 }

@@ -17,6 +17,8 @@ namespace PetProject.Db.Context.Context
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<PetFile> PetFiles { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<AdvertisementFilter> AdvertisementFilter { get; set; }
+
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
@@ -70,6 +72,9 @@ namespace PetProject.Db.Context.Context
             //Cities
             modelBuilder.Entity<City>().ToTable("city");
 
+            //Cities
+            modelBuilder.Entity<AdvertisementFilter>().ToTable("advertisementfilter");
+
             ////Advertisement - User
             modelBuilder.Entity<Advertisement>().HasOne(x => x.User).WithMany(x => x.Advertisements).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
             //Pet - Color
@@ -91,6 +96,8 @@ namespace PetProject.Db.Context.Context
             modelBuilder.Entity<Favourite>().HasOne(x => x.Advertisement).WithMany(x => x.Favourites).HasForeignKey(x => x.AdvertisementId).OnDelete(DeleteBehavior.Restrict);
             //File
             modelBuilder.Entity<Advertisement>().HasOne(x => x.Image).WithMany(x => x.Advertisements).HasForeignKey(x => x.ImageId).OnDelete(DeleteBehavior.Restrict);
+            //Filter
+            modelBuilder.Entity<User>().HasOne(u => u.AdvertisementFilter).WithOne(p => p.User).HasForeignKey<AdvertisementFilter>(p => p.UserId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

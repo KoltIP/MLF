@@ -7,7 +7,6 @@ using Microsoft.JSInterop;
 using System.IO;
 using Radzen.Blazor.Rendering;
 using Microsoft.AspNetCore.Components.Forms;
-using System.Web.Mvc;
 using System.Reflection;
 
 namespace PetProject.Web.Pages.Content.Services.File

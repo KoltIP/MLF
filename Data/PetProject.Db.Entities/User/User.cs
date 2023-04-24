@@ -12,6 +12,7 @@ namespace PetProject.Db.Entities.User
         public int? Age { get; set; }
         public string? Specialization { get; set; }
         public UserStatus Status { get; set; }
+        public AdvertisementFilter AdvertisementFilter { get; set; }
         public ICollection<Advertisement> Advertisements { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Subscription> Subscriptions { get; set; }

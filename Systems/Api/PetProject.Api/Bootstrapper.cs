@@ -12,6 +12,8 @@ using PetProject.FileService;
 using PetProject.LocationService;
 using PetProject.FavoutiteService;
 using PetProject.SubscribeService;
+using PetProject.FilterService;
+
 namespace PetProject.Api
 {
     public static class Bootstrapper
@@ -31,6 +33,7 @@ namespace PetProject.Api
             services.AddLocationService();
             services.AddFavouriteService();
             services.AddSubscribeService();
+            services.AddFilterService();
 
             return services;
         }

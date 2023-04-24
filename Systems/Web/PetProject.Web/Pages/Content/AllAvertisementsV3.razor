@@ -68,7 +68,7 @@ else
     private List<AdvertisementResponse> advertisementListItems = new List<AdvertisementResponse>();
     private async Task ReloadData()
     {
-        IEnumerable<AdvertisementResponse> resultList = await advertisementService.GetAdvertisements(0,1000);
+        IEnumerable<AdvertisementResponse> resultList = await advertisementService.GetAdvertisements();
         advertisementListItems = resultList.ToList();
         //papers = advertisementListItems.Count();
         papers = 3;
