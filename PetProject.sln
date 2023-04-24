@@ -61,9 +61,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.FileService", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.LocationService", "Services\PetProject.LocationService\PetProject.LocationService\PetProject.LocationService.csproj", "{57D0E519-8590-4A27-A627-DC95BC66ABAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetProject.FavouriteService", "Services\PetProject.FavouriteService\PetProject.FavoutiteService\PetProject.FavouriteService.csproj", "{8BD2F769-2570-494B-9688-898D541D8364}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.FavouriteService", "Services\PetProject.FavouriteService\PetProject.FavoutiteService\PetProject.FavouriteService.csproj", "{8BD2F769-2570-494B-9688-898D541D8364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetProject.SubscribeService", "Services\PetProject.SubscribeService\PetProject.SubscribeService\PetProject.SubscribeService.csproj", "{E299B1C5-DA0A-4B20-AD9E-AF3D473E438D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetProject.SubscribeService", "Services\PetProject.SubscribeService\PetProject.SubscribeService\PetProject.SubscribeService.csproj", "{E299B1C5-DA0A-4B20-AD9E-AF3D473E438D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetProject.FilterService", "Services\PetProject.FilterService\PetProject.FilterService.csproj", "{4BCD8A22-D38B-4D57-B904-1E256A28E39A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +157,10 @@ Global
 		{E299B1C5-DA0A-4B20-AD9E-AF3D473E438D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E299B1C5-DA0A-4B20-AD9E-AF3D473E438D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E299B1C5-DA0A-4B20-AD9E-AF3D473E438D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BCD8A22-D38B-4D57-B904-1E256A28E39A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCD8A22-D38B-4D57-B904-1E256A28E39A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCD8A22-D38B-4D57-B904-1E256A28E39A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCD8A22-D38B-4D57-B904-1E256A28E39A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,6 +191,7 @@ Global
 		{57D0E519-8590-4A27-A627-DC95BC66ABAC} = {D6D81A3D-B189-4161-AD4E-7932F759A7CF}
 		{8BD2F769-2570-494B-9688-898D541D8364} = {D6D81A3D-B189-4161-AD4E-7932F759A7CF}
 		{E299B1C5-DA0A-4B20-AD9E-AF3D473E438D} = {D6D81A3D-B189-4161-AD4E-7932F759A7CF}
+		{4BCD8A22-D38B-4D57-B904-1E256A28E39A} = {D6D81A3D-B189-4161-AD4E-7932F759A7CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A53E8CD-2BD0-462B-AA39-F3226ED7E8B1}

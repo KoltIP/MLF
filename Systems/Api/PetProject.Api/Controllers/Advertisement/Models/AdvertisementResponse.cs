@@ -30,7 +30,6 @@ namespace PetProject.Api.Controllers.Advertisement.Models
         public AdvertismentResponseProfile()
         {
             CreateMap<AdvertisementModel, AdvertisementResponse>();
-                 //.ForMember(dest => dest.IsWanted, opt => opt.MapFrom(src => (src.IsWanted == true ? "Разыскивается" : "Найдено")));
         }
     }
 }

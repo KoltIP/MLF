@@ -19,7 +19,6 @@
 @using PetProject.Web.Pages.Content.Models.File;
 @using PetProject.Web.Pages.Content.Services.Comment
 @using PetProject.Web.Pages.Content.Services.File;
-@using System.Web.Mvc;
 
 
 <MudText Typo="Typo.h4" Class="ma-8">Все объявления_V4</MudText>
@@ -33,8 +32,8 @@
 
     <MudGrid xs="12" sm="6">
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => Add())" Style="margin-left:35px;">Добавить объявление</MudButton>
-        <MudIconButton Icon="@Icons.Material.Filled.Update" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" Style="margin-left:35px;" OnClick="@((e) => ReloadData())"></MudIconButton>
-        <MudIconButton Icon="@Icons.Material.Filled.FilterAlt" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" Style="margin-left:35px;" OnClick="@((e) => Filtering())"></MudIconButton>
+        <MudButton StartIcon="@Icons.Material.Filled.FilterAlt" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => Filtering())" Style="margin-left:35px;">Фильтры</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.Update" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => ReloadData())" Style="margin-left:35px;">Обновить</MudButton>
 
         <MudItem xs="12" Style="margin-left:25px;margin-right:25px;">
             <MudGrid Justify="justification">
@@ -151,10 +150,12 @@ else
         {
             if (!result.Cancelled)
             {
-                var filterResult = await advertisementService.FilterAdvertisements(((FilterDialog)dialog.Dialog).model);
+                var filterResult = await advertisementService.AddFilter(((FilterDialog)dialog.Dialog).model);
                 advertisements = filterResult.ToList();
                 pathes = await GetImagesPath(advertisements);
             }
+            else
+                await ReloadData();
         }
         else
             Snackbar.Add("Произошла непредвиденная ошибка. Попробуйте повторить операцию позже.", Severity.Error);

@@ -7,6 +7,8 @@ using PetProject.Api.Controllers.Favourite.Models;
 using PetProject.Api.Controllers.Subscribe.Models;
 using PetProject.FileService;
 using PetProject.FileService.Models;
+using PetProject.FilterService;
+using PetProject.FilterService.Models;
 using PetProject.Web.Pages.Content.Services.File;
 using IFileService = PetProject.FileService.IFileService;
 
@@ -19,16 +21,19 @@ namespace PetProject.Api.Controllers.Advertisement
     {
         private readonly IMapper mapper;
         private readonly ILogger<AdvertisementController> logger;
+        private readonly IFilterService filterService;
         private readonly IAdvertisementService advertisementService;
         private readonly IFileService fileService;
 
         public AdvertisementController(IMapper mapper,
             ILogger<AdvertisementController> logger,
+             IFilterService filterService,
             IAdvertisementService advertisementService,
             IFileService fileService)
         {
             this.mapper = mapper;
             this.logger = logger;
+            this.filterService = filterService;
             this.advertisementService = advertisementService;
             this.fileService = fileService;
         }
@@ -36,16 +41,23 @@ namespace PetProject.Api.Controllers.Advertisement
 
         [HttpGet("{id}")]
         public async Task<AdvertisementResponse> GetAdvertisementById([FromRoute] int id)
-        {
+        {            
             var advertisement = await advertisementService.GetAdvertisement(id);
             var response = mapper.Map<AdvertisementResponse>(advertisement);
             return response;
         }
 
-        [HttpGet("")]
-        public async Task<IEnumerable<AdvertisementResponse>> GetAdvertisements([FromQuery] int offset = 0, [FromQuery] int limit = 10)
+        [HttpGet("all/{userGuid}")]
+        public async Task<IEnumerable<AdvertisementResponse>> GetAdvertisements([FromRoute] Guid userGuid)
         {
-            var advertisements = await advertisementService.GetAdvertisements(offset, limit);
+            var filter = await filterService.GetFilter(userGuid);
+            if (filter != null)
+            {
+                var filteredAdvertisements = await advertisementService.FilterAdvertisement(filter);
+                var filteredResponse = mapper.Map<IEnumerable<AdvertisementResponse>>(filteredAdvertisements);
+                return filteredResponse;
+            }
+            var advertisements = await advertisementService.GetAdvertisements();
             var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
             return response;
         }
@@ -75,9 +87,7 @@ namespace PetProject.Api.Controllers.Advertisement
         public async Task<IActionResult> EditAdvertisement([FromRoute] int id, [FromBody] EditAdvertisementRequest request)
         {
             var model = mapper.Map<EditAdvertisementModel>(request);
-
             await advertisementService.EditAdvertisement(id, model);
-
             return Ok();
         }
 
@@ -89,13 +99,30 @@ namespace PetProject.Api.Controllers.Advertisement
             return Ok();
         }
 
-        [HttpPost("filter")]
-        public async Task<IEnumerable<AdvertisementResponse>> FilterAdvertisement([FromBody] FilterRequest request)
+        [HttpPost("addfilter")]
+        public async Task<IEnumerable<AdvertisementResponse>> AddOrEditFilterAdvertisement([FromBody] FilterRequest request)
         {
             var model = mapper.Map<FilterModel>(request);
+            await filterService.AddOrEditFilter(model);
             var advertisements = await advertisementService.FilterAdvertisement(model);
             var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
             return response;
+        }
+
+        [HttpGet("getfilter/{userGuid}")]
+        public async Task<FilterResponse> GetFilterAdvertisement([FromRoute] Guid userGuid)
+        {
+            var filter = await filterService.GetFilter(userGuid);
+            var response = mapper.Map<FilterResponse>(filter);
+            return response;
+        }
+
+
+        [HttpDelete("dropfilter/{userGuid}")]
+        public async Task<IActionResult> DropFilterAdvertisement([FromRoute] Guid userGuid)
+        {
+            await filterService.DeleteFilter(userGuid);
+            return Ok();
         }
     }
 }

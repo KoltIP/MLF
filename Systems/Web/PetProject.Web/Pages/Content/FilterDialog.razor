@@ -139,6 +139,7 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
+        <MudButton OnClick="DropFilter">Сбросить фильтр</MudButton>
         <MudButton OnClick="Cancel">Отмена</MudButton>
         <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ок</MudButton>
     </DialogActions>
@@ -170,6 +171,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        model = await advertisementService.GetFilter();
+
         var typies = await advertisementService.GetTypeList();
         _typies.AddRange(typies);
 
@@ -207,5 +210,12 @@
 
     void Cancel() => MudDialog.Cancel();
 
-    
+    private async Task DropFilter()
+    {
+        var result = await advertisementService.DropFilter();
+        if (result.Message != null)
+            Snackbar.Add(result.Message, Severity.Error);
+        else
+            MudDialog.Cancel();
+    }
 }

@@ -14,7 +14,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
     {
         Task<ErrorResponse> AddAdvertisement(AdvertisementDialogModel model);        
         Task<AdvertisementResponse> GetAdvertisement(int advertisementId);
-        Task<IEnumerable<AdvertisementResponse>> GetAdvertisements(int offset = 0, int limit = 10);
+        Task<IEnumerable<AdvertisementResponse>> GetAdvertisements();
         Task<IEnumerable<AdvertisementResponse>> GetUserAdvertisements(int offset = 0, int limit = 10);
         Task<ErrorResponse> EditAdvertisement(int advertisementId, AdvertisementDialogModel model);
         Task<ErrorResponse> DeleteAdvertisement(int advertisementId);
@@ -22,7 +22,8 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         Task<IEnumerable<BreedModel>> GetBreedsWithTypeId(int typeId, int offset = 0, int limit = 10);
         Task<IEnumerable<ColorModel>> GetColorList();
         Task<IEnumerable<TypeModel>> GetTypeList();
-        Task<IEnumerable<AdvertisementResponse>> FilterAdvertisements(AdvertisementFilterModel filtermodel);
-             
+        Task<IEnumerable<AdvertisementResponse>> AddFilter(AdvertisementFilterModel filtermodel);
+        Task<AdvertisementFilterModel> GetFilter();
+        Task<ErrorResponse> DropFilter();
     }
 }

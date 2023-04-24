@@ -77,7 +77,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        AdvertisementListItems = await advertisementService.GetAdvertisements(0, 10000);
+        AdvertisementListItems = await advertisementService.GetAdvertisements();
     }
 
 
