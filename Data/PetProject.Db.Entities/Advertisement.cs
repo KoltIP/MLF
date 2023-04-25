@@ -11,6 +11,7 @@ namespace PetProject.Db.Entities
     {
         public Guid UserId { get; set; }
         public virtual User.User User { get; set; }
+        public bool Gender { get; set; }
         public bool IsWanted { get; set; }
         public float? Price { get; set; }        
         public string? PetName { get; set; } = string.Empty;

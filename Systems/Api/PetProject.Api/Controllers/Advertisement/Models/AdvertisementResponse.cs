@@ -7,6 +7,7 @@ namespace PetProject.Api.Controllers.Advertisement.Models
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
+        public bool Gender { get; set; }
         public bool IsWanted { get; set; }
         public string? PetName { get; set; } = string.Empty;
         public string? PetDescription { get; set; } = string.Empty;

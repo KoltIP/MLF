@@ -9,6 +9,7 @@ namespace PetProject.Api.Controllers.Advertisement.Models
     public class AddAdvertisementRequest
     {
         public Guid UserId { get; set; }
+        public int Gender { get; set; }
         public int IsWanted { get; set; }
         public string? PetName { get; set; } 
         public string? PetDescription { get; set; } 

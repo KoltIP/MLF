@@ -42,6 +42,14 @@
                     </MudSelect>
                 </MudItem>
 
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectGender" T="int" Label="Пол" @bind-Value="model.Gender" Required="false"
+                               Adornment="Adornment.End"
+                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">
+                        <MudSelectItem T="int" Value="0">Женский</MudSelectItem>
+                        <MudSelectItem T="int" Value="1">Мужской</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
 
                 <MudItem xs="6" >
                     <MudTextField Label="Вознаграждение от"
@@ -58,7 +66,6 @@
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"></MudTextField>
                 </MudItem>
-
 
                 <MudItem xs="12" sm="6">
                     <MudSelect 
@@ -77,7 +84,6 @@
                     </MudSelect>
                 </MudItem>
 
-
                 <MudItem xs="12" sm="6">
                     <MudSelect @ref="selectType" T="int" Label="Тип" @bind-Value="model.PetTypeId" 
                                Adornment="Adornment.End"
@@ -89,7 +95,6 @@
                         }
                     </MudSelect>
                 </MudItem>
-
 
                 <MudItem xs="12" sm="6">
                     <MudSelect Adornment="Adornment.End"
@@ -152,6 +157,7 @@
 
     MudForm form = default!;
     MudSelect<int> selectWanted = default!;
+    MudSelect<int> selectGender = default!;
     MudSelect<int> selectBreed = default!;
     MudSelect<int> selectType = default!;
     MudSelect<int> selectColor = default!;

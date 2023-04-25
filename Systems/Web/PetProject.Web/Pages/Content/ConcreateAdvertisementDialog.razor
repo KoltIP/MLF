@@ -30,7 +30,7 @@
 
 
                 <MudItem xs="12" >
-                    <MudTextField Label="Описание"
+                    <MudTextField Label="Отличительные черты"
                                         ReadOnly
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@Icons.Material.Filled.Description"
@@ -49,6 +49,17 @@
                                   @bind-Value="isWanted">
                     </MudTextField>
                 </MudItem>
+
+
+                    <MudItem xs="12">
+                    <MudTextField Label="Пол"
+                                        ReadOnly
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"
+                                  For="@(()=>gender)"
+                                  @bind-Value="gender">
+                    </MudTextField>
+                    </MudItem>
 
 
                 <MudItem xs="12" >
@@ -128,7 +139,7 @@
     </DialogActions>
 </MudDialog>
 
-@code {
+                @code {
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; } = default!;
 
@@ -140,6 +151,7 @@
     public AdvertisementResponse advertisementResponse { get; set; } = default;
     public string path { get; set; }
     public string isWanted { get; set; }
+    public string gender { get; set; }
 
     public AdvertisementResponse model { get; set; } = new AdvertisementResponse();
 
@@ -147,6 +159,7 @@
     {
         model = advertisementResponse;
         isWanted = model.IsWanted == true ? "Разыскивается" : "Найдено";
+        gender = model.Gender == true ? "Мужской" : "Женский";
         path = await GetImagePath(advertisementResponse);
     }    
 

@@ -55,7 +55,7 @@
 
 
                 <MudItem xs="6" >
-                    <MudTextField Label="Описание"
+                    <MudTextField Label="Отличительные черты"
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@Icons.Material.Filled.Description"
                                   For="@(() => model.PetDescription)"
@@ -65,11 +65,20 @@
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectType" T="int" Label="Тип" @bind-Value="model.IsWanted" For="@(() => model.IsWanted)"
+                    <MudSelect @ref="selectFindType" T="int" Label="Тип" @bind-Value="model.IsWanted" For="@(() => model.IsWanted)"
                                Adornment="Adornment.End"
                                AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">
                         <MudSelectItem T="int" Value="1">Разыскивается</MudSelectItem>
                         <MudSelectItem T="int" Value="0">Найдено</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectGender" T="int" Label="Пол" @bind-Value="model.Gender" For="@(() => model.Gender)"
+                               Adornment="Adornment.End"
+                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">
+                        <MudSelectItem T="int" Value="1">Мужской</MudSelectItem>
+                        <MudSelectItem T="int" Value="0">Женский</MudSelectItem>
                     </MudSelect>
                 </MudItem>
 
@@ -183,6 +192,8 @@
 
     MudForm form = default!;
     MudSelect<int> selectBreed = default!;
+    MudSelect<int> selectFindType = default!;
+    MudSelect<int> selectGender = default!;
     MudSelect<int> selectType = default!;
     MudSelect<int> selectColor = default!;
     MudSelect<int> selectCity = default!;

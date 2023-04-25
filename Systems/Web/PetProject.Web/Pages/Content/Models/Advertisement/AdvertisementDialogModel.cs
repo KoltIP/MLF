@@ -8,6 +8,7 @@ namespace PetProject.Web.Pages.Advertisement.Models.Advertisement
     {   
         public int Id { get; set; }     
         public Guid UserId { get; set; }
+        public int Gender { get; set; }
         public int IsWanted { get; set; }
         public string? PetName { get; set; } 
         public string? PetDescription { get; set; }

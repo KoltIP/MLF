@@ -121,6 +121,8 @@ namespace PetProject.AdvertisementServices
                 advertisements = advertisements.Where(x => x.Price == filter.Price);
             if (filter.IsWanted.HasValue)
                 advertisements = advertisements.Where(x => x.IsWanted == (filter.IsWanted.Value == 1 ? true:false));
+            if (filter.Gender.HasValue)
+                advertisements = advertisements.Where(x => x.Gender == (filter.Gender.Value == 1 ? true : false));
             if (filter.AgeStart.HasValue || filter.AgeEnd.HasValue)
             {
                 if (filter.AgeStart.HasValue && filter.AgeEnd.HasValue)
