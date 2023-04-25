@@ -11,6 +11,7 @@ namespace PetProject.FilterService.Models
     public class FilterModel
     {
         public Guid UserId { get; set; }
+        public int? Gender { get; set; }
         public int? IsWanted { get; set; }
         public float? Price { get; set; }
         public int? PetColorId { get; set; }

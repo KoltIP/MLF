@@ -59,7 +59,6 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             return data;
         }
 
-
         public async Task<IEnumerable<AdvertisementResponse>> GetUserAdvertisements(int offset = 0, int limit = 10)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement?offset={offset}&limit={limit}";
@@ -87,7 +86,6 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             return userAdvertisementList;
         }
 
-
         public async Task<AdvertisementResponse> GetAdvertisement(int advertisementId)
         {
             string url = $"{Settings.ApiRoot}/v1/advertisement/{advertisementId}";
@@ -104,7 +102,6 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 
             return data;
         }
-
 
         public async Task<ErrorResponse> AddAdvertisement(AdvertisementDialogModel model)
         {

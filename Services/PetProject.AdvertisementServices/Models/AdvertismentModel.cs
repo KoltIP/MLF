@@ -11,6 +11,7 @@ namespace PetProject.AdvertisementServices.Models
     public class AdvertisementModel
     {
         public int Id { get; set; }
+        public bool Gender { get; set; }
         public bool IsWanted { get; set; }
         public Guid UserId { get; set; }
         public int PetId { get; set; }
