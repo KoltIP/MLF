@@ -1,4 +1,6 @@
-﻿namespace PetProject.Web.Pages.Advertisement.Models.Advertisement
+﻿using PetProject.Web.Pages.Content.Models.File;
+
+namespace PetProject.Web.Pages.Advertisement.Models.Advertisement
 {
     public class AdvertisementResponse
     {
@@ -19,8 +21,9 @@
         public string City { get; set; } = string.Empty;
         public int? Age { get; set; }
         public DateTime? DateLost { get; set; }
-        public int ImageId { get; set; }
-        public byte[] ImageContent { get; set; }
-        public string ImageContentType { get; set; } = string.Empty;
+        public List<FileResponse> Images { get; set; }
+        //public int ImageId { get; set; }
+        //public byte[] ImageContent { get; set; }
+        //public string ImageContentType { get; set; } = string.Empty;
     }
 }

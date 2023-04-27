@@ -8,7 +8,6 @@ using PetProject.UserAccountService;
 using PetProject.EmailService;
 using PetProject.RabbitMqService;
 using PetProject.CommentServices;
-using PetProject.FileService;
 using PetProject.LocationService;
 using PetProject.FavoutiteService;
 using PetProject.SubscribeService;
@@ -29,7 +28,6 @@ namespace PetProject.Api
             services.AddEmailSender();
             services.AddRabbitMq();
             services.AddCommentService();
-            services.AddFileService();
             services.AddLocationService();
             services.AddFavouriteService();
             services.AddSubscribeService();

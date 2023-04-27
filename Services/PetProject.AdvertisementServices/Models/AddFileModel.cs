@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetProject.FileService.Models
+namespace PetProject.AdvertisementServices.Models
 {
     public class AddFileModel
     {        

@@ -9,7 +9,6 @@ using PetProject.Web.Pages.Content.Models.City;
 using PetProject.Web.Pages.Content.Models.Favourite;
 using PetProject.Web.Pages.Content.Models.File;
 using PetProject.Web.Pages.Content.Models.Subscribe;
-using PetProject.Web.Pages.Content.Services.File;
 using PetProject.Web.Pages.Profile.Models;
 using System.Drawing;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,13 +23,11 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
-        private readonly IFileService fileService; 
 
-        public AdvertisementService(HttpClient httpClient, ILocalStorageService localStorage, IFileService fileService)
+        public AdvertisementService(HttpClient httpClient, ILocalStorageService localStorage)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;
-            this.fileService = fileService;
         }
 
 
@@ -311,5 +308,22 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             }
             return error;
         }
+
+        public async Task<FileResponse> GetFile()
+        {
+            string url = $"{Settings.ApiRoot}/v1/advertisement/getFile";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var data = JsonSerializer.Deserialize<FileResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new FileResponse();
+            return data;
+        }
+
     }
 }

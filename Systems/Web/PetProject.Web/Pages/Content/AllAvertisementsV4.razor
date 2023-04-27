@@ -8,17 +8,16 @@
 @inject IAdvertisementService advertisementService
 @inject NavigationManager navigationManager
 @inject ICommentService commentService
-@inject IFileService fileService 
 
 @using PetProject.Web.Pages.Advertisement.Models
 @using PetProject.Web.Pages.Advertisement.Models.Advertisement
 @using PetProject.Web.Pages.Advertisement.Services
 @using PetProject.Web.Components
 @using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Content.Models.Advertisement;
 @using PetProject.Web.Pages.Content.Models.Comment
 @using PetProject.Web.Pages.Content.Models.File;
-@using PetProject.Web.Pages.Content.Services.Comment
-@using PetProject.Web.Pages.Content.Services.File;
+@using PetProject.Web.Pages.Content.Services.Comment;
 
 
 <MudText Typo="Typo.h4" Class="ma-8">Все объявления_V4</MudText>
@@ -32,7 +31,7 @@
 
     <MudGrid xs="12" sm="6">
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => Add())" Style="margin-left:35px;">Добавить объявление</MudButton>
-        <MudButton StartIcon="@Icons.Material.Filled.FilterAlt" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => Filtering())" Style="margin-left:35px;">Фильтры</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.FilterAlt" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => Filtering())" Style="margin-left:35px;">Изменить фильтры</MudButton>
         <MudButton StartIcon="@Icons.Material.Filled.Update" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => ReloadData())" Style="margin-left:35px;">Обновить</MudButton>
 
         <MudItem xs="12" Style="margin-left:25px;margin-right:25px;">
@@ -80,13 +79,12 @@ else
 
 
 
-
     private async Task<List<string>> GetImagesPath(IEnumerable<AdvertisementResponse> advertisementResponse)
     {       
         List<string> result = new List<string>();
         foreach (var advertisement in advertisementResponse)
         {
-            var base64 = Convert.ToBase64String(advertisement.ImageContent);
+            var base64 = Convert.ToBase64String(advertisement.Images[0].Content);
             var fs = string.Format("data:image/jpg;base64,{0}", base64);
             result.Add(fs);
         }

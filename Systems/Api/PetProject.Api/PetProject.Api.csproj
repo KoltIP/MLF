@@ -39,7 +39,6 @@
     <ProjectReference Include="..\..\..\Services\PetProject.CommentServices\PetProject.CommentServices.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.EmailService\PetProject.EmailService.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.FavouriteService\PetProject.FavoutiteService\PetProject.FavouriteService.csproj" />
-    <ProjectReference Include="..\..\..\Services\PetProject.FileService\PetProject.FileService\PetProject.FileService.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.FilterService\PetProject.FilterService.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.LocationService\PetProject.LocationService\PetProject.LocationService.csproj" />
     <ProjectReference Include="..\..\..\Services\PetProject.RabbitMqService\PetProject.RabbitMqService.csproj" />

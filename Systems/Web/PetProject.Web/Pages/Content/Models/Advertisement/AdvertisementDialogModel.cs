@@ -19,7 +19,7 @@ namespace PetProject.Web.Pages.Advertisement.Models.Advertisement
         public int CityId { get; set; }
         public int Age { get; set; }
         public DateTime? DateLost { get; set; }
-        public FileModel File { get; set; }
+        public List<FileModel> Images { get; set; }
     }
 
     public class AdvertisementDialogModelValidator : AbstractValidator<AdvertisementDialogModel>

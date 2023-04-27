@@ -20,9 +20,9 @@ namespace PetProject.AdvertisementServices.Models
         public int PetColorId { get; set; }
         public int PetTypeId { get; set; }
         public int CityId { get; set; }
-        public int ImageId { get; set; }
         public int? Age { get; set; }
         public DateTime? DateLost { get; set; }
+        public List<AddFileModel> Images { get; set; }
     }
 
     public class AddAdvertisementResponseValidator : AbstractValidator<AddAdvertisementModel>

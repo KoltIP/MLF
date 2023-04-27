@@ -11,6 +11,7 @@ namespace PetProject.Db.Entities
     {
         public string ContentType { get; set; }        
         public string Content { get; set; }
-        public virtual ICollection<Advertisement> Advertisements { get; set; }
+        public int AdvertisementId { get; set; }
+        public virtual Advertisement Advertisement { get; set; }
     }
 }
