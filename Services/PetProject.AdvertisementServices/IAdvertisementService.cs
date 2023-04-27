@@ -1,10 +1,5 @@
 ﻿using PetProject.AdvertisementServices.Models;
 using PetProject.FilterService.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetProject.AdvertisementServices
 {
@@ -16,5 +11,6 @@ namespace PetProject.AdvertisementServices
         Task EditAdvertisement(int id, EditAdvertisementModel model);
         Task DeleteAdvertisement(int id);
         Task<IEnumerable<AdvertisementModel>> FilterAdvertisement(FilterModel filter);
+        Task<FileResponseModel> GetFile();
     }
 }

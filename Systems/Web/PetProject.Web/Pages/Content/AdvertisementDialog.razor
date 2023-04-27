@@ -16,7 +16,6 @@
 @using System.IO;
 @using System.Drawing;
 @using System.Drawing.Imaging;
-@using PetProject.Web.Pages.Content.Services.File;
 @using PetProject.Web.Pages.Content.Services.Location;
 
 @inherits MudComponentBase
@@ -24,7 +23,6 @@
 
 @inject IAdvertisementService advertisementService
 @inject ILocationService locationService
-@inject IFileService fileService
 
 <MudDialog>
     <DialogContent>
@@ -32,29 +30,38 @@
             <MudGrid>
 
                 <MudItem xs="6" sm="6">
-                    @if (filePath != string.Empty)
-                    {
-                        <MudImage Src="@filePath" Alt="Изображение не загружено" Class="rounded-lg" Style="height:100px;width:150px;"></MudImage>
+                    @if (filePathes.Count > 0)
+                    {                        
+                        <MudCarousel Style="height:200px;width:450px;" ShowArrows="@arrows" ShowBullets="@bullets" EnableSwipeGesture="@enableSwipeGesture" AutoCycle="@autocycle" TData="object">
+                            @for (int i = 0; i < filePathes.Count(); i++)
+                            {
+                                int localIndex = i;
+                                <MudCarouselItem Transition="transition" Color="@MudBlazor.Color.Default">                                    
+                                    <div class="d-flex" style="height:100%;margin-left:11%">                                        
+                                        <MudImage Src="@filePathes[localIndex]" Alt="Изображение не загружено" Class="rounded-lg" Style="height:200px;width:350px;"></MudImage>
+                                    </div>
+                                </MudCarouselItem>
+                            }
+                        </MudCarousel>
                     }
                     else
                     {
                         <MudImage Src="#" Alt="Изображение не загружено" Class="rounded-lg" Style="height:100px;width:150px;"></MudImage>
                     }
-                </MudItem>
-
-                <MudItem xs="12" sm="6">
-                    <MudFileUpload T="IBrowserFile" FilesChanged="ShowImage" Accept=".jpg">
+                    <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="ShowImage" Accept=".jpg" MaximumFileCount="3" Style="margin-left:15%;">
                         <ButtonTemplate>
                             <MudButton HtmlTag="label"
                                        Variant="Variant.Filled"
                                        Color="MudBlazor.Color.Primary"
-                                       StartIcon="@Icons.Material.Filled.CloudUpload"
+                                       StartIcon="@Icons.Material.Filled.CloudUpload"                                      
                                        for="@context">
                                 Загрузить фотографию
                             </MudButton>
                         </ButtonTemplate>
                     </MudFileUpload>
                 </MudItem>
+
+                
                 
                 <MudItem xs="6" sm="6">
                     <MudTextField Label="Отличительные черты"
@@ -181,11 +188,17 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Отмена</MudButton>
-        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ок</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Сохранить</MudButton>
     </DialogActions>
 </MudDialog>
 
 @code {
+
+    private bool arrows = true;
+    private bool bullets = false;
+    private bool enableSwipeGesture = true;
+    private bool autocycle = false;
+    private Transition transition = Transition.Slide;
 
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; } = default!;
@@ -211,7 +224,7 @@
 
     bool isNew = false;
 
-    string filePath = string.Empty;
+    List<string> filePathes = new List<string>();
 
     [Parameter]
     public int? AdvertisementId { get; set; } = default;
@@ -221,6 +234,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        model.Images = new List<FileModel>();
+
         var typies = await advertisementService.GetTypeList();
         _typies.AddRange(typies);
 
@@ -246,6 +261,7 @@
             model.PetBreedId = advertisement.PetBreedId;
             model.PetColorId = advertisement.PetColorId;
             model.IsWanted = advertisement.IsWanted == true ? 1 : 0;
+            model.Gender = advertisement.Gender == true ? 1 : 0;
         }
 
         await selectType.SelectOption(model.PetTypeId);
@@ -273,24 +289,24 @@
 
     void Cancel() => MudDialog.Cancel();
 
-    private async Task ShowImage(IBrowserFile inputFile)
-    {     
-        var buffer = new byte[inputFile.Size];
-        await inputFile.OpenReadStream().ReadAsync(buffer);
-
-        //save in model
-        var file = new FileModel()
+    private async Task ShowImage(IReadOnlyList<IBrowserFile> inputFiles)
+    {
+        for (int i = 0; i < inputFiles.Count(); i++)
         {
-            Content = buffer,
-            ContentType = inputFile.ContentType
-        };
+            var buffer = new byte[inputFiles[i].Size];
+            await inputFiles[i].OpenReadStream().ReadAsync(buffer);
 
-        model.File = file;
+            model.Images.Add(new FileModel()
+            {
+                Content = buffer,
+                ContentType = inputFiles[i].ContentType
+            });
 
-        //show
-        var base64 = Convert.ToBase64String(buffer);
-        var fs = string.Format("data:image/jpg;base64,{0}", base64);
-        filePath = fs;
+            //show
+            var base64 = Convert.ToBase64String(buffer);
+            var fs = string.Format("data:image/jpg;base64,{0}", base64);
+            filePathes.Add(fs);
+        }
     }
 
     

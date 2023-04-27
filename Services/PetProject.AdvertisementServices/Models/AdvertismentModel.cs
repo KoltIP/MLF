@@ -27,11 +27,9 @@ namespace PetProject.AdvertisementServices.Models
         public int CityId { get; set; }
         public string City { get; set; } = string.Empty; 
         public int ImageId { get; set; }
-        public byte[] ImageContent { get; set; }
-        public string ImageContentType { get; set;} = string.Empty;
         public int? Age { get; set; }
         public DateTime? DateLost { get; set; }
-
+        public List<FileResponseModel> Images { get; set; } = new List<FileResponseModel>();
 
     }
 
@@ -48,9 +46,7 @@ namespace PetProject.AdvertisementServices.Models
                 .ForMember(dest => dest.PetColor, opt => opt.MapFrom(src => src.Color.Name))
                 .ForMember(dest => dest.PetBreed, opt => opt.MapFrom(src => src.Type.Breed.Name))
                 .ForMember(dest => dest.PetType, opt => opt.MapFrom(src => src.Type.Name))
-                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City.Name))
-                .ForMember(dest => dest.ImageContent, opt => opt.MapFrom(src => Convert.FromBase64String(src.Image.Content)))
-                .ForMember(dest => dest.ImageContentType, opt => opt.MapFrom(src => src.Image.ContentType));
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City.Name));
         }
     }
 }

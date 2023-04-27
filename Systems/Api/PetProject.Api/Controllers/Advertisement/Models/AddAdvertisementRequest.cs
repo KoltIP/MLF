@@ -2,7 +2,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Components.Forms;
 using PetProject.AdvertisementServices.Models;
-using PetProject.FileService.Models;
 
 namespace PetProject.Api.Controllers.Advertisement.Models
 {
@@ -19,7 +18,7 @@ namespace PetProject.Api.Controllers.Advertisement.Models
         public int CityId { get; set; }
         public int? Age { get; set; }
         public DateTime? DateLost { get; set; }
-        public AddFileModel File { get; set; }
+        public List<AddFileModel> Images { get; set; }
     }
 
     public class addadvertismentrequestvalidator : AbstractValidator<AddAdvertisementRequest>

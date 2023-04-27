@@ -17,7 +17,6 @@
 @using System.IO;
 @using System.Drawing;
 @using System.Drawing.Imaging;
-@using PetProject.Web.Pages.Content.Services.File;
 @using PetProject.Web.Pages.Content.Services.Location;
 
 @inherits MudComponentBase
@@ -25,7 +24,6 @@
 
 @inject IAdvertisementService advertisementService
 @inject ILocationService locationService
-@inject IFileService fileService
 
 <MudDialog>
     <DialogContent>
@@ -36,7 +34,7 @@
                 <MudItem xs="12" sm="6">
                     <MudSelect @ref="selectWanted" T="int" Label="Тип" @bind-Value="model.IsWanted" Required="false"
                                Adornment="Adornment.End"
-                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">                        
+                               AdornmentIcon="@Icons.Material.Filled.Flaky">
                         <MudSelectItem T="int" Value="0">Найдено</MudSelectItem>
                         <MudSelectItem T="int" Value="1">Разыскивается</MudSelectItem>
                     </MudSelect>
@@ -45,7 +43,7 @@
                 <MudItem xs="12" sm="6">
                     <MudSelect @ref="selectGender" T="int" Label="Пол" @bind-Value="model.Gender" Required="false"
                                Adornment="Adornment.End"
-                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">
+                               AdornmentIcon="@Icons.Material.Filled.Wc">
                         <MudSelectItem T="int" Value="0">Женский</MudSelectItem>
                         <MudSelectItem T="int" Value="1">Мужской</MudSelectItem>
                     </MudSelect>

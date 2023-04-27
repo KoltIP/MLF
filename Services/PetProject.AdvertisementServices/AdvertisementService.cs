@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration.Conventions;
 using Microsoft.EntityFrameworkCore;
 using PetProject.AdvertisementServices.Models;
 using PetProject.Db.Context.Context;
@@ -42,10 +43,17 @@ namespace PetProject.AdvertisementServices
                         .Include(x => x.Color)
                         .Include(x => x.Type.Breed)
                         .Include(x => x.Type)
-                        .Include(x =>x.City)
-                        .Include(x => x.Image);
+                        .Include(x => x.City);
+            //.Include(x => x.PetImages);           
 
-            var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement));
+            var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement)).ToList();
+
+            for (int i = 0; i < data.Count(); i++)
+            {
+                var files = context.PetFiles.AsQueryable().Where(x => x.AdvertisementId == data[i].Id);
+                data[i].Images = files.Select(file => mapper.Map<FileResponseModel>(file)).ToList();
+            }
+
             return data;
         }
 
@@ -57,7 +65,7 @@ namespace PetProject.AdvertisementServices
                 .Include(x => x.Color)
                 .Include(x => x.Type.Breed)
                 .Include(x => x.Type)
-                .Include(x=>x.City)
+                .Include(x => x.City)
                 .FirstOrDefault(x => x.Id.Equals(id));
 
             var data = mapper.Map<AdvertisementModel>(advertisement);
@@ -72,7 +80,21 @@ namespace PetProject.AdvertisementServices
 
             advertisement.DateCreated = DateTime.Now;
 
-            await context.Advertisements.AddAsync(advertisement);          
+            var advertisementResult = await context.Advertisements.AddAsync(advertisement);
+
+            context.SaveChanges();
+
+            for (int i = 0; i < model.Images.Count(); i++)                
+            {
+                var file = new PetFile()
+                {
+                    AdvertisementId = advertisement.Id,
+                    Content = Convert.ToBase64String(model.Images[i].Content),
+                    ContentType = model.Images[i].ContentType,  
+                };
+                var imageResult = await context.PetFiles.AddAsync(file);
+            }
+            
 
             context.SaveChanges();
 
@@ -114,7 +136,7 @@ namespace PetProject.AdvertisementServices
                         .Include(x => x.Type.Breed)
                         .Include(x => x.Type)
                         .Include(x => x.City)
-                        .Include(x => x.Image);
+                        .Include(x => x.PetImages);
 
             //Добавить логику
             if (filter.Price.HasValue)
@@ -145,5 +167,40 @@ namespace PetProject.AdvertisementServices
             var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement));
             return data;
         }
+
+        public async Task<FileResponseModel> GetFile()
+        {
+            using var context = await contextFactory.CreateDbContextAsync();
+            var fileEntity = context.PetFiles.First();
+
+            var result = new FileResponseModel()
+            {
+                Id = fileEntity.Id,
+                AdvertisementId = fileEntity.AdvertisementId,
+                Content = Convert.FromBase64String(fileEntity.Content),
+                ContentType = fileEntity.ContentType,
+            };
+
+            return result;
+        }
+
+        //public async Task<IEnumerable<FileResponseModel>> GetFiles()
+        //{
+        //    using var context = await contextFactory.CreateDbContextAsync();
+        //    var filesEntities = context.PetFiles.ToList();
+
+        //    var result = new List<FileResponseModel>();
+        //    for (int i = 0; i < filesEntities.Count(); i++)
+        //    {
+        //        var item = new FileResponseModel()
+        //        {
+        //            Content = Convert.FromBase64String(filesEntities[i].Content),
+        //            ContentType = filesEntities[i].ContentType,
+        //        };
+        //        result.Add(item);
+        //    }
+
+        //    return result;
+        //}
     }
 }

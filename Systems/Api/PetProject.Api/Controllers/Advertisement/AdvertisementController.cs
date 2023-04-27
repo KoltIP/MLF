@@ -5,12 +5,8 @@ using PetProject.AdvertisementServices.Models;
 using PetProject.Api.Controllers.Advertisement.Models;
 using PetProject.Api.Controllers.Favourite.Models;
 using PetProject.Api.Controllers.Subscribe.Models;
-using PetProject.FileService;
-using PetProject.FileService.Models;
 using PetProject.FilterService;
 using PetProject.FilterService.Models;
-using PetProject.Web.Pages.Content.Services.File;
-using IFileService = PetProject.FileService.IFileService;
 
 namespace PetProject.Api.Controllers.Advertisement
 {
@@ -23,19 +19,16 @@ namespace PetProject.Api.Controllers.Advertisement
         private readonly ILogger<AdvertisementController> logger;
         private readonly IFilterService filterService;
         private readonly IAdvertisementService advertisementService;
-        private readonly IFileService fileService;
 
         public AdvertisementController(IMapper mapper,
             ILogger<AdvertisementController> logger,
              IFilterService filterService,
-            IAdvertisementService advertisementService,
-            IFileService fileService)
+            IAdvertisementService advertisementService)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.filterService = filterService;
             this.advertisementService = advertisementService;
-            this.fileService = fileService;
         }
 
 
@@ -65,20 +58,11 @@ namespace PetProject.Api.Controllers.Advertisement
         [HttpPost("")]
         public async Task<AdvertisementResponse> AddAdvertisement([FromBody] AddAdvertisementRequest request)
         {
-            //add image
-            AddFileModel file = new AddFileModel()
-            {
-                Content = request.File.Content,
-                ContentType = request.File.ContentType,
-            };
-            var fileId = await fileService.AddFile(file);
-
             //add advertisement
             var model = mapper.Map<AddAdvertisementModel>(request);
-            model.ImageId = fileId;
             var advertisement = await advertisementService.AddAdvertisement(model);
             var response = mapper.Map<AdvertisementResponse>(advertisement);
-            
+
             //return result
             return response;
         }
@@ -123,6 +107,21 @@ namespace PetProject.Api.Controllers.Advertisement
         {
             await filterService.DeleteFilter(userGuid);
             return Ok();
+        }
+
+        [HttpGet("getFile")]
+        public async Task<FileResponse> GetFileAsync()
+        {
+            var fileModel = await advertisementService.GetFile();
+
+            FileResponse fileResponse = new FileResponse()
+            {
+                Id = fileModel.Id,
+                AdvertisementId = fileModel.AdvertisementId,
+                Content = fileModel.Content,
+                ContentType = fileModel.ContentType,
+            };
+            return fileResponse;
         }
     }
 }

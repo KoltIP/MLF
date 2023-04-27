@@ -172,7 +172,7 @@
     private async Task<string> GetImagePath(AdvertisementResponse advertisementResponse)
     {
         string path = string.Empty;
-        var base64 = Convert.ToBase64String(advertisementResponse.ImageContent);
+        var base64 = Convert.ToBase64String(advertisementResponse.Images[0].Content);
         var fs = string.Format("data:image/jpg;base64,{0}", base64);
         path = fs;
         return path;
