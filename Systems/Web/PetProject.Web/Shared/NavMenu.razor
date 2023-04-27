@@ -4,16 +4,36 @@
             Экзюпери
     </MudText>
     <MudDivider />
-    <MudNavLink Icon="@Icons.Material.Filled.Public" Href="/" Match="NavLinkMatch.All">Главная</MudNavLink>
-    @*<MudNavLink Href="/AllAdvertisements" Match="NavLinkMatch.All">Все объявления</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Home" Href="/" Match="NavLinkMatch.All" IconColor="Color.Default">Главная</MudNavLink>
+    <MudNavGroup Title="Объявления" Expanded="true" Icon="@Icons.Material.Filled.Pets" IconColor="Color.Default">
+        <MudNavLink Href="/AllAdvertisements_V4" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Search" IconColor="Color.Default">Потерянные</MudNavLink>
+        <MudNavLink Href="#1" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AssignmentInd" IconColor="Color.Default">Заводчики</MudNavLink>
+        <MudNavLink Href="#2" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.FitnessCenter" IconColor="Color.Default">Кинологи</MudNavLink>
+        <MudNavLink Href="#3" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.EmojiPeople" IconColor="Color.Default">В добрые руки</MudNavLink>
+        <MudNavLink Href="#4" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AutoAwesome" IconColor="Color.Default">Грумеры</MudNavLink>
+        <MudNavLink Href="#5" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ShoppingCart" IconColor="Color.Default">Магазины</MudNavLink>
+        <MudNavLink Href="#6" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.HealthAndSafety" IconColor="Color.Default">Ветклиники</MudNavLink>
+        <MudNavLink Href="#7" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AddHomeWork" IconColor="Color.Default">Приюты</MudNavLink>
+        <MudNavLink Href="#8" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.RequestPage" IconColor="Color.Default">Другие услуги</MudNavLink>
+        <MudNavLink Href="#9" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.EmojiEvents" IconColor="Color.Default">События</MudNavLink>
+    </MudNavGroup>
+    <MudNavLink Icon="@Icons.Material.Filled.PersonPin" IconColor="Color.Default" Href="/MyAdvertisements" Match="NavLinkMatch.All">Мои объявления</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.FavoriteBorder" IconColor="Color.Default" Href="/MyFavourites" Match="NavLinkMatch.All">Избранное</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Subscriptions" IconColor="Color.Default" Href="/MySubscribes" Match="NavLinkMatch.All">Мои подписки</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.QueryStats" IconColor="Color.Default" Href="/Statistics" Match="NavLinkMatch.All">Статистика</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Info" IconColor="Color.Default" Href="/AboutUs" Match="NavLinkMatch.All">О нас</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.SettingsSuggest" IconColor="Color.Default" Href="/UserSettings" Match="NavLinkMatch.All">Настройки</MudNavLink>
+
+    @*<MudNavLink Icon="@Icons.Material.Filled.Public" Href="/" Match="NavLinkMatch.All">Главная</MudNavLink>
+    <MudNavLink Href="/AllAdvertisements" Match="NavLinkMatch.All">Все объявления</MudNavLink>
     <MudNavLink Href="/AllAdvertisements_V2" Match="NavLinkMatch.All">Все объявления_V2</MudNavLink>
-    <MudNavLink Href="/AllAdvertisements_V3" Match="NavLinkMatch.All">Все объявления_V3</MudNavLink>*@
+    <MudNavLink Href="/AllAdvertisements_V3" Match="NavLinkMatch.All">Все объявления_V3</MudNavLink>
     <MudNavLink Icon="@Icons.Material.Filled.Pets" Href="/AllAdvertisements_V4" Match="NavLinkMatch.All">Все объявления</MudNavLink>
     <MudNavLink Icon="@Icons.Material.Filled.PersonPin" Href="/MyAdvertisements" Match="NavLinkMatch.All">Мои объявления</MudNavLink>
     <MudNavLink Icon="@Icons.Material.Filled.FavoriteBorder" Href="/MyFavourites" Match="NavLinkMatch.All">Избранное</MudNavLink>
     <MudNavLink Icon="@Icons.Material.Filled.Subscriptions" Href="/MySubscribes" Match="NavLinkMatch.All">Мои подписки</MudNavLink>
     <MudNavLink Icon="@Icons.Material.Filled.QueryStats" Href="/Statistics" Match="NavLinkMatch.All">Статистика</MudNavLink>
-    <MudNavLink Icon="@Icons.Material.Filled.SettingsSuggest" Href="/UserSettings" Match="NavLinkMatch.All">Настройки</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.SettingsSuggest" Href="/UserSettings" Match="NavLinkMatch.All">Настройки</MudNavLink>*@
 </MudNavMenu>
 <MudText Style="@($"background:{Colors.Green.Lighten2};width:100%;height:35px;position:absolute;bottom:0;")">
     <span style="margin-left:25px;color:whitesmoke;font-size:medium;">

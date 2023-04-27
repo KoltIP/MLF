@@ -1,0 +1,26 @@
+﻿@page "/AboutUs"
+@layout MainLayout
+
+@attribute [Authorize]
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IAdvertisementService advertisementService
+@inject NavigationManager navigationManager
+@inject ICommentService commentService
+@inject IFavouriteService favouriteService
+@inject ISubscribeService subscriveService
+
+@using PetProject.Web.Pages.Advertisement.Models
+@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using PetProject.Web.Pages.Advertisement.Services
+@using PetProject.Web.Components
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Content.Models.Comment
+@using PetProject.Web.Pages.Content.Services.Comment
+@using PetProject.Web.Pages.Content.Services.Favourite;
+@using PetProject.Web.Pages.Content.Services.Subscribe;
+
+
+<MudText Typo="Typo.h4" Class="ma-8">О нас</MudText>
+

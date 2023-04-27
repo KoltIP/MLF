@@ -9,7 +9,7 @@
         <MudForm Model="model" @ref="form">
             <MudGrid>
 
-                <MudItem xs="12">
+                <MudItem xs="12" sm="6">
                     <MudImage
                         Width="200"
                         Height="150"
@@ -19,52 +19,52 @@
                         Class="rounded-lg" />
                 </MudItem>
 
-                <MudItem xs="12">
-                    <MudTextField Label="Имя" @bind-Value="model.PetName"
-                                        ReadOnly
-                                  Adornment="Adornment.End"
-                                  AdornmentIcon="@Icons.Material.Filled.DriveFileRenameOutline"
-                                  For="@(() => model.PetName)">
-                    </MudTextField>
-                </MudItem>
-
-
-                <MudItem xs="12" >
+                <MudItem xs="12" sm="6">
                     <MudTextField Label="Отличительные черты"
-                                        ReadOnly
+                                  ReadOnly
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@Icons.Material.Filled.Description"
                                   For="@(() => model.PetDescription)"
                                   @bind-Value="model.PetDescription">
                     </MudTextField>
-                </MudItem>
+                    </MudItem>
 
 
-                <MudItem xs="12">
-                    <MudTextField Label="Разыскивается/Найдено"
-                                        ReadOnly
+                    <MudItem xs="12" sm="6">
+                    <MudTextField Label="Имя" @bind-Value="model.PetName"
+                                  ReadOnly
                                   Adornment="Adornment.End"
-                                  AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"
+                                  AdornmentIcon="@Icons.Material.Filled.DriveFileRenameOutline"
+                                  For="@(() => model.PetName)">
+                    </MudTextField>
+                    </MudItem>
+
+
+                    <MudItem xs="12" sm="6">
+                    <MudTextField Label="Разыскивается/Найдено"
+                                  ReadOnly
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.Flaky"
                                   For="@(()=>isWanted)"
                                   @bind-Value="isWanted">
                     </MudTextField>
-                </MudItem>
+                    </MudItem>
+                    
 
-
-                    <MudItem xs="12">
+                    <MudItem xs="12" sm="6">
                     <MudTextField Label="Пол"
-                                        ReadOnly
+                                  ReadOnly
                                   Adornment="Adornment.End"
-                                  AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"
+                                  AdornmentIcon="@Icons.Material.Filled.Wc"
                                   For="@(()=>gender)"
                                   @bind-Value="gender">
                     </MudTextField>
                     </MudItem>
 
 
-                <MudItem xs="12" >
+                    <MudItem xs="12" sm="6">
                     <MudTextField Label="Вознаграждение"
-                                        ReadOnly
+                                  ReadOnly
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"
                                   For="@(() => model.Price)"
@@ -74,7 +74,7 @@
 
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Цвет"
-                                        ReadOnly
+                                  ReadOnly
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@Icons.Material.Filled.Palette"
                                   For="@(() => model.PetColor)"
@@ -84,7 +84,7 @@
 
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Тип"
-                                        ReadOnly
+                                  ReadOnly
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@Icons.Material.Filled.GeneratingTokens"
                                   For="@(() => model.PetType)"
@@ -96,7 +96,7 @@
 
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Порода"
-                                        ReadOnly
+                                  ReadOnly
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@Icons.Material.Filled.Interests"
                                   For="@(() => model.PetBreed)"
@@ -106,15 +106,19 @@
 
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Возраст"
-                                        ReadOnly
+                                  ReadOnly
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.ShortText"
                                   For="@(() => model.Age)"
                                   @bind-Value="model.Age">
                     </MudTextField>
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Дата"
-                                        ReadOnly
+                    <MudTextField Label="Дата"                 
+                                  ReadOnly
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.DateRange"
                                   For="@(() => model.DateLost)"
                                   @bind-Value="model.DateLost">
                     </MudTextField>
@@ -123,7 +127,7 @@
                 <MudItem xs="12" sm="6">
                     <MudTextField Label="Город"
                                   Adornment="Adornment.End"
-                                        ReadOnly
+                                  ReadOnly
                                   AdornmentIcon="@Icons.Material.Filled.LocationCity"
                                   For="@(() => model.City)"
                                   @bind-Value="model.City">
