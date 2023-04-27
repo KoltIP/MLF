@@ -31,7 +31,7 @@
         <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
             <MudGrid>
 
-                <MudItem xs="6">                    
+                <MudItem xs="6" sm="6">
                     @if (filePath != string.Empty)
                     {
                         <MudImage Src="@filePath" Alt="Изображение не загружено" Class="rounded-lg" Style="height:100px;width:150px;"></MudImage>
@@ -42,19 +42,21 @@
                     }
                 </MudItem>
 
-                <MudItem xs="6">
-                    <MudTextField Label="Имя" @bind-Value="model.PetName"
-                                  Adornment="Adornment.End"
-                                  AdornmentIcon="@Icons.Material.Filled.DriveFileRenameOutline"
-                                  For="@(() => model.PetName)"
-                                  Required="false"
-                                  RequiredError="Имя обязательно!"
-                                  >
-                    </MudTextField>
+                <MudItem xs="12" sm="6">
+                    <MudFileUpload T="IBrowserFile" FilesChanged="ShowImage" Accept=".jpg">
+                        <ButtonTemplate>
+                            <MudButton HtmlTag="label"
+                                       Variant="Variant.Filled"
+                                       Color="MudBlazor.Color.Primary"
+                                       StartIcon="@Icons.Material.Filled.CloudUpload"
+                                       for="@context">
+                                Загрузить фотографию
+                            </MudButton>
+                        </ButtonTemplate>
+                    </MudFileUpload>
                 </MudItem>
-
-
-                <MudItem xs="6" >
+                
+                <MudItem xs="6" sm="6">
                     <MudTextField Label="Отличительные черты"
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@Icons.Material.Filled.Description"
@@ -64,10 +66,20 @@
                                   RequiredError="Описание обязательно!"></MudTextField>
                 </MudItem>
 
+                <MudItem xs="6" sm="6">
+                    <MudTextField Label="Имя" @bind-Value="model.PetName"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.DriveFileRenameOutline"
+                                  For="@(() => model.PetName)"
+                                  Required="false"
+                                  RequiredError="Имя обязательно!">
+                    </MudTextField>
+                </MudItem>
+
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectFindType" T="int" Label="Тип" @bind-Value="model.IsWanted" For="@(() => model.IsWanted)"
+                    <MudSelect @ref="selectFindType" T="int" Label="Тип объявления" @bind-Value="model.IsWanted" For="@(() => model.IsWanted)"
                                Adornment="Adornment.End"
-                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">
+                               AdornmentIcon="@Icons.Material.Filled.Flaky">
                         <MudSelectItem T="int" Value="1">Разыскивается</MudSelectItem>
                         <MudSelectItem T="int" Value="0">Найдено</MudSelectItem>
                     </MudSelect>
@@ -76,7 +88,7 @@
                 <MudItem xs="12" sm="6">
                     <MudSelect @ref="selectGender" T="int" Label="Пол" @bind-Value="model.Gender" For="@(() => model.Gender)"
                                Adornment="Adornment.End"
-                               AdornmentIcon="@Icons.Material.Filled.GeneratingTokens">
+                               AdornmentIcon="@Icons.Material.Filled.Wc">
                         <MudSelectItem T="int" Value="1">Мужской</MudSelectItem>
                         <MudSelectItem T="int" Value="0">Женский</MudSelectItem>
                     </MudSelect>
@@ -162,19 +174,7 @@
                     </MudSelect>
                 </MudItem>
 
-                <MudItem xs="12" sm="6">
-                    <MudFileUpload T="IBrowserFile" FilesChanged="ShowImage" Accept=".jpg">
-                        <ButtonTemplate>
-                            <MudButton HtmlTag="label"
-                                       Variant="Variant.Filled"
-                                       Color="MudBlazor.Color.Primary"
-                                       StartIcon="@Icons.Material.Filled.CloudUpload"
-                                       for="@context">
-                               Загрузить фотографию
-                            </MudButton>
-                        </ButtonTemplate>
-                    </MudFileUpload>
-                </MudItem>
+               
 
             </MudGrid>
         </MudForm>
