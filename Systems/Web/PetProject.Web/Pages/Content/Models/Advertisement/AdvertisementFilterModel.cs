@@ -3,7 +3,7 @@
 namespace PetProject.Web.Pages.Content.Models.Advertisement
 {
     public class AdvertisementFilterModel
-    {
+    {        
         public Guid UserId { get; set; }
         public int Gender { get; set; }
         public int IsWanted { get; set; }

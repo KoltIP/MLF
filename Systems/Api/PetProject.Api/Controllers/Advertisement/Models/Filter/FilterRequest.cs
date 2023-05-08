@@ -2,7 +2,7 @@
 using PetProject.AdvertisementServices.Models;
 using PetProject.FilterService.Models;
 
-namespace PetProject.Api.Controllers.Advertisement.Models
+namespace PetProject.Api.Controllers.Advertisement.Models.Filter
 {
     public class FilterRequest
     {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetProject.AdvertisementServices;
 using PetProject.AdvertisementServices.Models;
-using PetProject.Api.Controllers.Advertisement.Models;
+using PetProject.Api.Controllers.Advertisement.Models.Advertisement;
 using PetProject.Api.Controllers.Favourite.Models;
 using PetProject.Api.Controllers.Subscribe.Models;
 using PetProject.FavoutiteService;

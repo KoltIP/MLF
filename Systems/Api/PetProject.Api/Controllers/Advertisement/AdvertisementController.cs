@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PetProject.AdvertisementServices;
-using PetProject.AdvertisementServices.Models;
-using PetProject.Api.Controllers.Advertisement.Models;
+using PetProject.AdvertisementServices.Models.Advertisement;
+using PetProject.Api.Controllers.Advertisement.Models.Advertisement;
+using PetProject.Api.Controllers.Advertisement.Models.File;
+using PetProject.Api.Controllers.Advertisement.Models.Filter;
 using PetProject.Api.Controllers.Favourite.Models;
 using PetProject.Api.Controllers.Subscribe.Models;
 using PetProject.FilterService;
@@ -40,18 +42,18 @@ namespace PetProject.Api.Controllers.Advertisement
             return response;
         }
 
-        [HttpGet("all/{userGuid}")]
-        public async Task<IEnumerable<AdvertisementResponse>> GetAdvertisements([FromRoute] Guid userGuid)
+        [HttpGet("all/{userGuid}&{pageNumber}")]
+        public async Task<AdvertisementResponseList> GetAdvertisements([FromRoute] Guid userGuid, [FromRoute] int pageNumber)
         {
             var filter = await filterService.GetFilter(userGuid);
             if (filter != null)
             {
-                var filteredAdvertisements = await advertisementService.FilterAdvertisement(filter);
-                var filteredResponse = mapper.Map<IEnumerable<AdvertisementResponse>>(filteredAdvertisements);
+                var filteredAdvertisements = await advertisementService.FilterAdvertisement(filter, pageNumber);
+                var filteredResponse = mapper.Map<AdvertisementResponseList>(filteredAdvertisements);
                 return filteredResponse;
             }
-            var advertisements = await advertisementService.GetAdvertisements();
-            var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
+            var advertisementsModelList = await advertisementService.GetAdvertisements(pageNumber);
+            var response = mapper.Map<AdvertisementResponseList>(advertisementsModelList);
             return response;
         }
 
@@ -83,13 +85,13 @@ namespace PetProject.Api.Controllers.Advertisement
             return Ok();
         }
 
-        [HttpPost("addfilter")]
-        public async Task<IEnumerable<AdvertisementResponse>> AddOrEditFilterAdvertisement([FromBody] FilterRequest request)
+        [HttpPost("addfilter/{pageNumber}")]
+        public async Task<AdvertisementResponseList> AddOrEditFilterAdvertisement([FromRoute] int pageNumber, [FromBody] FilterRequest request)
         {
             var model = mapper.Map<FilterModel>(request);
             await filterService.AddOrEditFilter(model);
-            var advertisements = await advertisementService.FilterAdvertisement(model);
-            var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
+            var advertisements = await advertisementService.FilterAdvertisement(model, pageNumber);
+            var response = mapper.Map<AdvertisementResponseList>(advertisements);
             return response;
         }
 

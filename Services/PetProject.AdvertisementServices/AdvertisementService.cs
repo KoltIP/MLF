@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration.Conventions;
 using Microsoft.EntityFrameworkCore;
-using PetProject.AdvertisementServices.Models;
+using PetProject.AdvertisementServices.Models.Advertisement;
+using PetProject.AdvertisementServices.Models.File;
 using PetProject.Db.Context.Context;
 using PetProject.Db.Entities;
 using PetProject.FilterService;
@@ -18,6 +19,7 @@ namespace PetProject.AdvertisementServices
 {
     public class AdvertisementService : IAdvertisementService
     {
+        private const int countAdvOnpage = 12;
         private readonly IMapper mapper;
         private readonly IDbContextFactory<MainDbContext> contextFactory;
         private readonly IModelValidator<AddAdvertisementModel> addAdvertisementModelValidator;
@@ -35,7 +37,7 @@ namespace PetProject.AdvertisementServices
             this.editAdvertisementModelValidator = editAdvertisementModelValidator;
         }
 
-        public async Task<IEnumerable<AdvertisementModel>> GetAdvertisements()
+        public async Task<AdvertisementsModelList> GetAdvertisements(int pageNumber)
         {
             var context = contextFactory.CreateDbContext();                                    
             var advertisements = context.Advertisements.AsQueryable();
@@ -44,17 +46,25 @@ namespace PetProject.AdvertisementServices
                         .Include(x => x.Type.Breed)
                         .Include(x => x.Type)
                         .Include(x => x.City);
-            //.Include(x => x.PetImages);           
 
+            var count = advertisements.Count();
+
+            advertisements = advertisements.Skip(countAdvOnpage * (pageNumber - 1)).Take(countAdvOnpage);
+            
             var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement)).ToList();
-
             for (int i = 0; i < data.Count(); i++)
             {
                 var files = context.PetFiles.AsQueryable().Where(x => x.AdvertisementId == data[i].Id);
                 data[i].Images = files.Select(file => mapper.Map<FileResponseModel>(file)).ToList();
             }
 
-            return data;
+            AdvertisementsModelList advertisementsModelList = new AdvertisementsModelList()
+            {
+                Advertisements = data,
+                Count = count
+            };
+
+            return advertisementsModelList;
         }
 
         public async Task<AdvertisementModel> GetAdvertisement(int id)
@@ -125,7 +135,7 @@ namespace PetProject.AdvertisementServices
             context.SaveChanges();
         }
 
-        public async Task<IEnumerable<AdvertisementModel>> FilterAdvertisement(FilterModel filter)
+        public async Task<AdvertisementsModelList> FilterAdvertisement(FilterModel filter, int pageNumber)
         {
             var context = contextFactory.CreateDbContext();          
             
@@ -163,9 +173,23 @@ namespace PetProject.AdvertisementServices
             if (filter.PetBreedId.HasValue && filter.PetBreedId.Value != 0)
                 advertisements = advertisements.Where(x => x.Type.BreedId == filter.PetBreedId);
 
+            var count = advertisements.Count(); 
+            advertisements = advertisements.Skip(countAdvOnpage * (pageNumber - 1)).Take(countAdvOnpage);
+            var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement)).ToList();
 
-            var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement));
-            return data;
+            for (int i = 0; i < data.Count(); i++)
+            {
+                var files = context.PetFiles.AsQueryable().Where(x => x.AdvertisementId == data[i].Id);
+                data[i].Images = files.Select(file => mapper.Map<FileResponseModel>(file)).ToList();
+            }
+
+            AdvertisementsModelList advertisementsModelList = new AdvertisementsModelList()
+            {
+                Advertisements = data.ToList(),
+                Count = count
+            };
+
+            return advertisementsModelList;
         }
 
         public async Task<FileResponseModel> GetFile()
@@ -184,23 +208,5 @@ namespace PetProject.AdvertisementServices
             return result;
         }
 
-        //public async Task<IEnumerable<FileResponseModel>> GetFiles()
-        //{
-        //    using var context = await contextFactory.CreateDbContextAsync();
-        //    var filesEntities = context.PetFiles.ToList();
-
-        //    var result = new List<FileResponseModel>();
-        //    for (int i = 0; i < filesEntities.Count(); i++)
-        //    {
-        //        var item = new FileResponseModel()
-        //        {
-        //            Content = Convert.FromBase64String(filesEntities[i].Content),
-        //            ContentType = filesEntities[i].ContentType,
-        //        };
-        //        result.Add(item);
-        //    }
-
-        //    return result;
-        //}
     }
 }

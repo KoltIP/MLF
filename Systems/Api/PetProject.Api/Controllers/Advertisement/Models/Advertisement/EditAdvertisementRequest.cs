@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using PetProject.AdvertisementServices.Models;
+using PetProject.AdvertisementServices.Models.Advertisement;
 
-namespace PetProject.Api.Controllers.Advertisement.Models
+namespace PetProject.Api.Controllers.Advertisement.Models.Advertisement
 {
     public class EditAdvertisementRequest
     {

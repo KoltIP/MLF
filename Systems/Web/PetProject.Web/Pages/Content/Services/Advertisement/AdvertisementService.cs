@@ -31,7 +31,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         }
 
 
-        public async Task<IEnumerable<AdvertisementResponse>> GetAdvertisements()
+        public async Task<AdvertisementResponseList> GetAdvertisements(int pageNumber)
         {
             var token = await _localStorage.GetItemAsync<string>("authToken");
             var handler = new JwtSecurityTokenHandler();
@@ -41,7 +41,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             var userId = Guid.Parse(idUser);
 
 
-            string url = $"{Settings.ApiRoot}/v1/advertisement/all/{userId}";
+            string url = $"{Settings.ApiRoot}/v1/advertisement/all/{userId}&{pageNumber}";
 
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -51,7 +51,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementResponse>();
+            var data = JsonSerializer.Deserialize<AdvertisementResponseList>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new AdvertisementResponseList();
 
             return data;
         }
@@ -262,7 +262,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 
         }
 
-        public async Task<IEnumerable<AdvertisementResponse>> AddFilter(AdvertisementFilterModel filtermodel)
+        public async Task<AdvertisementResponseList> AddFilter(AdvertisementFilterModel filtermodel, int pageNumber)
         {
 
             var token = await _localStorage.GetItemAsync<string>("authToken");
@@ -272,7 +272,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
             var idUser = tokenS.Claims.First(claim => claim.Type == "sub").Value;
             filtermodel.UserId = Guid.Parse(idUser);
 
-            string url = $"{Settings.ApiRoot}/v1/advertisement/addfilter";
+            string url = $"{Settings.ApiRoot}/v1/advertisement/addfilter/{pageNumber}";
 
             var body = JsonSerializer.Serialize(filtermodel);
             var request = new StringContent(body, Encoding.UTF8, "application/json");
@@ -280,7 +280,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
 
             var content = await response.Content.ReadAsStringAsync();
 
-            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementResponse>();
+            var data = JsonSerializer.Deserialize<AdvertisementResponseList>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new AdvertisementResponseList();
 
             return data;
         }
