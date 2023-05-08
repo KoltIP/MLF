@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetProject.AdvertisementServices.Models
+namespace PetProject.AdvertisementServices.Models.Advertisement
 {
     public class EditAdvertisementModel
     {
@@ -36,7 +36,7 @@ namespace PetProject.AdvertisementServices.Models
     {
         public EditAdvertisementRequestProfile()
         {
-            CreateMap<EditAdvertisementModel, Advertisement>();
+            CreateMap<EditAdvertisementModel, PetProject.Db.Entities.Advertisement>();
         }
     }
 }

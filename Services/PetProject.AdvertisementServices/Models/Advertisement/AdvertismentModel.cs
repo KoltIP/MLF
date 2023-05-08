@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PetProject.AdvertisementServices.Models.File;
 using PetProject.Db.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetProject.AdvertisementServices.Models
+namespace PetProject.AdvertisementServices.Models.Advertisement
 {
     public class AdvertisementModel
     {
@@ -22,10 +23,10 @@ namespace PetProject.AdvertisementServices.Models
         public string PetColor { get; set; } = string.Empty;
         public int PetBreedId { get; set; }
         public string PetBreed { get; set; } = string.Empty;
-        public int PetTypeId { get; set; } 
+        public int PetTypeId { get; set; }
         public string PetType { get; set; } = string.Empty;
         public int CityId { get; set; }
-        public string City { get; set; } = string.Empty; 
+        public string City { get; set; } = string.Empty;
         public int ImageId { get; set; }
         public int? Age { get; set; }
         public DateTime? DateLost { get; set; }
@@ -37,7 +38,7 @@ namespace PetProject.AdvertisementServices.Models
     {
         public AdvertisementModelProfile()
         {
-            CreateMap<Advertisement, AdvertisementModel>()
+            CreateMap<PetProject.Db.Entities.Advertisement, AdvertisementModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))

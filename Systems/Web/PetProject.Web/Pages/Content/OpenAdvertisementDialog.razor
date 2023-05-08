@@ -1,0 +1,206 @@
+﻿@using PetProject.Web.Pages.Advertisement.Models.Advertisement
+@using PetProject.Web.Pages.Advertisement.Services.Advertisement
+@using PetProject.Web.Pages.Content.Models.Comment;
+@using PetProject.Web.Pages.Content.Services.Comment;
+@inherits MudComponentBase
+
+@inject IAdvertisementService advertisementService
+@inject ICommentService commentService
+<MudDialog>
+    <DialogContent>
+        <MudContainer Style="max-height: 500px; overflow-y: scroll">
+            <MudForm Model="model" @ref="form">
+                <MudGrid Spacing="2">
+
+                    <MudItem xs="12" sm="2">
+                        <MudImage
+                            Width="150"
+                            Height="115"
+                            Src="@path"
+                            Alt="Ошибка поиска"
+                            Elevation="25" 
+                            Class="rounded-lg" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="3">
+                        <MudTextField Label="Разыскивается/Найдено"
+                                            ReadOnly
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@Icons.Material.Filled.Flaky"
+                                      For="@(()=>isWanted)"
+                                      @bind-Value="isWanted">
+                        </MudTextField>
+                        </MudItem>
+
+                    <MudItem xs="12" sm="2">
+                    <MudTextField Label="Пол"
+                                        ReadOnly
+                                    Adornment="Adornment.End"
+                                    AdornmentIcon="@Icons.Material.Filled.Wc"
+                                    For="@(()=>gender)"
+                                    @bind-Value="gender">
+                    </MudTextField>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="2">
+                        <MudTextField Label="Имя" @bind-Value="model.PetName"
+                                            ReadOnly
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@Icons.Material.Filled.DriveFileRenameOutline"
+                                      For="@(() => model.PetName)">
+                        </MudTextField>
+                        </MudItem>
+                     
+                    <MudItem xs="12" sm="3">
+                    <MudTextField Label="Город"
+                                    Adornment="Adornment.End"
+                                        ReadOnly
+                                    AdornmentIcon="@Icons.Material.Filled.LocationCity"
+                                    For="@(() => model.City)"
+                                    @bind-Value="model.City">
+                    </MudTextField>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="2">
+                    <MudTextField Label="Дата"
+                                        ReadOnly
+                                    Adornment="Adornment.End"
+                                    AdornmentIcon="@Icons.Material.Filled.DateRange"
+                                    For="@(() => model.DateLost)"
+                                    @bind-Value="model.DateLost">
+                    </MudTextField>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="2">
+                        <MudTextField Label="Цвет"
+                                        ReadOnly
+                                        Adornment="Adornment.End"
+                                        AdornmentIcon="@Icons.Material.Filled.Palette"
+                                        For="@(() => model.PetColor)"
+                                        @bind-Value="model.PetColor">
+                        </MudTextField>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="2">
+                        <MudTextField Label="Тип"
+                                        ReadOnly
+                                        Adornment="Adornment.End"
+                                        AdornmentIcon="@Icons.Material.Filled.GeneratingTokens"
+                                        For="@(() => model.PetType)"
+                                        @bind-Value="model.PetType">
+                        </MudTextField>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="3">
+                        <MudTextField Label="Порода"
+                                        ReadOnly
+                                        Adornment="Adornment.End"
+                                        AdornmentIcon="@Icons.Material.Filled.Interests"
+                                        For="@(() => model.PetBreed)"
+                                        @bind-Value="model.PetBreed">
+                        </MudTextField>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="1">
+                        <MudTextField Label="Возраст"
+                                        ReadOnly
+                                        Adornment="Adornment.End"
+                                        AdornmentIcon="@Icons.Material.Filled.ShortText"
+                                        For="@(() => model.Age)"
+                                        @bind-Value="model.Age">
+                        </MudTextField>
+                    </MudItem>
+                
+                    <MudItem xs="12" sm="2">
+                        <MudTextField Label="Вознаграждение"
+                                            ReadOnly
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@Icons.Material.Filled.CurrencyRuble"
+                                      For="@(() => model.Price)"
+                                      @bind-Value="model.Price">
+                        </MudTextField>
+                        </MudItem>
+
+                    <MudItem xs="12" sm="12">
+                        <MudTextField Label="Отличительные черты"
+                                            ReadOnly
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@Icons.Material.Filled.Description"
+                                      For="@(() => model.PetDescription)"
+                                      @bind-Value="model.PetDescription">
+                        </MudTextField>
+                        </MudItem>
+
+                </MudGrid>
+                <MudButton 
+                    OnClick="@((e) => OpenComment(model.Id))"
+                    EndIcon="@Icons.Material.Filled.CommentBank"
+                    Variant="Variant.Filled"
+                    Color="MudBlazor.Color.Primary"
+                    Style="margin-top:15px;">
+                    Показать комментарии
+                </MudButton>
+            </MudForm>
+                <MudStack>
+                <MudPaper Class="pa-3">Item 1</MudPaper>
+                <MudPaper Class="pa-3">Item 2</MudPaper>
+                <MudPaper Class="pa-3">Item 3</MudPaper>
+                <MudPaper Class="pa-3">Item 1</MudPaper>
+                <MudPaper Class="pa-3">Item 2</MudPaper>
+                <MudPaper Class="pa-3">Item 3</MudPaper>
+                <MudPaper Class="pa-3">Item 1</MudPaper>
+                <MudPaper Class="pa-3">Item 2</MudPaper>
+                <MudPaper Class="pa-3">Item 3</MudPaper>
+                <MudPaper Class="pa-3">Item 1</MudPaper>
+                <MudPaper Class="pa-3">Item 2</MudPaper>
+                <MudPaper Class="pa-3">Item 3</MudPaper>
+            </MudStack>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+    private string invis = "invisible ma-8";
+    MudForm form = default!;
+
+    bool isNew = false;
+
+    [Parameter]
+    public AdvertisementResponse advertisementResponse { get; set; } = default;
+    private string path { get; set; }
+    private string isWanted { get; set; }
+    private string gender { get; set; }
+
+    public AdvertisementResponse model { get; set; } = new AdvertisementResponse();
+    private IEnumerable<CommentListItem> CommentListItems = new List<CommentListItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = advertisementResponse;
+        isWanted = model.IsWanted == true ? "Разыскивается" : "Найдено";
+        gender = model.Gender == true ? "Мужской" : "Женский";
+        path = await GetImagePath(advertisementResponse);
+    }    
+
+    void Cancel() => MudDialog.Cancel();
+
+    private async Task<string> GetImagePath(AdvertisementResponse advertisementResponse)
+    {
+        string path = string.Empty;
+        var base64 = Convert.ToBase64String(advertisementResponse.Images[0].Content);
+        var fs = string.Format("data:image/jpg;base64,{0}", base64);
+        path = fs;
+        return path;
+    }
+
+    private async Task OpenComment(int advertisementId)
+    {
+        invis = "ma-8";
+        CommentListItems = await commentService.GetComments(advertisementId);
+    }
+}

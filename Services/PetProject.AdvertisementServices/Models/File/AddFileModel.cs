@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetProject.AdvertisementServices.Models
+namespace PetProject.AdvertisementServices.Models.File
 {
     public class AddFileModel
-    {        
-        public String ContentType { get; set; }
-        public Byte[] Content { get; set; }
+    {
+        public string ContentType { get; set; }
+        public byte[] Content { get; set; }
     }
 }

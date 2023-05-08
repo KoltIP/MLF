@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Components.Forms;
-using PetProject.AdvertisementServices.Models;
+using PetProject.AdvertisementServices.Models.Advertisement;
+using PetProject.AdvertisementServices.Models.File;
 
-namespace PetProject.Api.Controllers.Advertisement.Models
+namespace PetProject.Api.Controllers.Advertisement.Models.Advertisement
 {
     public class AddAdvertisementRequest
     {
         public Guid UserId { get; set; }
         public int Gender { get; set; }
         public int IsWanted { get; set; }
-        public string? PetName { get; set; } 
-        public string? PetDescription { get; set; } 
+        public string? PetName { get; set; }
+        public string? PetDescription { get; set; }
         public float? Price { get; set; }
         public int PetColorId { get; set; }
         public int PetTypeId { get; set; }
@@ -24,7 +25,7 @@ namespace PetProject.Api.Controllers.Advertisement.Models
     public class addadvertismentrequestvalidator : AbstractValidator<AddAdvertisementRequest>
     {
         public addadvertismentrequestvalidator()
-        {          
+        {
             //RuleFor(x => x.UserId)
             //    .NotEmpty().WithMessage("error in api, userID is required");           
             //RuleFor(x => x.PetName)
@@ -44,7 +45,7 @@ namespace PetProject.Api.Controllers.Advertisement.Models
         public AddAdvertismentRequestProfile()
         {
             CreateMap<AddAdvertisementRequest, AddAdvertisementModel>()
-                 .ForMember(dest => dest.IsWanted, opt => opt.MapFrom(src => (src.IsWanted == 1 ? true : false)));
+                 .ForMember(dest => dest.IsWanted, opt => opt.MapFrom(src => src.IsWanted == 1 ? true : false));
         }
     }
 }

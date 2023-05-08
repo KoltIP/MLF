@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
-using PetProject.AdvertisementServices.Models;
+using PetProject.AdvertisementServices.Models.Advertisement;
+using PetProject.Api.Controllers.Advertisement.Models.File;
 
-namespace PetProject.Api.Controllers.Advertisement.Models
+namespace PetProject.Api.Controllers.Advertisement.Models.Advertisement
 {
     public class AdvertisementResponse
     {
@@ -15,7 +16,7 @@ namespace PetProject.Api.Controllers.Advertisement.Models
         public int PetColorId { get; set; }
         public int PetTypeId { get; set; }
         public int PetBreedId { get; set; }
-        public int CityId { get; set; }        
+        public int CityId { get; set; }
         public string PetColor { get; set; } = string.Empty;
         public string PetBreed { get; set; } = string.Empty;
         public string PetType { get; set; } = string.Empty;

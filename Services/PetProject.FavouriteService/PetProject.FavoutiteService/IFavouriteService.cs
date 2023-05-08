@@ -1,4 +1,5 @@
-﻿using PetProject.AdvertisementServices.Models;
+﻿
+using PetProject.AdvertisementServices.Models.Advertisement;
 using PetProject.FavoutiteService.Models;
 using System;
 using System.Collections.Generic;

@@ -68,8 +68,8 @@ else
     private List<AdvertisementResponse> advertisementListItems = new List<AdvertisementResponse>();
     private async Task ReloadData()
     {
-        IEnumerable<AdvertisementResponse> resultList = await advertisementService.GetAdvertisements();
-        advertisementListItems = resultList.ToList();
+        //IEnumerable<AdvertisementResponse> resultList = await advertisementService.GetAdvertisements();
+        //advertisementListItems = resultList.ToList();
         //papers = advertisementListItems.Count();
         papers = 3;
         pathes = new string[3] 
@@ -95,19 +95,19 @@ else
 
     private async Task AddAdvertisement()
     {
-        var parameters = new DialogParameters { };
-        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        //var parameters = new DialogParameters { };
+        //var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
 
-        var dialog = DialogService.Show<AdvertisementDialog>("Добавить объявление", parameters, options);
-        var result = await dialog.Result;
+        //var dialog = DialogService.Show<AdvertisementDialog>("Добавить объявление", parameters, options);
+        //var result = await dialog.Result;
 
-        if (!result.Cancelled)
-        {
-            var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
-            await OnInitializedAsync();
-            if (addResult.ErrorCode != 0)
-                Snackbar.Add(addResult.Message, Severity.Error);
-        }
+        //if (!result.Cancelled)
+        //{
+        //    var addResult = await advertisementService.AddAdvertisement(((AdvertisementDialog)dialog.Dialog).model);
+        //    await OnInitializedAsync();
+        //    if (addResult.ErrorCode != 0)
+        //        Snackbar.Add(addResult.Message, Severity.Error);
+        //}
     }
 
 }

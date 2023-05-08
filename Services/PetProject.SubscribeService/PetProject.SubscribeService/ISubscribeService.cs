@@ -1,4 +1,4 @@
-﻿using PetProject.AdvertisementServices.Models;
+﻿using PetProject.AdvertisementServices.Models.Advertisement;
 using PetProject.SubscribeService.Models;
 using System;
 using System.Collections.Generic;

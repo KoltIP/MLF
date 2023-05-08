@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetProject.AdvertisementServices.Models
+namespace PetProject.AdvertisementServices.Models.File
 {
     public class FileResponseModel
     {

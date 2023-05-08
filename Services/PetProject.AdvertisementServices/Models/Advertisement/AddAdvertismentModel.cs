@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using PetProject.AdvertisementServices.Models.File;
 using PetProject.Db.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetProject.AdvertisementServices.Models
+namespace PetProject.AdvertisementServices.Models.Advertisement
 {
     public class AddAdvertisementModel
     {
@@ -50,7 +51,7 @@ namespace PetProject.AdvertisementServices.Models
     {
         public AddAdvertisementRequestProfile()
         {
-            CreateMap<AddAdvertisementModel, Advertisement>();
+            CreateMap<AddAdvertisementModel, PetProject.Db.Entities.Advertisement>();
         }
     }
 }

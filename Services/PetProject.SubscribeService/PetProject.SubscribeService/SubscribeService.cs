@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using PetProject.AdvertisementServices.Models;
+using PetProject.AdvertisementServices.Models.Advertisement;
 using PetProject.Db.Context.Context;
 using PetProject.Db.Entities;
 using PetProject.Shared.Common.Exceptions;

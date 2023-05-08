@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using PetProject.AdvertisementServices.Models;
+using PetProject.AdvertisementServices.Models.File;
 
-namespace PetProject.Api.Controllers.Advertisement.Models
+namespace PetProject.Api.Controllers.Advertisement.Models.File
 {
     public class FileResponse
     {
