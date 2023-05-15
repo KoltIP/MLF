@@ -15,7 +15,7 @@ namespace PetProject.Web.Pages.Advertisement.Services.Advertisement
         Task<ErrorResponse> AddAdvertisement(AdvertisementDialogModel model);        
         Task<AdvertisementResponse> GetAdvertisement(int advertisementId);
         Task<AdvertisementResponseList> GetAdvertisements(int pageNumber);
-        Task<IEnumerable<AdvertisementResponse>> GetUserAdvertisements(int offset = 0, int limit = 10);
+        Task<AdvertisementResponseList> GetUserAdvertisements(int pageNumber);
         Task<ErrorResponse> EditAdvertisement(int advertisementId, AdvertisementDialogModel model);
         Task<ErrorResponse> DeleteAdvertisement(int advertisementId);
         Task<IEnumerable<BreedModel>> GetBreedList();

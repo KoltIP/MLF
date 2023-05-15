@@ -42,7 +42,7 @@ namespace PetProject.Api.Controllers.Advertisement
             return response;
         }
 
-        [HttpGet("all/{userGuid}&{pageNumber}")]
+        [HttpGet("all/{userGuid}/{pageNumber}")]
         public async Task<AdvertisementResponseList> GetAdvertisements([FromRoute] Guid userGuid, [FromRoute] int pageNumber)
         {
             var filter = await filterService.GetFilter(userGuid);
@@ -53,6 +53,14 @@ namespace PetProject.Api.Controllers.Advertisement
                 return filteredResponse;
             }
             var advertisementsModelList = await advertisementService.GetAdvertisements(pageNumber);
+            var response = mapper.Map<AdvertisementResponseList>(advertisementsModelList);
+            return response;
+        }
+
+        [HttpGet("my/{userGuid}/{pageNumber}")]
+        public async Task<AdvertisementResponseList> GetUserAdvertisements([FromRoute] Guid userGuid, [FromRoute] int pageNumber)
+        {            
+            var advertisementsModelList = await advertisementService.GetUserAdvertisements(userGuid,pageNumber);
             var response = mapper.Map<AdvertisementResponseList>(advertisementsModelList);
             return response;
         }

@@ -51,7 +51,39 @@ namespace PetProject.AdvertisementServices
 
             advertisements = advertisements.Skip(countAdvOnpage * (pageNumber - 1)).Take(countAdvOnpage);
             
-            var data = (await advertisements.ToListAsync()).Select(advertisement => mapper.Map<AdvertisementModel>(advertisement)).ToList();
+            var data = advertisements.Select(advertisement => mapper.Map<AdvertisementModel>(advertisement)).ToList();
+            for (int i = 0; i < data.Count(); i++)
+            {
+                var files = context.PetFiles.AsQueryable().Where(x => x.AdvertisementId == data[i].Id);
+                data[i].Images = files.Select(file => mapper.Map<FileResponseModel>(file)).ToList();
+            }
+
+            AdvertisementsModelList advertisementsModelList = new AdvertisementsModelList()
+            {
+                Advertisements = data,
+                Count = count
+            };
+
+            return advertisementsModelList;
+        }
+
+        public async Task<AdvertisementsModelList> GetUserAdvertisements(Guid UserId, int pageNumber)
+        {
+            var context = contextFactory.CreateDbContext();
+            var advertisements = context.Advertisements.AsQueryable();
+            advertisements = advertisements
+                        .Include(x => x.Color)
+                        .Include(x => x.Type.Breed)
+                        .Include(x => x.Type)
+                        .Include(x => x.City);
+
+            var count = advertisements.Count();
+
+            advertisements = advertisements.Where(x => x.UserId == UserId);
+
+            advertisements = advertisements.Skip(countAdvOnpage * (pageNumber - 1)).Take(countAdvOnpage);
+
+            var data = advertisements.Select(advertisement => mapper.Map<AdvertisementModel>(advertisement)).ToList();
             for (int i = 0; i < data.Count(); i++)
             {
                 var files = context.PetFiles.AsQueryable().Where(x => x.AdvertisementId == data[i].Id);

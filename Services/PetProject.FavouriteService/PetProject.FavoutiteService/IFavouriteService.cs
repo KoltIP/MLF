@@ -11,7 +11,7 @@ namespace PetProject.FavoutiteService
 {
     public interface IFavouriteService
     {
-        Task<IEnumerable<AdvertisementModel>> GetAllFavourite(Guid UserId);
+        Task<AdvertisementsModelList> GetAllFavourite(Guid UserId, int pageNumber);
         Task AddInFavourite(AddFavouriteModel model);
         Task DeleteInFavourite(int id);
     }

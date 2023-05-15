@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetProject.AdvertisementServices;
 using PetProject.AdvertisementServices.Models;
+using PetProject.AdvertisementServices.Models.Advertisement;
 using PetProject.Api.Controllers.Advertisement.Models.Advertisement;
 using PetProject.Api.Controllers.Favourite.Models;
 using PetProject.Api.Controllers.Subscribe.Models;
@@ -28,13 +29,11 @@ namespace PetProject.Api.Controllers.Favourite
             this.favouriteService = favouriteService;
         }
 
-        [HttpGet("{UserId}")]
-        public async Task<IEnumerable<AdvertisementResponse>> GetFavourites([FromRoute] Guid UserId)
+        [HttpGet("{idUser}/{pageNumber}")]
+        public async Task<AdvertisementResponseList> GetFavourites([FromRoute] Guid idUser, [FromRoute] int pageNumber)
         {
-            int limit = 10;
-            int offset = 0;
-            var advertisements = await favouriteService.GetAllFavourite(UserId);
-            var response = mapper.Map<IEnumerable<AdvertisementResponse>>(advertisements);
+            var advertisementsModelList = await favouriteService.GetAllFavourite(idUser, pageNumber);
+            var response = mapper.Map<AdvertisementResponseList>(advertisementsModelList);
             return response;
         }
 
