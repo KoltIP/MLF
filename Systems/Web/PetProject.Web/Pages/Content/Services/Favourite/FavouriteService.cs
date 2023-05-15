@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text;
 using Blazored.LocalStorage;
 using PetProject.Web.Pages.Profile.Models;
+using PetProject.Web.Pages.Content.Models.Advertisement;
 
 namespace PetProject.Web.Pages.Content.Services.Favourite
 {
@@ -20,7 +21,7 @@ namespace PetProject.Web.Pages.Content.Services.Favourite
             _localStorage = localStorage;
         }
 
-        public async Task<IEnumerable<AdvertisementResponse>> GetAllFavourite()
+        public async Task<AdvertisementResponseList> GetAllFavourite(int pageNumber)
         {
             var token = await _localStorage.GetItemAsync<string>("authToken");
             var handler = new JwtSecurityTokenHandler();
@@ -28,7 +29,7 @@ namespace PetProject.Web.Pages.Content.Services.Favourite
             var tokenS = jsonToken as JwtSecurityToken;
             var idUser = tokenS.Claims.First(claim => claim.Type == "sub").Value;
 
-            string url = $"{Settings.ApiRoot}/v1/favourite/{idUser}";
+            string url = $"{Settings.ApiRoot}/v1/favourite/{idUser}/{pageNumber}";
 
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -38,7 +39,7 @@ namespace PetProject.Web.Pages.Content.Services.Favourite
                 throw new Exception(content);
             }
 
-            var data = JsonSerializer.Deserialize<IEnumerable<AdvertisementResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdvertisementResponse>();
+            var data = JsonSerializer.Deserialize<AdvertisementResponseList>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new AdvertisementResponseList();
 
             return data;
         }

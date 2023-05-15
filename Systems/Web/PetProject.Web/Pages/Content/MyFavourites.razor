@@ -20,57 +20,67 @@
 
 <MudText Typo="Typo.h4" Class="ma-8">Избранное</MudText>
 
-<MudTable Items="@AdvertisementListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<AdvertisementResponse,bool>(FilterFuncSimple)">
-    <ColGroup>
-        <col style="width:50px;" />
-        <col />
-        <col />
-        <col />
-        <col style="width:100px;" />
-    </ColGroup>
-    <ToolBarContent>
-        <MudTextField @bind-Value="searchString" Placeholder="Поиск ..." Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
-    </ToolBarContent>
-    <HeaderContent>
-        
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetName)">Имя</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetDescription)">Описание</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetType)">Тип</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetBreed)">Порода</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.PetColor)">Цвет</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<AdvertisementResponse, object>(x=>x.Price)">Вознаграждение</MudTableSortLabel></MudTh>
-    </HeaderContent>
-    <RowTemplate>   
-        <MudTd DataLabel="Имя">@context.PetName</MudTd>        
-        <MudTd DataLabel="Описание">@context.PetDescription</MudTd>        
-        <MudTd DataLabel="тип">@context.PetType</MudTd>
-        <MudTd DataLabel="Порода">@context.PetBreed</MudTd>
-        <MudTd DataLabel="Цвет">@context.PetColor</MudTd>
-        <MudTd DataLabel="Вознаграждение">@context.Price</MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager />
-    </PagerContent>
-</MudTable>
+@if (!_isLoading)
+{
+    <MudGrid xs="12" sm="6">
+
+        <MudButton StartIcon="@Icons.Material.Filled.DeleteForever" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" Style="margin-left:35px;">Очистить всё</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.Update" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" OnClick="@((e) => ReloadData())" Style="margin-left:35px;">Обновить</MudButton>
+        <MudItem xs="12" Style="margin-left:25px;margin-right:25px;">
+            <MudGrid Justify="justification">
+                @for (int i = 0; i < _pathes.Count(); i++)
+                {
+                    int localIndex = i;
+                    <MudItem xs="2">
+                        <MudPaper Class="d-flex flex-column align-center justify-center py-8">
+                            <MudCarousel ShowArrows="@arrows" ShowBullets="@bullets" EnableSwipeGesture="@enableSwipeGesture" AutoCycle="@autocycle" TData="object" Style="height:200px;width:250px;">
+                                @for (int j = 0; j < _pathes[localIndex].Count(); j++)
+                                {
+                                    int localJindex = j;
+                                    <MudCarouselItem Transition="transition" Color="@MudBlazor.Color.Default">
+                                        <MudImage Src="@_pathes[localIndex][localJindex]" Alt="Ошибка поиска" Style="height:100%;width:100%;" />
+                                    </MudCarouselItem>
+                                }
+                            </MudCarousel>
+                            <Row Style="margin-top:15px;">
+                                <MudIconButton Icon="@Icons.Filled.RemoveRedEye" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" OnClick="@((e) => Open(advertisements[localIndex]))" />
+                                <MudIconButton Icon="@Icons.Filled.Delete" Variant="Variant.Outlined" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small" />
+                            </Row>
+                        </MudPaper>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudItem>
+    </MudGrid>
+
+    <div style="margin-top:20px;margin-left:35%">
+        <MudPagination Color="Color.Primary" Count="@count" Variant="Variant.Text" SelectedChanged="@((e) => ChangePage(e))" />
+    </div>
+}
+else
+{
+    <MudItem xxl="12">
+        <MudProgressCircular Color="MudBlazor.Color.Success" Indeterminate="true" Style="height:70px;width:70px; position:absolute;top: 350%;left: 50%;" />
+    </MudItem>
+}
+
 
 @code {    
-    private bool dense = false;
-    private bool hover = true;
-    private bool striped = true;
-    private bool bordered = false;
+    private Justify justification = Justify.FlexStart;
 
-    private string searchString = "";
-
-    private IEnumerable<AdvertisementResponse> AdvertisementListItems = new List<AdvertisementResponse>();
-
-    private string invis = "invisible ma-8";
-    private int idAdvertisement;
+    private bool arrows = true;
+    private bool bullets = false;
+    private bool enableSwipeGesture = true;
+    private bool autocycle = false;
+    private Transition transition = Transition.None;
 
 
-    private async Task ReloadData()
-    {
-        AdvertisementListItems = await favouriteService.GetAllFavourite();
-    }
+    private int _selectedPage = 1;
+    private bool _isLoading { get; set; } = true;
+    private List<AdvertisementResponse> advertisements = new List<AdvertisementResponse>();
+    private int count = 0;
+    private const int countAdvertisementOnPage = 12;
+    private string[][] _pathes { get; set; } = null;
 
 
     protected override async Task OnInitializedAsync()
@@ -79,27 +89,107 @@
         {
             await ReloadData();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Snackbar.Add(ex.Message, Severity.Error);
         }
     }
 
-
-    private bool FilterFuncSimple(AdvertisementResponse AdvertisementListItems) => FilterFunc(AdvertisementListItems, searchString);
-
-
-    private bool FilterFunc(AdvertisementResponse AdvertisementListItems, string searchString)
+    private async Task ReloadData()
     {
-        return 
-            string.IsNullOrWhiteSpace(searchString)
-            ||
+        try
+        {
+            var advertisementsResponseList = (await favouriteService.GetAllFavourite(_selectedPage));
+            advertisements = advertisementsResponseList.Advertisements;
+            count = advertisementsResponseList.Count / countAdvertisementOnPage + 1;
+            _pathes = await GetImagesPath(advertisements);
+            _isLoading = false;
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
 
-            AdvertisementListItems.PetColor.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-            ||
-            AdvertisementListItems.PetBreed.ToString().Contains(searchString)
-            ||
-            AdvertisementListItems.PetType.ToString().Contains(searchString)
-        ;
-    }    
+    private async Task<string[][]> GetImagesPath(IEnumerable<AdvertisementResponse> advertisementResponse)
+    {
+        var advertisements = advertisementResponse.ToList();
+        var result = new string[advertisements.Count()][];
+
+        for (int i = 0; i < advertisements.Count(); i++)
+        {
+            var advertisement = advertisements[i];
+            var iteration = new string[advertisement.Images.Count()];
+            for (int j = 0; j < advertisement.Images.Count(); j++)
+            {
+                var base64 = Convert.ToBase64String(advertisement.Images[j].Content);
+                var fs = string.Format("data:image/jpg;base64,{0}", base64);
+                iteration[j] = fs;
+            }
+            result[i] = iteration;
+        }
+        return result;
+    }
+
+    private async Task ChangePage(int page)
+    {
+        _selectedPage = page;
+        var advertisementsResponseList = (await advertisementService.GetAdvertisements(page));
+        advertisements = advertisementsResponseList.Advertisements;
+        count = advertisementsResponseList.Count / countAdvertisementOnPage + 1;
+        _pathes = await GetImagesPath(advertisements);
+    }
+
+    private async Task Add()
+    {
+        var parameters = new DialogParameters { };
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<AddOrEditAdvertisementDialog>("Добавить объявление", parameters, options);
+        var result = await dialog.Result;
+        if (result != null)
+        {
+            if (!result.Cancelled)
+            {
+                var addResult = await advertisementService.AddAdvertisement(((AddOrEditAdvertisementDialog)dialog.Dialog).model);
+                await OnInitializedAsync();
+                if (addResult.ErrorCode != 0)
+                    Snackbar.Add(addResult.Message, Severity.Error);
+                else
+                    Snackbar.Add("Объявление успешно добавлено!", Severity.Success);
+            }
+        }
+        else
+            Snackbar.Add("Произошла непредвиденная ошибка. Попробуйте повторить операцию позже.", Severity.Error);
+    }
+
+    private async Task Filtering()
+    {
+        var parameters = new DialogParameters { };
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<FilterDialog>("Добавление фильтров", parameters, options);
+        var result = await dialog.Result;
+        if (result != null)
+        {
+            if (!result.Cancelled)
+            {
+                var filterResult = await advertisementService.AddFilter(((FilterDialog)dialog.Dialog).model, _selectedPage);
+                advertisements = filterResult.Advertisements;
+                count = filterResult.Count / countAdvertisementOnPage + 1;
+                _pathes = await GetImagesPath(advertisements);
+            }
+            else
+                await ReloadData();
+        }
+        else
+            Snackbar.Add("Произошла непредвиденная ошибка. Попробуйте повторить операцию позже.", Severity.Error);
+    }
+
+    private void Open(AdvertisementResponse advertisementResponse)
+    {
+        var parameters = new DialogParameters { };
+        parameters.Add("advertisementResponse", advertisementResponse);
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<OpenAdvertisementDialog>("Подробности", parameters, options);
+    }
 }

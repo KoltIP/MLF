@@ -55,19 +55,19 @@ namespace PetProject.UserAccountService
 
 
 
-            //var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-            //var codeB = System.Text.Encoding.UTF8.GetBytes(code);
-            //code = System.Convert.ToBase64String(codeB);
-            //var url = $"http://localhost:20000/api/v1/accounts/confirm/email?email={user.Email}&code={code}";
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            var codeB = System.Text.Encoding.UTF8.GetBytes(code);
+            code = System.Convert.ToBase64String(codeB);
+            var url = $"http://localhost:20000/api/v1/accounts/confirm/email?email={user.Email}&code={code}";
 
             // Send email to user
             //!!!Обратите внимание, что мы не отправляем письмо, а создаем задание на его отправку. Дальше уже все сделается само другими сервисами.
-            //await rabbitMqTask.SendEmail(new EmailModel()
-            //{
-            //    Email = model.Email,
-            //    Subject = "PetProject",
-            //    Message = $"Your account will be create successful if you move on <a href ='{url}'>Link</a>"
-            //});
+            await rabbitMqTask.SendEmail(new EmailModel()
+            {
+                Email = model.Email,
+                Subject = "Экзюпери",
+                Message = $"Чтобы ваш аккаунт был успешно зарегистрирован пройдите по <a href ='{url}'>Ссылке</a>"
+            });
 
 
             // Returning the created user

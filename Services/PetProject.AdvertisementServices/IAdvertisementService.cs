@@ -8,6 +8,7 @@ namespace PetProject.AdvertisementServices
     {
         Task<AdvertisementsModelList> GetAdvertisements(int pageNumber);
         Task<AdvertisementModel> GetAdvertisement(int id);
+        Task<AdvertisementsModelList> GetUserAdvertisements(Guid userGuid, int pageNumber);
         Task<AdvertisementModel> AddAdvertisement(AddAdvertisementModel model);
         Task EditAdvertisement(int id, EditAdvertisementModel model);
         Task DeleteAdvertisement(int id);

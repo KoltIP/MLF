@@ -4,12 +4,15 @@
 @using PetProject.Web.Pages.Content.Services.Comment;
 @inherits MudComponentBase
 
+@inject NavigationManager navigationManager
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
 @inject IAdvertisementService advertisementService
 @inject ICommentService commentService
 <MudDialog>
     <DialogContent>
-        <MudContainer Style="max-height: 500px; overflow-y: scroll">
-            <MudForm Model="model" @ref="form">
+        <MudContainer Style="max-height: 400px; overflow-y: scroll">
+            <MudForm Model="model" >
                 <MudGrid Spacing="2">
 
                     <MudItem xs="12" sm="2">
@@ -132,29 +135,50 @@
                         </MudItem>
 
                 </MudGrid>
+                
                 <MudButton 
                     OnClick="@((e) => OpenComment(model.Id))"
                     EndIcon="@Icons.Material.Filled.CommentBank"
                     Variant="Variant.Filled"
                     Color="MudBlazor.Color.Primary"
-                    Style="margin-top:15px;">
+                    Style="margin-top:15px;margin-right:10px;">
                     Показать комментарии
                 </MudButton>
+                
+                <MudButton 
+                    OnClick="@((e) => AddComment())"
+                    EndIcon="@Icons.Material.Filled.AddComment"
+                    Variant="Variant.Filled"
+                    Color="MudBlazor.Color.Primary"
+                    Style="margin-top:15px;">
+                    Добавить комментарии
+                </MudButton>
+
             </MudForm>
-                <MudStack>
-                <MudPaper Class="pa-3">Item 1</MudPaper>
-                <MudPaper Class="pa-3">Item 2</MudPaper>
-                <MudPaper Class="pa-3">Item 3</MudPaper>
-                <MudPaper Class="pa-3">Item 1</MudPaper>
-                <MudPaper Class="pa-3">Item 2</MudPaper>
-                <MudPaper Class="pa-3">Item 3</MudPaper>
-                <MudPaper Class="pa-3">Item 1</MudPaper>
-                <MudPaper Class="pa-3">Item 2</MudPaper>
-                <MudPaper Class="pa-3">Item 3</MudPaper>
-                <MudPaper Class="pa-3">Item 1</MudPaper>
-                <MudPaper Class="pa-3">Item 2</MudPaper>
-                <MudPaper Class="pa-3">Item 3</MudPaper>
-            </MudStack>
+            @if (isCommentOpen)
+            {
+                <MudStack style="margin-top:15px;margin-bottom:25px;">
+                    @for (int i = 0; i < commentListItems.Count();i++)
+                    {                        
+                        int localIndex = i;
+
+                        <MudPaper Class="pa-3" style="box-shadow: 5px 5px 5px;">
+                            <div style="display:flex;flex:1;flex-direction:row;flex-wrap:nowrap;">
+                                <MudImage Width="60"
+                                  Height="50"
+                                  Src="https://avatars.mds.yandex.net/i?id=a0e9a8bbf4cdc5675bf4b2ed8c8ff768b5a7ee84-7756218-images-thumbs&n=13"
+                                  Alt="Ошибка поиска"
+                                  Elevation="25"
+                                  Class="rounded-lg" />
+                                <div style="display:flex;flex:1;flex-direction:column;flex-wrap:nowrap;margin-left:10px;">
+                                    <MudText>@commentListItems[localIndex].UserName</MudText>
+                                    <MudText>@commentListItems[localIndex].Content</MudText>
+                                </div>
+                            </div>
+                        </MudPaper>
+                    }
+                </MudStack>
+            }
         </MudContainer>
     </DialogContent>
     <DialogActions>
@@ -163,12 +187,11 @@
 </MudDialog>
 
 @code {
+    private bool isCommentOpen = false;
+
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; } = default!;
-    private string invis = "invisible ma-8";
-    MudForm form = default!;
 
-    bool isNew = false;
 
     [Parameter]
     public AdvertisementResponse advertisementResponse { get; set; } = default;
@@ -176,8 +199,8 @@
     private string isWanted { get; set; }
     private string gender { get; set; }
 
-    public AdvertisementResponse model { get; set; } = new AdvertisementResponse();
-    private IEnumerable<CommentListItem> CommentListItems = new List<CommentListItem>();
+    private AdvertisementResponse model { get; set; } = new AdvertisementResponse();
+    private List<CommentListItem> commentListItems = new List<CommentListItem>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -200,7 +223,22 @@
 
     private async Task OpenComment(int advertisementId)
     {
-        invis = "ma-8";
-        CommentListItems = await commentService.GetComments(advertisementId);
+        commentListItems = (await commentService.GetComments(advertisementId)).ToList();
+        isCommentOpen = !isCommentOpen;        
+    }
+
+    private async Task AddComment()
+    {
+        var parameters = new DialogParameters { };
+        parameters.Add("advertisementId", model.Id);
+        var options = new MudBlazor.DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<CommentDialog>("Добавить комментарий", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await commentService.AddComment(((CommentDialog)dialog.Dialog).model);
+            commentListItems = (await commentService.GetComments(model.Id)).ToList();
+        }
     }
 }

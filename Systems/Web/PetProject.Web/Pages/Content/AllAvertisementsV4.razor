@@ -71,12 +71,6 @@ else
     </MudItem>
 }
 
-<style>
-    .my-custom-class {
-        backdrop-filter: blur(10px);
-    }
-</style>
-
 
 @code {
     private Justify justification = Justify.FlexStart;
@@ -85,7 +79,7 @@ else
     private bool bullets = false;
     private bool enableSwipeGesture = true;
     private bool autocycle = false;
-    private Transition transition = Transition.Slide;
+    private Transition transition = Transition.None;
 
 
     private int _selectedPage = 1;
